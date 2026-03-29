@@ -1,0 +1,26 @@
+<header *ngIf="showNavbar" class="navbar">
+
+<div class="logo" routerLink="/">
+    <img src="assets/images/logo.png" alt="Take Care" />
+</div>
+
+<nav class="links">
+    <a routerLink="/">Inicio</a>
+    <a routerLink="/">Nosotros</a>
+</nav>
+
+<div class="actions">
+
+    <!-- BOTÓN SECUNDARIO -->
+    <a routerLink="/login" class="btn-outline">
+        Iniciar sesión
+    </a>
+
+    <!-- BOTÓN PRINCIPAL -->
+    <a routerLink="/register-role" class="btn-primary">
+        Registrarse
+    </a>
+
+</div>
+
+</header>
