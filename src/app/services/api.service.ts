@@ -28,17 +28,19 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  registerPatient(data: any): Observable<any> {
+  registerPatient(data: any): Observable<string> {
     return this.http.post(
       `${this.baseUrl}/api/v1/users/register/patient`,
-      data
+      data,
+      { responseType: 'text' }
     );
   }
 
-  registerSpecialist(data: SpecialistRegisterRequest): Observable<any> {
+  registerSpecialist(data: SpecialistRegisterRequest): Observable<string> {
     return this.http.post(
       `${this.baseUrl}/api/v1/users/register/specialist`,
-      data
+      data,
+      { responseType: 'text' }
     );
   }
 
