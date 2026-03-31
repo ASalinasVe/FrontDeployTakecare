@@ -189,13 +189,24 @@
     </ng-template>
   </div>
 
-    <div class="modal-backdrop" *ngIf="deleteTarget">
-      <div class="modal">
-        <h3>Confirmar eliminación</h3>
-        <p>¿Estás seguro de que deseas eliminar a {{ deleteTarget.name }}?</p>
+    <div
+      class="modal-backdrop"
+      *ngIf="showDeleteConfirm && deleteTarget as target"
+      (click)="cancelDelete()">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="delete-confirm-title"
+        (click)="$event.stopPropagation()">
+        <h3 id="delete-confirm-title">Confirmar eliminación</h3>
+        <p>
+          ¿Estás seguro de que deseas eliminar a
+          <strong>{{ target.name }}</strong>?
+        </p>
         <div class="modal-actions">
-          <button class="cancel-btn" (click)="cancelDelete()">Cancelar</button>
-          <button class="confirm-btn" (click)="confirmDelete()">Eliminar</button>
+          <button type="button" class="cancel-btn" (click)="cancelDelete()">Cancelar</button>
+          <button type="button" class="confirm-btn" (click)="confirmDelete()">Eliminar</button>
         </div>
       </div>
     </div>
