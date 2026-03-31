@@ -113,11 +113,11 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  showNotification(msg: string) {
-    this.notification = { message: msg, type: 'success' };
+  showNotification(msg: string, type: 'success' | 'error' = 'success') {
+    this.notification = { message: msg, type };
     setTimeout(() => {
       this.notification = null;
-    }, 3000); 
+    }, 3000);
   }
 
   setTab(tab: 'patients' | 'specialists' | 'validations'): void {
@@ -162,13 +162,15 @@ export class AdminComponent implements OnInit {
   }
 
   deletePatient(id: number, fullName: string): void {
-    this.showDeleteConfirm = true;
+    this.errorMsg = '';
     this.deleteTarget = { type: 'patient', id, name: fullName };
+    this.showDeleteConfirm = true;
   }
 
   deleteSpecialist(id: number, fullName: string): void {
-    this.showDeleteConfirm = true;
+    this.errorMsg = '';
     this.deleteTarget = { type: 'specialist', id, name: fullName };
+    this.showDeleteConfirm = true;
   }
 
   cancelDelete(): void {
@@ -179,6 +181,7 @@ export class AdminComponent implements OnInit {
     if (!this.deleteTarget) return;
 
     const { type, id } = this.deleteTarget;
+    const label = type === 'patient' ? 'Paciente' : 'Especialista';
     const service$ = type === 'patient'
       ? this.adminService.deletePatient(id)
       : this.adminService.deleteSpecialist(id);
@@ -192,12 +195,15 @@ export class AdminComponent implements OnInit {
           this.specialists = this.specialists.filter(item => item.id !== id);
           this.filteredSpecialists = this.filteredSpecialists.filter(item => item.id !== id);
         }
+
         this.closeDeleteConfirm();
+        this.showNotification(`${label} suspendido correctamente`, 'success');
       },
       error: (err: HttpErrorResponse) => {
-        this.errorMsg = `No se pudo eliminar el ${type}`;
+        this.errorMsg = `No se pudo suspender el ${type === 'patient' ? 'paciente' : 'especialista'}`;
         console.error(err);
         this.closeDeleteConfirm();
+        this.showNotification(`No se pudo suspender el ${label.toLowerCase()}`, 'error');
       }
     });
   }

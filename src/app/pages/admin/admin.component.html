@@ -80,8 +80,8 @@
             <td>{{ patient.birthDate | date:'dd/MM/yyyy' }}</td>
             <td>{{ patient.strikes }}</td>
             <td>
-              <button class="delete-button" (click)="deletePatient(patient.id, patient.names + ' ' + patient.firstLastname)">
-                Eliminar
+              <button type="button" class="delete-button" (click)="deletePatient(patient.id, patient.names + ' ' + patient.firstLastname)">
+                Suspender
               </button>
             </td>
           </tr>
@@ -122,8 +122,8 @@
             <td>{{ specialist.birthDate | date }}</td>
             <td>{{ specialist.strikes }}</td>
             <td>
-              <button class="delete-button" (click)="deleteSpecialist(specialist.id, specialist.names + ' ' + specialist.firstLastname)">
-                Eliminar
+              <button type="button" class="delete-button" (click)="deleteSpecialist(specialist.id, specialist.names + ' ' + specialist.firstLastname)">
+                Suspender
               </button>
             </td>
           </tr>
@@ -191,7 +191,7 @@
 
     <div
       class="modal-backdrop"
-      *ngIf="showDeleteConfirm && deleteTarget as target"
+      *ngIf="showDeleteConfirm"
       (click)="cancelDelete()">
       <div
         class="modal"
@@ -199,19 +199,19 @@
         aria-modal="true"
         aria-labelledby="delete-confirm-title"
         (click)="$event.stopPropagation()">
-        <h3 id="delete-confirm-title">Confirmar eliminación</h3>
+        <h3 id="delete-confirm-title">Confirmar suspensión</h3>
         <p>
-          ¿Estás seguro de que deseas eliminar a
-          <strong>{{ target.name }}</strong>?
+          ¿Estás seguro de que deseas suspender al usuario
+          <strong>{{ deleteTarget?.name }}</strong>?
         </p>
         <div class="modal-actions">
           <button type="button" class="cancel-btn" (click)="cancelDelete()">Cancelar</button>
-          <button type="button" class="confirm-btn" (click)="confirmDelete()">Eliminar</button>
+          <button type="button" class="confirm-btn" (click)="confirmDelete()">Suspender</button>
         </div>
       </div>
     </div>
 
-    <div class="toast-notification" *ngIf="notification">
+    <div class="toast-notification" [class.error]="notification.type === 'error'" *ngIf="notification">
       <div class="toast-icon">✓</div>
       <div class="toast-text">{{ notification.message }}</div>
     </div>
