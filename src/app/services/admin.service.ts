@@ -38,12 +38,17 @@ export class AdminService {
   constructor(private http: HttpClient) {}
 
   private getHeaders(): HttpHeaders {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const adminId = user?.id ? String(user.id) : '1';
+    const storedUser = localStorage.getItem('user');
+    if (!storedUser) {
+      return new HttpHeaders();
+    }
 
-    return new HttpHeaders({
-      'X-Admin-Id': adminId
-    });
+    const user = JSON.parse(storedUser);
+    const adminId = user?.id ? String(user.id) : '';
+
+    return adminId
+      ? new HttpHeaders({ 'X-Admin-Id': adminId })
+      : new HttpHeaders();
   }
 
   getPatients(): Observable<Patient[]> {
