@@ -8,8 +8,8 @@ export interface Patient {
   firstLastname: string;
   secondLastname?: string;
   email: string;
-  birthDate: string; // fecha en formato ISO o similar
-  status: boolean;
+  birthDate: string;
+  status: number | boolean | null;
   strikes: number;
 }
 
@@ -19,24 +19,30 @@ export interface Specialist {
   firstLastname: string;
   secondLastname?: string;
   email: string;
-  birthDate: string; // fecha en formato ISO o similar
-  status: boolean;
+  birthDate: string;
+  status: number | boolean | null;
   strikes: number;
 }
+
+// En tu admin.service.ts
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
-  private apiUrl = 'https://tragic-vere-takecare-cebbdb2d.koyeb.app/api/v1/admin';
+  private readonly apiUrl =
+    window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:8080/api/v1/admin'
+      : 'https://tragic-vere-takecare-cebbdb2d.koyeb.app/api/v1/admin';
 
   constructor(private http: HttpClient) {}
 
   private getHeaders(): HttpHeaders {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const adminId = user?.id ? String(user.id) : '1';
 
     return new HttpHeaders({
-      'X-Admin-Id': user.id
+      'X-Admin-Id': adminId
     });
   }
 
@@ -48,6 +54,18 @@ export class AdminService {
 
   getSpecialists(): Observable<Specialist[]> {
     return this.http.get<Specialist[]>(`${this.apiUrl}/specialists`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  getPendingValidations(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/pending-validations`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  validateUser(id: number, status: 'approved' | 'rejected'): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/users/${id}/verify`, { status }, {
       headers: this.getHeaders()
     });
   }
