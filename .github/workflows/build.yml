@@ -1,0 +1,58 @@
+name: Build Sanity Check
+
+on:
+  push:
+    branches:
+      - main
+      - hotfix
+      - develop
+      - release
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'angular.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig*.json'
+      - '.github/workflows/build.yml'
+  pull_request:
+    branches: [ main, hotfix, develop, release ]
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'angular.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig*.json'
+      - '.github/workflows/build.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Compile Frontend
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js 20
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build frontend (sanity check)
+      run: npm run build -- --configuration production
+
+    - name: ✅ Build successful
+      if: success()
+      run: echo "Frontend compiled successfully!"
+
+    - name: ❌ Build failed
+      if: failure()
+      run: |
+        echo "Build compilation failed! Please fix the errors before pushing."
+        exit 1
