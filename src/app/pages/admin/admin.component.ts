@@ -1,59 +1,80 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AdminService, Patient, Specialist } from '../../services/admin.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { LocalizedDatePipe } from '../../shared/pipes/localized-date.pipe';
+import {
+  AdminService,
+  Patient,
+  Specialist,
+  PendingValidationUser,
+  User
+} from '../../services/admin.service';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './admin.component.html',
+  imports: [CommonModule, FormsModule, TranslatePipe, LocalizedDatePipe],
+  templateUrl:'./admin.component.html',
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
   patients: Patient[] = [];
-  specialists: Specialist[] = [];
-  pendingValidations: any[] = [];
-
   filteredPatients: Patient[] = [];
+
+  specialists: Specialist[] = [];
   filteredSpecialists: Specialist[] = [];
-  filteredValidations: any[] = [];
+
+  pendingValidations: PendingValidationUser[] = [];
+  filteredValidations: PendingValidationUser[] = [];
 
   activeTab: 'patients' | 'specialists' | 'validations' = 'patients';
-  searchTerm: string = '';
+  searchTerm = '';
 
   loadingPatients = false;
   loadingSpecialists = false;
   loadingValidations = false;
   errorMsg = '';
 
-  showDeleteConfirm = false;
-  deleteTarget: { type: 'patient' | 'specialist'; id: number; name: string } | null = null;
-  notification: { message: string, type: 'success' | 'error' } | null = null;
+  notification: { message: string; type: 'success' | 'error' } | null = null;
 
-  constructor(private adminService: AdminService) {}
+  constructor(
+    private adminService: AdminService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit(): void {
-    this.loadAllData();
+    this.loadData();
   }
 
-  loadAllData(): void {
-    this.loadPatients();
-    this.loadSpecialists();
+  loadData(): void {
+    this.errorMsg = '';
+
+    if (this.activeTab === 'patients') {
+      this.loadPatients();
+      return;
+    }
+
+    if (this.activeTab === 'specialists') {
+      this.loadSpecialists();
+      return;
+    }
+
     this.loadPendingValidations();
   }
 
   loadPatients(): void {
     this.loadingPatients = true;
+
     this.adminService.getPatients().subscribe({
-      next: (data: Patient[]) => {
-        this.patients = data.filter(patient => this.isActiveUser(patient.status));
+      next: (data) => {
+        this.patients = data;
         this.filteredPatients = [...this.patients];
         this.loadingPatients = false;
       },
       error: (err: HttpErrorResponse) => {
-        this.errorMsg = 'No se pudieron cargar los pacientes';
+        this.errorMsg = this.translate.instant('admin.errors.loadPatients');
         this.loadingPatients = false;
         console.error(err);
       }
@@ -62,14 +83,15 @@ export class AdminComponent implements OnInit {
 
   loadSpecialists(): void {
     this.loadingSpecialists = true;
+
     this.adminService.getSpecialists().subscribe({
-      next: (data: Specialist[]) => {
-        this.specialists = data.filter(specialist => this.isActiveUser(specialist.status));
+      next: (data) => {
+        this.specialists = data;
         this.filteredSpecialists = [...this.specialists];
         this.loadingSpecialists = false;
       },
       error: (err: HttpErrorResponse) => {
-        this.errorMsg = 'No se pudieron cargar los especialistas';
+        this.errorMsg = this.translate.instant('admin.errors.loadSpecialists');
         this.loadingSpecialists = false;
         console.error(err);
       }
@@ -78,140 +100,144 @@ export class AdminComponent implements OnInit {
 
   loadPendingValidations(): void {
     this.loadingValidations = true;
+
     this.adminService.getPendingValidations().subscribe({
       next: (data) => {
         this.pendingValidations = data;
-        this.filteredValidations = [...this.pendingValidations];
+        this.filteredValidations = [...data];
         this.loadingValidations = false;
       },
       error: (err) => {
         this.pendingValidations = [];
         this.filteredValidations = [];
         this.loadingValidations = false;
-        console.warn('No se pudieron cargar las validaciones pendientes', err);
-      }
-    });
-  }
-
-  processValidation(id: number, status: 'approved' | 'rejected'): void {
-    const user = this.pendingValidations.find(u => u.id === id);
-    if (!user) return;
-
-    this.adminService.validateUser(id, status).subscribe({
-      next: () => {
-        const roleText = user.role === 'specialist' ? 'Especialista' : 'Paciente';
-        this.showNotification(`${roleText} ${status === 'approved' ? 'validado' : 'rechazado'} correctamente`);
-        this.loadPendingValidations();
-        if (status === 'approved') {
-          user.role === 'specialist' ? this.loadSpecialists() : this.loadPatients();
-        }
-      },
-      error: (err) => {
-        this.errorMsg = 'No se pudo completar la operación en el servidor';
+        this.errorMsg = this.translate.instant('admin.errors.loadValidations');
         console.error(err);
       }
     });
   }
 
-  showNotification(msg: string) {
-    this.notification = { message: msg, type: 'success' };
-    setTimeout(() => {
-      this.notification = null;
-    }, 3000); 
-  }
-
   setTab(tab: 'patients' | 'specialists' | 'validations'): void {
     this.activeTab = tab;
     this.searchTerm = '';
-    this.onSearch(); 
-    this.resetFilters();
-    this.errorMsg = '';
-  }
-
-  resetFilters(): void {
-    this.filteredPatients = [...this.patients];
-    this.filteredSpecialists = [...this.specialists];
-    this.filteredValidations = [...this.pendingValidations];
+    this.loadData();
   }
 
   onSearch(): void {
     const term = this.searchTerm.toLowerCase().trim();
 
     if (this.activeTab === 'patients') {
-      this.filteredPatients = this.patients.filter(patient =>
-        patient.names.toLowerCase().includes(term) ||
-        patient.firstLastname.toLowerCase().includes(term) ||
-        (patient.secondLastname?.toLowerCase().includes(term) ?? false) ||
-        patient.email.toLowerCase().includes(term)
-      );
-    } else if (this.activeTab === 'specialists') {
-      this.filteredSpecialists = this.specialists.filter(specialist =>
-        specialist.names.toLowerCase().includes(term) ||
-        specialist.firstLastname.toLowerCase().includes(term) ||
-        (specialist.secondLastname?.toLowerCase().includes(term) ?? false) ||
-        specialist.email.toLowerCase().includes(term)
-      );
-    } else if (this.activeTab === 'validations') {
-      const term = this.searchTerm.toLowerCase().trim(); // Usar el mismo formato
-      this.filteredValidations = this.pendingValidations.filter(v => 
-        v.names.toLowerCase().includes(term) || 
-        v.firstLastname.toLowerCase().includes(term) ||
-        v.email.toLowerCase().includes(term)
-      );
+      this.filteredPatients = this.patients.filter(user => this.matchesSearch(user, term));
+      return;
     }
+
+    if (this.activeTab === 'specialists') {
+      this.filteredSpecialists = this.specialists.filter(user => this.matchesSearch(user, term));
+      return;
+    }
+
+    this.filteredValidations = this.pendingValidations.filter(user => this.matchesSearch(user, term));
   }
 
-  deletePatient(id: number, fullName: string): void {
-    this.showDeleteConfirm = true;
-    this.deleteTarget = { type: 'patient', id, name: fullName };
+  private matchesSearch(user: User, term: string): boolean {
+    const fullName = `${user.names} ${user.firstLastname} ${user.secondLastname || ''}`.toLowerCase();
+    return (
+      fullName.includes(term) ||
+      user.email.toLowerCase().includes(term) ||
+      (user.ciNumber || '').toLowerCase().includes(term)
+    );
   }
 
-  deleteSpecialist(id: number, fullName: string): void {
-    this.showDeleteConfirm = true;
-    this.deleteTarget = { type: 'specialist', id, name: fullName };
-  }
-
-  cancelDelete(): void {
-    this.closeDeleteConfirm();
-  }
-
-  confirmDelete(): void {
-    if (!this.deleteTarget) return;
-
-    const { type, id } = this.deleteTarget;
-    const service$ = type === 'patient'
-      ? this.adminService.deletePatient(id)
-      : this.adminService.deleteSpecialist(id);
-
-    service$.subscribe({
+  processValidation(user: PendingValidationUser, status: 'approved' | 'rejected'): void {
+    this.adminService.validateUser(user.id, user.role, status).subscribe({
       next: () => {
-        if (type === 'patient') {
-          this.patients = this.patients.filter(item => item.id !== id);
-          this.filteredPatients = this.filteredPatients.filter(item => item.id !== id);
-        } else {
-          this.specialists = this.specialists.filter(item => item.id !== id);
-          this.filteredSpecialists = this.filteredSpecialists.filter(item => item.id !== id);
-        }
-        this.closeDeleteConfirm();
+        const roleText =
+          user.role === 2
+            ? this.translate.instant('admin.roles.specialist')
+            : this.translate.instant('admin.roles.patient');
+
+        const actionText =
+          status === 'approved'
+            ? this.translate.instant('admin.notifications.validated')
+            : this.translate.instant('admin.notifications.rejected');
+
+        this.showNotification(`${roleText} ${actionText}`);
+        this.loadPendingValidations();
+        this.loadPatients();
+        this.loadSpecialists();
       },
-      error: (err: HttpErrorResponse) => {
-        this.errorMsg = `No se pudo eliminar el ${type}`;
+      error: (err) => {
+        this.errorMsg = this.translate.instant('admin.errors.processValidation');
         console.error(err);
-        this.closeDeleteConfirm();
+        this.showNotification(this.translate.instant('admin.errors.processValidation'), 'error');
       }
     });
   }
 
-  private isActiveUser(status: number | boolean | null | undefined): boolean {
-    return status !== 0 && status !== false;
+  togglePatientStatus(patient: Patient): void {
+    const newStatus: 0 | 1 = patient.status === 1 ? 0 : 1;
+
+    this.adminService.updateUserStatus(patient.id, newStatus).subscribe({
+      next: () => {
+        patient.status = newStatus;
+        this.showNotification(
+          newStatus === 1
+            ? this.translate.instant('admin.notifications.patientActivated')
+            : this.translate.instant('admin.notifications.patientSuspended')
+        );
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMsg = this.translate.instant('admin.errors.suspendUser');
+        this.showNotification(this.translate.instant('admin.errors.suspendUser'), 'error');
+      }
+    });
   }
 
-  private closeDeleteConfirm(): void {
-    this.showDeleteConfirm = false;
-    this.deleteTarget = null;
+  toggleSpecialistStatus(specialist: Specialist): void {
+    const newStatus: 0 | 1 = specialist.status === 1 ? 0 : 1;
+
+    this.adminService.updateUserStatus(specialist.id, newStatus).subscribe({
+      next: () => {
+        specialist.status = newStatus;
+        this.showNotification(
+          newStatus === 1
+            ? this.translate.instant('admin.notifications.specialistActivated')
+            : this.translate.instant('admin.notifications.specialistSuspended')
+        );
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMsg = this.translate.instant('admin.errors.suspendUser');
+        this.showNotification(this.translate.instant('admin.errors.suspendUser'), 'error');
+      }
+    });
   }
 
-  get isLoading(): boolean {
-    return this.loadingPatients || this.loadingSpecialists || this.loadingValidations;
+  getAge(birthDate: string): number {
+    if (!birthDate) return 0;
+
+    const birth = new Date(birthDate);
+    const today = new Date();
+
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+
+    return age;
+  }
+
+  isPdf(url?: string): boolean {
+    return !!url && url.toLowerCase().includes('.pdf');
+  }
+
+  private showNotification(message: string, type: 'success' | 'error' = 'success'): void {
+    this.notification = { message, type };
+    setTimeout(() => {
+      this.notification = null;
+    }, 3000);
   }
 }

@@ -1,0 +1,50 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+
+// ===== INTERFACES =====
+export interface PatientProfile {
+  id?: number;
+  names: string;
+  firstLastname: string;
+  secondLastname?: string;
+  birthDate: string;
+  ciNumber: string;
+  email: string;
+  clinicalHistory?: string;
+  accountVerified?: number;
+}
+
+export interface UpdatePatientProfile {
+  names?: string;
+  firstLastname?: string;
+  secondLastname?: string;
+  birthDate?: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PatientService {
+
+  private readonly baseUrl = environment.apiUrl;
+  constructor(private http: HttpClient) {}
+
+  getProfile(): Observable<PatientProfile> {
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const userId = user?.id;
+    return this.http.get<PatientProfile>(
+      `${this.baseUrl}/api/v1/users/profile/${userId}`
+    );
+  }
+
+  updateProfile(data: UpdatePatientProfile): Observable<PatientProfile> {
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const userId = user?.id;
+    return this.http.put<PatientProfile>(
+      `${this.baseUrl}/api/v1/users/profile/${userId}`,
+      data
+    );
+  }
+}

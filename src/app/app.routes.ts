@@ -13,77 +13,117 @@ import { RegisterSpecialistComponent } from './pages/register-specialist/registe
 // ADMIN
 import { AdminComponent } from './pages/admin/admin.component';
 import { adminGuard } from './guards/admin.guard';
+import { guestGuard } from './guards/guest.guard';
+
+// ESPECIALISTA
+import { SpecialistDashboardComponent } from './pages/specialist-dashboard/specialist-dashboard.component';
+import { SpecialistProfileComponent } from './pages/specialist-profile/specialist-profile.component';
+import { specialistGuard } from './guards/specialist.guard';
+
+// PACIENTE
+import { PatientDashboardComponent } from './pages/patient-dashboard/patient-dashboard.component';
+import { PatientProfileComponent } from './pages/patient-profile/patient-profile.component';
+import { patientGuard } from './guards/patient.guard';
+import { PatientSearchSpecialistsComponent } from './pages/patient-search-specialists/patient-search-specialists.component';
 
 // OTROS
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
 
-  //  HOME
+  // HOME
   {
     path: '',
     component: HomeComponent,
     data: { showNavbar: true }
   },
 
-  //  AUTH
+  // AUTH
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [guestGuard],
     data: { showNavbar: false }
   },
   {
     path: 'recover-password',
     component: RecoverPasswordComponent,
+    canActivate: [guestGuard],
     data: { showNavbar: false }
   },
 
-  //  REGISTRO
+  // REGISTRO
   {
     path: 'register-role',
     component: RegisterRoleComponent,
+    canActivate: [guestGuard],
     data: { showNavbar: true }
   },
   {
     path: 'register/patient',
     component: RegisterPatientComponent,
+    canActivate: [guestGuard],
     data: { showNavbar: true }
   },
   {
     path: 'register/specialist',
     component: RegisterSpecialistComponent,
+    canActivate: [guestGuard],
     data: { showNavbar: true }
   },
 
-  //  ADMIN (AGRUPADO Y SEGURO)
+  
+
+  // ADMIN (PROTEGIDO)
   {
     path: 'admin',
+    component: AdminComponent,
     canActivate: [adminGuard],
-    data: { showNavbar: true },
+    data: { showNavbar: true }
+  },
+
+  // PACIENTE (Tu nueva ruta)
+  {
+    path: 'patient',
+    //canActivate: [patientGuard],
+    data: { showNavbar: false },
     children: [
-
       {
-        path: '',
-        component: AdminComponent
+        path: '', 
+        component: PatientDashboardComponent
       },
-
       {
-        path: 'validate-specialists',
-        loadComponent: () =>
-          import('./pages/admin-validate-specialists/admin-validate-specialists.component')
-            .then(m => m.AdminValidateSpecialistsComponent)
+        path: 'profile',
+        component: PatientProfileComponent
+      },
+      {
+        path: 'search-specialists',
+        component: PatientSearchSpecialistsComponent
       }
-
-
-
     ]
   },
 
-  //  NOT FOUND
+  // ESPECIALISTA 
+  {
+    path: 'specialist',
+    //canActivate: [specialistGuard],
+    data: { showNavbar: false },
+    children: [
+      {
+        path: '',
+        component: SpecialistDashboardComponent
+      },
+      {
+        path: 'profile',
+        component: SpecialistProfileComponent
+      }
+    ]
+  },
+
+  // NOT FOUND (Siempre al final)
   {
     path: '**',
     component: NotFoundComponent,
     data: { showNavbar: false }
   }
-
 ];
