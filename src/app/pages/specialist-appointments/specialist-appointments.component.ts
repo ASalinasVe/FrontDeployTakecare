@@ -1,20 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { catchError, forkJoin, map, of } from 'rxjs';
+
 import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
 import { SidebarService } from '../../services/sidebar.service';
+import { AuthService } from '../../services/auth.service';
+import {
+  CalificationResponse,
+  ReportResponse,
+  SessionResponse,
+  SessionReport,
+  SessionRating,
+  SessionService
+} from '../../services/session.service';
 
-export type AppointmentStatus = 'pending' | 'accepted' | 'rejected';
+export type AppointmentStatus = 'pending' | 'accepted' | 'rejected' | 'cancelled' | 'finished';
 export type DialogAction = 'accept' | 'reject';
 
 export interface Appointment {
-  id: string;
+  id: number;
   patientName: string;
   patientEmail: string;
   date: Date;
   time: string;
-  reason: string;
+  endTime?: string;
+  sessionTypeLabel: string;
   status: AppointmentStatus;
   loading?: boolean;
 }
@@ -25,10 +38,28 @@ interface ConfirmDialog {
   appointment: Appointment | null;
 }
 
+interface RatingDialog {
+  visible: boolean;
+  appointment: Appointment | null;
+  stars: number;
+  comment: string;
+  saving: boolean;
+  error: string;
+}
+
+interface ReportDialog {
+  visible: boolean;
+  appointment: Appointment | null;
+  reason: string;
+  details: string;
+  saving: boolean;
+  error: string;
+}
+
 @Component({
   selector: 'app-specialist-appointments',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslatePipe, SidebarComponent],
+  imports: [CommonModule, FormsModule, RouterModule, TranslatePipe, SidebarComponent],
   templateUrl: './specialist-appointments.component.html',
   styleUrls: ['./specialist-appointments.component.css']
 })
@@ -43,19 +74,52 @@ export class SpecialistAppointmentsComponent implements OnInit {
   toastType: 'success' | 'error' = 'success';
   private toastTimer: any;
 
+  specialistId!: number;
+  ratingsBySession: Record<number, SessionRating> = {};
+  reportsBySession: Record<number, SessionReport> = {};
+
   confirmDialog: ConfirmDialog = {
     visible: false,
     action: 'accept',
     appointment: null
   };
 
+  ratingDialog: RatingDialog = {
+    visible: false,
+    appointment: null,
+    stars: 0,
+    comment: '',
+    saving: false,
+    error: ''
+  };
+
+  reportDialog: ReportDialog = {
+    visible: false,
+    appointment: null,
+    reason: '',
+    details: '',
+    saving: false,
+    error: ''
+  };
+
   appointments: Appointment[] = [];
 
-  constructor(public sidebarService: SidebarService) {}
+  constructor(
+    public sidebarService: SidebarService,
+    private sessionService: SessionService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    //mocks de prueba
-    //this.loadMockAppointments();
+    this.specialistId = this.getLoggedSpecialistId();
+
+    if (!this.specialistId) {
+      this.errorMsg = 'appointments.error.noSpecialistId';
+      return;
+    }
+
+    this.loadReports();
+    this.loadAppointments();
   }
 
   get filteredAppointments(): Appointment[] {
@@ -86,6 +150,133 @@ export class SpecialistAppointmentsComponent implements OnInit {
     };
   }
 
+  openRatingDialog(appointment: Appointment): void {
+    const existingRating = this.ratingsBySession[appointment.id];
+
+    this.ratingDialog = {
+      visible: true,
+      appointment,
+      stars: existingRating?.stars ?? 0,
+      comment: existingRating?.comment ?? '',
+      saving: false,
+      error: ''
+    };
+  }
+
+  closeRatingDialog(): void {
+    this.ratingDialog = {
+      visible: false,
+      appointment: null,
+      stars: 0,
+      comment: '',
+      saving: false,
+      error: ''
+    };
+  }
+
+  openReportDialog(appointment: Appointment): void {
+    const existingReport = this.reportsBySession[appointment.id];
+
+    this.reportDialog = {
+      visible: true,
+      appointment,
+      reason: existingReport?.reason ?? '',
+      details: existingReport?.details ?? '',
+      saving: false,
+      error: ''
+    };
+  }
+
+  closeReportDialog(): void {
+    this.reportDialog = {
+      visible: false,
+      appointment: null,
+      reason: '',
+      details: '',
+      saving: false,
+      error: ''
+    };
+  }
+
+  setRatingStars(stars: number): void {
+    this.ratingDialog.stars = stars;
+    this.ratingDialog.error = '';
+  }
+
+  saveRating(): void {
+    if (!this.ratingDialog.appointment) {
+      return;
+    }
+
+    if (this.ratingDialog.stars < 1) {
+      this.ratingDialog.error = 'appointments.rating.errors.starsRequired';
+      return;
+    }
+
+    if (this.ratingDialog.comment.trim().length < 5) {
+      this.ratingDialog.error = 'appointments.rating.errors.commentRequired';
+      return;
+    }
+
+    this.ratingDialog.saving = true;
+
+    const appointment = this.ratingDialog.appointment;
+    this.sessionService.createPatientRating(appointment.id, {
+      rating: this.ratingDialog.stars,
+      comment: this.ratingDialog.comment.trim()
+    }).subscribe({
+      next: (response) => {
+        const savedRating = this.mapRatingResponse(appointment, response);
+        this.ratingsBySession[appointment.id] = savedRating;
+        this.ratingDialog.saving = false;
+        this.closeRatingDialog();
+        this.showToastMessage('appointments.rating.toast.saved', 'success');
+      },
+      error: (error: any) => {
+        this.ratingDialog.saving = false;
+        this.ratingDialog.error = error?.error?.message || 'appointments.rating.errors.saveFailed';
+      }
+    });
+  }
+
+  saveReport(): void {
+    if (!this.reportDialog.appointment) {
+      return;
+    }
+
+    if (!this.reportDialog.reason) {
+      this.reportDialog.error = 'appointments.report.errors.reasonRequired';
+      return;
+    }
+
+    if (this.reportDialog.details.trim().length < 10) {
+      this.reportDialog.error = 'appointments.report.errors.detailsRequired';
+      return;
+    }
+
+    this.reportDialog.saving = true;
+
+    const appointment = this.reportDialog.appointment;
+    this.sessionService.createReport({
+      sessionId: appointment.id,
+      specialistId: this.specialistId,
+      reason: this.reportDialog.reason,
+      description: this.reportDialog.details.trim()
+    }).subscribe({
+      next: (response) => {
+        const savedReport = this.mapReportResponse(appointment, response);
+        this.reportsBySession[appointment.id] = savedReport;
+        this.reportDialog.saving = false;
+        this.closeReportDialog();
+        this.showToastMessage('appointments.report.toast.saved', 'success');
+      },
+      error: (error: any) => {
+        this.reportDialog.saving = false;
+        this.reportDialog.error = error?.error?.message || 'appointments.report.errors.saveFailed';
+      }
+    });
+  }
+
   confirmAction(): void {
     if (!this.confirmDialog.appointment) return;
 
@@ -99,24 +290,80 @@ export class SpecialistAppointmentsComponent implements OnInit {
     }
   }
 
-  acceptAppointment(appointment: Appointment): void {
-    appointment.loading = true;
+  loadAppointments(): void {
+    this.loading = true;
+    this.errorMsg = '';
 
-    setTimeout(() => {
-      appointment.status = 'accepted';
-      appointment.loading = false;
-      this.showToastMessage('appointments.toast.accepted', 'success');
-    }, 800);
+    this.sessionService.getSessionsBySpecialist(this.specialistId).subscribe({
+      next: (response) => {
+        console.log('GET sessions by specialist response:', response);
+        this.appointments = response.map(item => this.mapSessionResponse(item));
+        this.loadRatingsForAppointments(this.appointments);
+        this.loadReportsForAppointments(this.appointments);
+        this.loading = false;
+      },
+      error: (error: any) => {
+        console.error('Error al cargar citas del especialista:', error);
+        this.errorMsg = 'appointments.error.load';
+        this.loading = false;
+      }
+    });
+  }
+
+  acceptAppointment(appointment: Appointment): void {
+    this.updateStatus(appointment, 'accept', 'accepted');
   }
 
   rejectAppointment(appointment: Appointment): void {
+    this.updateStatus(appointment, 'reject', 'rejected');
+  }
+
+  private updateStatus(
+    appointment: Appointment,
+    action: 'accept' | 'reject',
+    newStatus: AppointmentStatus
+  ): void {
     appointment.loading = true;
 
-    setTimeout(() => {
-      appointment.status = 'rejected';
-      appointment.loading = false;
-      this.showToastMessage('appointments.toast.rejected', 'error');
-    }, 800);
+    const request = {
+      specialistId: this.specialistId,
+      action
+    };
+
+    console.log('PATCH session status request:', {
+      sessionId: appointment.id,
+      url: `/api/v1/sessions/${appointment.id}/status`,
+      body: request
+    });
+
+    this.sessionService.updateSessionStatus(appointment.id, {
+      specialistId: this.specialistId,
+      action
+    }).subscribe({
+      next: () => {
+        appointment.status = newStatus;
+        appointment.loading = false;
+
+        const messageKey =
+          newStatus === 'accepted'
+            ? 'appointments.toast.accepted'
+            : 'appointments.toast.rejected';
+
+        const toastType =
+          newStatus === 'accepted'
+            ? 'success'
+            : 'error';
+
+        this.showToastMessage(messageKey, toastType);
+      },
+      error: (error: any) => {
+        console.error('Error al actualizar estado de cita:', error);
+        console.error('Backend response body:', error.error);
+
+        appointment.loading = false;
+        this.showToastMessage('appointments.toast.statusError', 'error');
+      }
+    });
   }
 
   showToastMessage(messageKey: string, type: 'success' | 'error'): void {
@@ -144,8 +391,11 @@ export class SpecialistAppointmentsComponent implements OnInit {
     const icons = {
       pending:  'fas fa-clock',
       accepted: 'fas fa-check-circle',
-      rejected: 'fas fa-times-circle'
+      rejected: 'fas fa-times-circle',
+      cancelled: 'fas fa-ban',
+      finished: 'fas fa-check'
     };
+
     return icons[status];
   }
 
@@ -153,49 +403,251 @@ export class SpecialistAppointmentsComponent implements OnInit {
     const labels = {
       pending:  'appointments.status.pending',
       accepted: 'appointments.status.accepted',
-      rejected: 'appointments.status.rejected'
+      rejected: 'appointments.status.rejected',
+      cancelled: 'appointments.status.cancelled',
+      finished: 'appointments.status.finished'
     };
+
     return labels[status];
   }
 
-  private loadMockAppointments(): void {
-    this.appointments = [
-      {
-        id: '1',
-        patientName: 'María López',
-        patientEmail: 'maria@email.com',
-        date: new Date('2026-04-28'),
-        time: '10:00 AM',
-        reason: 'Consulta por ansiedad generalizada',
-        status: 'pending'
+  isRateable(appointment: Appointment): boolean {
+    return appointment.status === 'finished' || (
+      appointment.status === 'accepted' && this.hasSessionEnded(appointment)
+    );
+  }
+
+  hasRating(sessionId: number): boolean {
+    return !!this.ratingsBySession[sessionId];
+  }
+
+  getRating(sessionId: number): SessionRating | null {
+    return this.ratingsBySession[sessionId] ?? null;
+  }
+
+  hasReport(sessionId: number): boolean {
+    return !!this.reportsBySession[sessionId];
+  }
+
+  getReport(sessionId: number): SessionReport | null {
+    return this.reportsBySession[sessionId] ?? null;
+  }
+
+  getStarArray(stars: number): number[] {
+    return Array.from({ length: 5 }, (_, index) => index + 1).map((value) => (value <= stars ? 1 : 0));
+  }
+
+  private mapSessionResponse(item: SessionResponse): Appointment {
+    const appointmentDate = item.scheduleDate
+      ? new Date(item.scheduleDate)
+      : item.createdDate
+        ? new Date(item.createdDate)
+        : new Date();
+
+    return {
+      id: item.id,
+      patientName: item.patientName || 'Paciente sin nombre',
+      patientEmail: item.patientEmail || '',
+      date: appointmentDate,
+      time: this.buildAppointmentTime(item),
+      endTime: this.formatTime(item.endTime),
+      sessionTypeLabel: this.getSessionTypeLabel(item.typeOfSession),
+      status: this.mapStatus(item.status),
+      loading: false
+    };
+  }
+
+  private getSessionTypeLabel(typeOfSession: number): string {
+    switch (typeOfSession) {
+      case 1:
+        return 'Sesión virtual';
+      case 2:
+        return 'Sesión presencial';
+      default:
+        return 'Tipo de sesión no especificado';
+    }
+  }
+
+  private mapStatus(status: number): AppointmentStatus {
+    switch (status) {
+      case 2:
+        return 'accepted';
+      case 3:
+        return 'rejected';
+      case 4: 
+        return 'cancelled';
+      case 5: 
+        return 'finished';
+      case 1:
+      default:
+        return 'pending';
+    }
+  }
+
+  private loadRatingsForAppointments(appointments: Appointment[]): void {
+    if (!appointments.length) {
+      this.ratingsBySession = {};
+      return;
+    }
+
+    const requests = appointments.map((appointment) =>
+      this.sessionService.getPatientRating(appointment.id).pipe(
+        map((response) => ({ appointment, response })),
+        catchError(() => of({ appointment, response: null }))
+      )
+    );
+
+    forkJoin(requests).subscribe({
+      next: (results) => {
+        const nextRatings: Record<number, SessionRating> = {};
+        results.forEach(({ appointment, response }) => {
+          if (response) {
+            nextRatings[appointment.id] = this.mapRatingResponse(appointment, response);
+          }
+        });
+        this.ratingsBySession = nextRatings;
       },
-      {
-        id: '2',
-        patientName: 'Carlos Mendoza',
-        patientEmail: 'carlos@email.com',
-        date: new Date('2026-04-29'),
-        time: '02:30 PM',
-        reason: 'Seguimiento terapia familiar',
-        status: 'pending'
-      },
-      {
-        id: '3',
-        patientName: 'Ana Gutierrez',
-        patientEmail: 'ana@email.com',
-        date: new Date('2026-04-27'),
-        time: '11:00 AM',
-        reason: 'Primera consulta',
-        status: 'accepted'
-      },
-      {
-        id: '4',
-        patientName: 'Luis Rojas',
-        patientEmail: 'luis@email.com',
-        date: new Date('2026-04-26'),
-        time: '09:00 AM',
-        reason: 'Consulta por depresión',
-        status: 'rejected'
+      error: () => {
+        this.ratingsBySession = {};
       }
-    ];
+    });
+  }
+
+  private loadReports(): void {
+    this.reportsBySession = {};
+  }
+
+  private loadReportsForAppointments(appointments: Appointment[]): void {
+    if (!appointments.length) {
+      this.reportsBySession = {};
+      return;
+    }
+
+    const requests = appointments.map((appointment) =>
+      this.sessionService.getReportBySession(appointment.id, this.specialistId).pipe(
+        map((response) => ({ appointment, response })),
+        catchError(() => of({ appointment, response: null }))
+      )
+    );
+
+    forkJoin(requests).subscribe({
+      next: (results) => {
+        const nextReports: Record<number, SessionReport> = {};
+        results.forEach(({ appointment, response }) => {
+          if (response) {
+            nextReports[appointment.id] = this.mapReportResponse(appointment, response);
+          }
+        });
+        this.reportsBySession = nextReports;
+      },
+      error: () => {
+        this.reportsBySession = {};
+      }
+    });
+  }
+
+  private mapRatingResponse(
+    appointment: Appointment,
+    response: CalificationResponse
+  ): SessionRating {
+    return {
+      sessionId: response.sessionId ?? appointment.id,
+      specialistId: response.specialistId ?? this.specialistId,
+      patientName: appointment.patientName,
+      stars: response.rating ?? this.ratingDialog.stars,
+      comment: response.comment ?? '',
+      createdAt: response.createdDate,
+      updatedAt: response.createdDate
+    };
+  }
+
+  private mapReportResponse(
+    appointment: Appointment,
+    response: ReportResponse
+  ): SessionReport {
+    return {
+      sessionId: response.sessionId ?? appointment.id,
+      specialistId: this.specialistId,
+      patientName: appointment.patientName,
+      reason: response.reason,
+      details: response.description ?? '',
+      createdAt: response.createdDate,
+      updatedAt: response.updatedDate
+    };
+  }
+
+  private buildAppointmentTime(item: SessionResponse): string {
+    const start = this.formatTime(item.startTime);
+    const end = this.formatTime(item.endTime);
+
+    if (start && end) {
+      return `${start} - ${end}`;
+    }
+
+    if (start) {
+      return start;
+    }
+
+    if (end) {
+      return end;
+    }
+
+    return 'Horario no disponible';
+  }
+
+  private formatTime(time?: string): string {
+    if (!time) return '';
+
+    if (/^\d{2}:\d{2}:\d{2}$/.test(time)) {
+      return time.substring(0, 5);
+    }
+
+    if (/^\d{2}:\d{2}$/.test(time)) {
+      return time;
+    }
+
+    return time;
+  }
+
+  private hasSessionEnded(appointment: Appointment): boolean {
+    const sessionDate = new Date(appointment.date);
+
+    if (Number.isNaN(sessionDate.getTime())) {
+      return false;
+    }
+
+    const endTime = appointment.endTime || this.extractEndTime(appointment.time);
+    if (!endTime) {
+      return sessionDate.getTime() < Date.now();
+    }
+
+    const [hours, minutes] = endTime.split(':').map(Number);
+    const sessionEnd = new Date(sessionDate);
+    sessionEnd.setHours(hours || 0, minutes || 0, 0, 0);
+
+    return sessionEnd.getTime() <= Date.now();
+  }
+
+  private extractEndTime(range: string): string {
+    if (!range.includes('-')) {
+      return '';
+    }
+
+    const parts = range.split('-').map((value) => value.trim());
+    return parts[1] || '';
+  }
+
+  private getLoggedSpecialistId(): number {
+    const currentUser: any =
+      this.authService.getUser?.() ||
+      JSON.parse(localStorage.getItem('currentUser') || 'null') ||
+      JSON.parse(localStorage.getItem('user') || 'null');
+
+    return Number(
+      currentUser?.specialistId ||
+      currentUser?.specialist?.id ||
+      currentUser?.id ||
+      0
+    );
   }
 }

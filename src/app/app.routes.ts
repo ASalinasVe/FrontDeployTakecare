@@ -21,6 +21,7 @@ import { SpecialistProfileComponent } from './pages/specialist-profile/specialis
 import { specialistGuard } from './guards/specialist.guard';
 import { SpecialistScheduleManagementComponent } from './pages/specialist-schedule-management/specialist-schedule-management.component';
 import { SpecialistAppointmentsComponent } from './pages/specialist-appointments/specialist-appointments.component';
+import { SpecialistResourcesComponent } from './pages/specialist-resources/specialist-resources.component';
 
 // PACIENTE
 import { PatientDashboardComponent } from './pages/patient-dashboard/patient-dashboard.component';
@@ -28,6 +29,8 @@ import { PatientProfileComponent } from './pages/patient-profile/patient-profile
 import { patientGuard } from './guards/patient.guard';
 import { PatientSearchSpecialistsComponent } from './pages/patient-search-specialists/patient-search-specialists.component';
 import { PatientDocumentsComponent } from './pages/patient-documents/patient-documents.component';
+import { PatientSpecialistProfileComponent } from './pages/patient-specialist-profile/patient-specialist-profile.component';
+import { PatientFilesComponent } from './pages/patient-files/patient-files.component';
 
 
 // OTROS
@@ -105,9 +108,17 @@ export const routes: Routes = [
         path: 'search-specialists',
         component: PatientSearchSpecialistsComponent
       },
+      {
+        path: 'specialists/:id',
+        component: PatientSpecialistProfileComponent
+      },
       { 
         path: 'documents', 
         component: PatientDocumentsComponent 
+      },
+      {
+        path: 'files',
+        component: PatientFilesComponent
       },
       {
         path: 'appointments',
@@ -138,6 +149,10 @@ export const routes: Routes = [
         path: 'appointments', 
         component: SpecialistAppointmentsComponent 
       },
+      {
+        path: 'resources',
+        component: SpecialistResourcesComponent
+      }
     ]
   },
 

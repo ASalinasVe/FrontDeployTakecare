@@ -8,7 +8,7 @@ import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
 import { SidebarService } from '../../services/sidebar.service';
 import { SpecialistScheduleGroup, SpecialistScheduleResponse } from '../../models/specialist-schedule.model';
 import { SpecialistScheduleService } from '../../services/specialist-schedule.service';
-import { AppointmentService } from '../../services/appointment.service';
+import { SessionService } from '../../services/session.service';
 import { AuthService } from '../../services/auth.service';
 
 
@@ -60,7 +60,7 @@ export class PatientSearchSpecialistsComponent implements OnInit {
     public sidebarService: SidebarService,
     private translateService: TranslateService,
     private specialistScheduleService: SpecialistScheduleService,
-    private appointmentService: AppointmentService,
+    private sessionService: SessionService,
     private authService: AuthService
   ) {}
 
@@ -114,6 +114,12 @@ export class PatientSearchSpecialistsComponent implements OnInit {
     this.appointmentErrorMsg = '';
 
     this.loadSchedulesBySpecialist(specialist.id);
+  }
+
+  openSpecialistProfile(specialist: SpecialistDirectoryItem): void {
+    this.router.navigate(['/patient/specialists', specialist.id], {
+      state: { specialist }
+    });
   }
 
   closeSchedules(): void {
@@ -177,7 +183,7 @@ export class PatientSearchSpecialistsComponent implements OnInit {
     this.appointmentSuccessMsg = '';
     this.appointmentErrorMsg = '';
 
-    this.appointmentService.createAppointment({
+    this.sessionService.createSession({
       patientId,
       scheduleId: this.selectedScheduleId,
       typeOfSession: this.typeOfSession

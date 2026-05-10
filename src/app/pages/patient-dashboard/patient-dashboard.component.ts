@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms'; // 👈 Importante para el buscador
+import { FormsModule } from '@angular/forms'; 
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
 import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
 import { SidebarService } from '../../services/sidebar.service';
+
+
 
 @Component({
   selector: 'app-patient-dashboard',
@@ -14,6 +16,7 @@ import { SidebarService } from '../../services/sidebar.service';
   templateUrl: './patient-dashboard.component.html',
   styleUrls: ['./patient-dashboard.component.css']
 })
+
 export class PatientDashboardComponent implements OnInit {
   user: any;
   searchTerm: string = '';
@@ -31,4 +34,5 @@ export class PatientDashboardComponent implements OnInit {
       });
     }
   }
+
 }

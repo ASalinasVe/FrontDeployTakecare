@@ -178,7 +178,8 @@
       "searchSpecialist": "Buscar Especialista",
       "history": "Mi Historial",
       "editProfile": "Editar perfil",
-      "documents": "Mis Documentos"
+      "documents": "Biblioteca",
+      "files": "Mis archivos"
     },
     "searchPlaceholder": "Buscar especialistas...",
     "newAppointment": "Nueva Cita",
@@ -240,6 +241,8 @@
     "searchButton": "Buscar",
     "resetTitle": "Limpiar filtros",
     "viewAllButton": "Ver todos los especialistas",
+    "profileButton": "Ver perfil",
+    "scheduleButton": "Ver horarios",
     "results": "especialistas encontrados",
     "costPrefix": "Costo por sesión:",
     "cardNote": "Muy pronto podrás revisar más detalles y agendar una cita desde aquí.",
@@ -270,6 +273,52 @@
       "friday": "Viernes",
       "saturday": "Sábado",
       "sunday": "Domingo"
+    }
+  },
+
+  "patientSpecialistProfile": {
+    "back": "Volver a especialistas",
+    "tag": "Perfil del especialista",
+    "breadcrumb": {
+      "specialists": "Especialistas",
+      "profile": "Perfil"
+    },
+    "tabs": {
+      "about": "Sobre",
+      "specialties": "Especialidades",
+      "documents": "Documentos"
+    },
+    "sections": {
+      "about": "Sobre este especialista",
+      "professionalInfo": "Información profesional",
+      "specialties": "Especialidades",
+      "materials": "Material publicado"
+    },
+    "labels": {
+      "location": "Ubicación",
+      "cost": "Costo por sesión",
+      "contact": "Contacto",
+      "verified": "Verificado"
+    },
+    "materials": {
+      "description": "Consulta aquí los documentos y recursos que este especialista comparte para la comunidad.",
+      "publishedAt": "Publicado el",
+      "emptyTitle": "Este especialista aún no publicó documentos",
+      "emptyText": "Cuando comparta material de apoyo para la comunidad, aparecerá en esta sección."
+    },
+    "sidebar": {
+      "feeTag": "Tarifa de sesión",
+      "cta": "Volver para reservar",
+      "helper": "Puedes regresar al listado para revisar horarios y solicitar una cita.",
+      "officeTitle": "Ubicación de atención",
+      "points": {
+        "verified": "Perfil verificado dentro de la plataforma.",
+        "resources": "Comparte documentos de apoyo para la comunidad.",
+        "contact": "Información profesional visible para el paciente."
+      }
+    },
+    "states": {
+      "loading": "Cargando perfil del especialista..."
     }
   },
 
@@ -550,7 +599,8 @@
       "patients": "Pacientes",
       "messages": "Mensajes",
       "editProfile": "Editar perfil",
-      "appointments": "Citas"
+      "appointments": "Citas",
+      "resources": "Recursos"
     },
     "searchPlaceholder": "Buscar pacientes...",
     "newSession": "Nueva sesión",
@@ -655,40 +705,42 @@
   },
 
   "documents": {
-    "title": "Mis Documentos",
-    "subtitle": "Gestiona tus archivos clínicos de forma segura",
-    "uploadBtn": "Subir documento",
+    "title": "Biblioteca de recursos",
+    "subtitle": "Consulta documentos publicados por especialistas para complementar tu proceso de ayuda.",
+    "searchPlaceholder": "Busca por título, especialista o tipo de archivo",
 
-    "upload": {
-      "title": "Subir nuevo documento",
-      "description": "Selecciona o arrastra un archivo desde tu dispositivo",
-      "dropZone": "Arrastra tu archivo aquí o haz clic para seleccionar",
-      "formats": "Formatos permitidos: PDF, Word, JPG · Máximo 5MB",
-      "cancel": "Cancelar",
-      "confirm": "Subir documento"
+    "filters": {
+      "allTypes": "Todos los tipos",
+      "reset": "Limpiar filtros"
     },
 
-    "privacy": {
-      "title": "Archivo protegido",
-      "description": "Solo los especialistas con una cita agendada contigo podrán visualizar estos documentos.",
-      "badge": "Solo especialistas con cita"
+    "banner": {
+      "title": "Material compartido por la comunidad profesional",
+      "description": "Aquí encontrarás guías y documentos de apoyo publicados por especialistas para informar y acompañar a los usuarios."
     },
 
     "actions": {
-      "preview": "Previsualizar",
-      "delete": "Eliminar"
+      "open": "Abrir documento",
+      "download": "Descargar"
     },
 
-    "preview": {
-      "wordUnsupported": "Los archivos Word no se pueden previsualizar directamente. Puedes descargarlo.",
-      "download": "Descargar archivo"
+    "card": {
+      "publishedBy": "Publicado por",
+      "fileType": "Tipo de archivo",
+      "publishedAt": "Fecha de publicación"
     },
 
     "empty": {
-      "title": "Aún no tienes documentos",
-      "description": "Sube tus archivos clínicos para compartirlos con tus especialistas.",
-      "action": "Subir mi primer documento"
-    }
+      "title": "No hay documentos disponibles",
+      "description": "Todavía no se han publicado materiales que coincidan con tu búsqueda o con los filtros seleccionados.",
+      "action": "Ver todos los recursos"
+    },
+
+    "states": {
+      "loading": "Cargando biblioteca..."
+    },
+
+    "results": "documentos disponibles"
   },
 
   "appointments": {
@@ -731,7 +783,240 @@
     "empty": {
       "title": "Sin citas en este estado",
       "description": "No tienes citas en esta categoría por el momento."
+    },
+
+    "rating": {
+      "title": "Calificar al usuario",
+      "subtitle": "Comparte tu experiencia profesional despues de la sesion con",
+      "placeholder": "Escribe un comentario breve sobre puntualidad, actitud o colaboracion del usuario...",
+      "labels": {
+        "saved": "Calificación guardada",
+        "scorePrefix": "Puntuación"
+      },
+      "actions": {
+        "create": "Calificar usuario",
+        "edit": "Editar calificación",
+        "save": "Guardar calificación",
+        "saving": "Guardando..."
+      },
+      "errors": {
+        "starsRequired": "Selecciona una cantidad de estrellas.",
+        "commentRequired": "Escribe un comentario de al menos 5 caracteres."
+      },
+      "toast": {
+        "saved": "⭐ Calificación guardada correctamente"
+      }
+    },
+
+    "report": {
+      "title": "Reportar usuario",
+      "subtitle": "Describe la conducta o actitud incorrecta observada durante la sesión con",
+      "reasonPlaceholder": "Selecciona un motivo del reporte",
+      "placeholder": "Explica brevemente lo ocurrido para dejar constancia del reporte...",
+      "labels": {
+        "saved": "Reporte guardado"
+      },
+      "actions": {
+        "create": "Reportar usuario",
+        "edit": "Editar reporte",
+        "save": "Guardar reporte",
+        "saving": "Guardando..."
+      },
+      "errors": {
+        "reasonRequired": "Selecciona un motivo para el reporte.",
+        "detailsRequired": "Escribe una descripción de al menos 10 caracteres."
+      },
+      "reasons": {
+        "disrespect": "Falta de respeto",
+        "aggression": "Actitud agresiva",
+        "absence": "Ausencia injustificada",
+        "inappropriateLanguage": "Lenguaje inapropiado",
+        "other": "Otro"
+      },
+      "toast": {
+        "saved": "🚩 Reporte guardado correctamente"
+      }
+    }
+  },
+
+  "patientFiles": {
+    "title": "Mis Documentos",
+    "subtitle": "Gestiona tus archivos clínicos de forma segura",
+    "uploadBtn": "Subir documento",
+
+    "upload": {
+      "title": "Subir nuevo documento",
+      "description": "Selecciona o arrastra un archivo desde tu dispositivo",
+      "dropZone": "Arrastra tu archivo aquí o haz clic para seleccionar",
+      "formats": "Formatos permitidos: PDF, Word, JPG · Máximo 5MB",
+      "cancel": "Cancelar",
+      "confirm": "Subir documento"
+    },
+
+    "privacy": {
+      "title": "Archivo protegido",
+      "description": "Solo los especialistas con una cita agendada contigo podrán visualizar estos documentos.",
+      "badge": "Solo especialistas con cita"
+    },
+
+    "actions": {
+      "preview": "Previsualizar",
+      "delete": "Eliminar"
+    },
+
+    "preview": {
+      "wordUnsupported": "Los archivos Word no se pueden previsualizar directamente. Puedes descargarlo.",
+      "download": "Descargar archivo"
+    },
+
+    "empty": {
+      "title": "Aún no tienes documentos",
+      "description": "Sube tus archivos clínicos para compartirlos con tus especialistas.",
+      "action": "Subir mi primer documento"
+    }
+  },
+
+  "resources": {
+    "title": "Mis Recursos",
+    "subtitle": "Gestiona tus materiales de apoyo clínico",
+    "uploadBtn": "Subir recurso",
+    "loading": "Cargando recursos...",
+
+    "upload": {
+      "title": "Subir nuevo recurso",
+      "description": "Completa la información y selecciona el archivo a subir",
+      "dropZone": "Arrastra tu archivo aquí o haz clic para seleccionar",
+      "formats": "Formatos permitidos: PDF, DOC, DOCX · Máximo 10MB",
+      "cancel": "Cancelar",
+      "confirm": "Subir recurso",
+      "uploading": "Subiendo...",
+      "fields": {
+        "title": "Título",
+        "description": "Descripción",
+        "file": "Archivo",
+        "visibility": "Visibilidad"
+      },
+      "placeholders": {
+        "title": "Ej: Guía de relajación para ansiedad",
+        "description": "Describe brevemente el contenido del documento..."
+      }
+    },
+
+    "visibility": {
+      "public": "Público",
+      "private": "Privado",
+      "publicDesc": "Todos tus pacientes podrán ver este recurso",
+      "privateDesc": "Solo tú podrás ver este recurso"
+    },
+    
+    "errors": {
+      "titleRequired": "El título es obligatorio",
+      "descriptionRequired": "La descripción es obligatoria",
+      "fileRequired": "Debes seleccionar un archivo",
+      "invalidFormat": "Formato no permitido. Solo PDF, DOC o DOCX",
+      "invalidType": "Tipo de archivo no válido",
+      "tooLarge": "El archivo supera el límite de 10MB"
+    },
+
+    "toast": {
+      "success": "✅ Recurso subido correctamente",
+      "deleted": "🗑️ Recurso eliminado",
+      "error": "❌ Ocurrió un error, intenta de nuevo"
+    },
+
+    "actions": {
+      "delete": "Eliminar",
+      "preview": "Previsualizar"
+    },
+
+    "empty": {
+      "title": "Aún no tienes recursos",
+      "description": "Sube materiales de apoyo para compartir con tus pacientes.",
+      "action": "Subir mi primer recurso"
+    },
+
+    "preview": {
+      "wordUnsupported": "Vista previa no disponible",
+      "wordDescription": "Los archivos Word no se pueden previsualizar. Ábrelo en una nueva pestaña.",
+      "openExternal": "Abrir archivo",
+      "notAvailable": "Archivo no disponible aún",
+      "notAvailableDesc": "El archivo estará disponible una vez que el backend procese la subida."
+    }
+  },
+
+  "patientAppointments": {
+    "tag": "Mis citas",
+    "title": "Solicitudes de cita",
+    "subtitle": "Revisa el estado de tus citas solicitadas y cancela aquellas que aún correspondan.",
+    "loading": "Cargando tus citas...",
+
+    "card": {
+      "requestedBy": "Cita solicitada por",
+      "registeredDate": "Solicitud registrada",
+      "sessionType": "Tipo de sesión",
+      "virtual": "Virtual",
+      "presential": "Presencial"
+    },
+
+    "status": {
+      "pending": "Pendiente",
+      "accepted": "Aceptada",
+      "rejected": "Rechazada",
+      "finished": "Finalizada",
+      "cancelled": "Cancelada"
+    },
+
+    "actions": {
+      "cancel": "Cancelar cita",
+      "cancelling": "Cancelando...",
+      "cancelBtn": "Cancelar"
+    },
+
+    "empty": {
+      "title": "Aún no tienes citas solicitadas",
+      "description": "Cuando solicites una cita con un especialista, aparecerá en esta sección."
+    },
+
+    "cancel": {
+      "title": "Cancelar cita",
+      "message": "¿Estás seguro de que deseas cancelar esta cita?",
+      "specialist": "Especialista",
+      "currentStatus": "Estado actual",
+      "keep": "No, mantener cita",
+      "confirm": "Sí, cancelar"
+    },
+
+    "rating": {
+      "saved": "Calificación guardada",
+      "create": "Calificar especialista",
+      "edit": "Editar calificación",
+      "title": "Calificar especialista",
+      "question": "¿Cómo estuvo tu sesión con",
+      "score": "Puntuación",
+      "placeholder": "Cuéntanos sobre tu experiencia...",
+      "save": "Guardar calificación",
+      "saving": "Guardando..."
+    },
+
+    "report": {
+      "saved": "Reporte enviado",
+      "create": "Reportar especialista",
+      "edit": "Editar reporte",
+      "title": "Reportar especialista",
+      "subtitle": "Reportar a",
+      "reasonPlaceholder": "Selecciona un motivo",
+      "placeholder": "Describe lo que ocurrió...",
+      "save": "Enviar reporte",
+      "saving": "Enviando...",
+      "reasons": {
+        "disrespect": "Falta de respeto",
+        "aggression": "Agresión",
+        "absence": "Ausencia sin aviso",
+        "inappropriateLanguage": "Lenguaje inapropiado",
+        "other": "Otro"
+      }
     }
   }
-
 }
+
+

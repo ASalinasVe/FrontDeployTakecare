@@ -177,7 +177,8 @@
       "searchSpecialist": "Find Specialist",
       "history": "My History",
       "editProfile": "Edit profile",
-      "documents": "My Documents"
+      "documents": "Library",
+      "files": "My files"
     },
     "searchPlaceholder": "Search specialists...",
     "newAppointment": "New Appointment",
@@ -239,6 +240,8 @@
     "searchButton": "Search",
     "resetTitle": "Clear filters",
     "viewAllButton": "View all specialists",
+    "profileButton": "View profile",
+    "scheduleButton": "View schedules",
     "results": "specialists found",
     "costPrefix": "Session cost:",
     "cardNote": "Soon you will be able to review more details and request an appointment from here.",
@@ -272,6 +275,53 @@
     }
   },
 
+  "patientSpecialistProfile": {
+    "back": "Back to specialists",
+    "tag": "Specialist profile",
+    "breadcrumb": {
+      "specialists": "Specialists",
+      "profile": "Profile"
+    },
+    "tabs": {
+      "about": "About",
+      "specialties": "Specialties",
+      "documents": "Documents"
+    },
+    "sections": {
+      "about": "About this specialist",
+      "professionalInfo": "Professional information",
+      "specialties": "Specialties",
+      "materials": "Published materials"
+    },
+    "labels": {
+      "location": "Location",
+      "cost": "Session cost",
+      "contact": "Contact",
+      "verified": "Verified"
+    },
+    "materials": {
+      "description": "Review here the documents and resources this specialist shares with the community.",
+      "publishedAt": "Published on",
+      "emptyTitle": "This specialist has not published documents yet",
+      "emptyText": "When they share support material for the community, it will appear in this section."
+    },
+    "sidebar": {
+      "feeTag": "Session fee",
+      "cta": "Go back to book",
+      "helper": "You can return to the directory to review schedules and request an appointment.",
+      "officeTitle": "Care location",
+      "points": {
+        "verified": "Verified profile inside the platform.",
+        "resources": "Shares support documents for the community.",
+        "contact": "Professional information visible to the patient."
+      }
+    },
+    "states": {
+      "loading": "Loading specialist profile..."
+    }
+  },
+
+  
 
   "recoverPassword": {
     "title": "Recover password",
@@ -548,7 +598,8 @@
       "patients": "Patients",
       "messages": "Messages",
       "editProfile": "Edit profile",
-      "appointments": "Appointments"
+      "appointments": "Appointments",
+      "resources": "Resources"
     },
     "searchPlaceholder": "Search patients...",
     "newSession": "New session",
@@ -653,40 +704,42 @@
   },
 
   "documents": {
-    "title": "My Documents",
-    "subtitle": "Manage your clinical files securely",
-    "uploadBtn": "Upload document",
+    "title": "Resource library",
+    "subtitle": "Browse documents published by specialists to support your care journey.",
+    "searchPlaceholder": "Search by title, specialist, or file type",
 
-    "upload": {
-      "title": "Upload new document",
-      "description": "Select or drag a file from your device",
-      "dropZone": "Drag your file here or click to select",
-      "formats": "Allowed formats: PDF, Word, JPG · Maximum 5MB",
-      "cancel": "Cancel",
-      "confirm": "Upload document"
+    "filters": {
+      "allTypes": "All file types",
+      "reset": "Clear filters"
     },
 
-    "privacy": {
-      "title": "Protected file",
-      "description": "Only specialists with a scheduled appointment with you will be able to view these documents.",
-      "badge": "Only specialists with appointment"
+    "banner": {
+      "title": "Resources shared by the professional community",
+      "description": "Here you can find guides and support documents published by specialists to inform and accompany users."
     },
 
     "actions": {
-      "preview": "Preview",
-      "delete": "Delete"
+      "open": "Open document",
+      "download": "Download"
     },
 
-    "preview": {
-      "wordUnsupported": "Word files cannot be previewed directly. You can download it instead.",
-      "download": "Download file"
+    "card": {
+      "publishedBy": "Published by",
+      "fileType": "File type",
+      "publishedAt": "Publication date"
     },
 
     "empty": {
-      "title": "No documents yet",
-      "description": "Upload your clinical files to share them with your specialists.",
-      "action": "Upload my first document"
-    }
+      "title": "No documents available",
+      "description": "No published materials match your current search or selected filters yet.",
+      "action": "View all resources"
+    },
+
+    "states": {
+      "loading": "Loading library..."
+    },
+
+    "results": "available documents"
   },
 
   "appointments": {
@@ -729,6 +782,239 @@
     "empty": {
       "title": "No appointments in this status",
       "description": "You have no appointments in this category at the moment."
+    },
+
+    "rating": {
+      "title": "Rate the user",
+      "subtitle": "Share your professional experience after the session with",
+      "placeholder": "Write a short comment about the user's punctuality, attitude, or collaboration...",
+      "labels": {
+        "saved": "Rating saved",
+        "scorePrefix": "Score"
+      },
+      "actions": {
+        "create": "Rate user",
+        "edit": "Edit rating",
+        "save": "Save rating",
+        "saving": "Saving..."
+      },
+      "errors": {
+        "starsRequired": "Select a star rating.",
+        "commentRequired": "Write a comment with at least 5 characters."
+      },
+      "toast": {
+        "saved": "⭐ Rating saved successfully"
+      }
+    },
+  
+    "report": {
+      "title": "Report user",
+      "subtitle": "Describe the inappropriate behavior or attitude observed during the session with",
+      "reasonPlaceholder": "Select a report reason",
+      "placeholder": "Briefly explain what happened so there is a record of the report...",
+      "labels": {
+        "saved": "Report saved"
+      },
+      "actions": {
+        "create": "Report user",
+        "edit": "Edit report",
+        "save": "Save report",
+        "saving": "Saving..."
+      },
+      "errors": {
+        "reasonRequired": "Select a reason for the report.",
+        "detailsRequired": "Write a description with at least 10 characters."
+      },
+      "reasons": {
+        "disrespect": "Disrespect",
+        "aggression": "Aggressive attitude",
+        "absence": "Unjustified absence",
+        "inappropriateLanguage": "Inappropriate language",
+        "other": "Other"
+      },
+      "toast": {
+        "saved": "🚩 Report saved successfully"
+      }
+    }
+  },
+
+  "patientFiles": {
+    "title": "My Documents",
+    "subtitle": "Manage your clinical files securely",
+    "uploadBtn": "Upload document",
+
+    "upload": {
+      "title": "Upload new document",
+      "description": "Select or drag a file from your device",
+      "dropZone": "Drag your file here or click to select",
+      "formats": "Allowed formats: PDF, Word, JPG · Maximum 5MB",
+      "cancel": "Cancel",
+      "confirm": "Upload document"
+    },
+
+    "privacy": {
+      "title": "Protected file",
+      "description": "Only specialists with a scheduled appointment with you will be able to view these documents.",
+      "badge": "Only specialists with appointment"
+    },
+
+    "actions": {
+      "preview": "Preview",
+      "delete": "Delete"
+    },
+
+    "preview": {
+      "wordUnsupported": "Word files cannot be previewed directly. You can download it instead.",
+      "download": "Download file"
+    },
+
+    "empty": {
+      "title": "No documents yet",
+      "description": "Upload your clinical files to share them with your specialists.",
+      "action": "Upload my first document"
+    }
+  },
+
+  "resources": {
+    "title": "My Resources",
+    "subtitle": "Manage your clinical support materials",
+    "uploadBtn": "Upload resource",
+    "loading": "Loading resources...",
+
+    "upload": {
+      "title": "Upload new resource",
+      "description": "Fill in the information and select the file to upload",
+      "dropZone": "Drag your file here or click to select",
+      "formats": "Allowed formats: PDF, DOC, DOCX · Maximum 10MB",
+      "cancel": "Cancel",
+      "confirm": "Upload resource",
+      "uploading": "Uploading...",
+      "fields": {
+        "title": "Title",
+        "description": "Description",
+        "file": "File",
+        "visibility": "Visibility"
+      },
+      "placeholders": {
+        "title": "E.g: Relaxation guide for anxiety",
+        "description": "Briefly describe the content of the document..."
+      }
+    },
+
+    "visibility": {
+      "public": "Public",
+      "private": "Private",
+      "publicDesc": "All your patients will be able to see this resource",
+      "privateDesc": "Only you will be able to see this resource"
+    },
+    
+    "errors": {
+      "titleRequired": "Title is required",
+      "descriptionRequired": "Description is required",
+      "fileRequired": "You must select a file",
+      "invalidFormat": "Format not allowed. Only PDF, DOC or DOCX",
+      "invalidType": "Invalid file type",
+      "tooLarge": "File exceeds the 10MB limit"
+    },
+
+    "toast": {
+      "success": "✅ Resource uploaded successfully",
+      "deleted": " 🗑️ Resource deleted",
+      "error": "❌ An error occurred, please try again"
+    },
+
+    "actions": {
+      "delete": "Delete",
+      "preview": "Preview"
+    },
+
+    "empty": {
+      "title": "No resources yet",
+      "description": "Upload support materials to share with your patients.",
+      "action": "Upload my first resource"
+    },
+
+    "preview": {
+      "wordUnsupported": "Preview not available",
+      "wordDescription": "Word files cannot be previewed. Open it in a new tab.",
+      "openExternal": "Open file",
+      "notAvailable": "File not available yet",
+      "notAvailableDesc": "The file will be available once the backend processes the upload."
+    }
+  },
+
+  "patientAppointments": {
+    "tag": "My appointments",
+    "title": "Appointment requests",
+    "subtitle": "Check the status of your requested appointments and cancel those that still apply.",
+    "loading": "Loading your appointments...",
+
+    "card": {
+      "requestedBy": "Appointment requested by",
+      "registeredDate": "Request registered",
+      "sessionType": "Session type",
+      "virtual": "Virtual",
+      "presential": "In-person"
+    },
+
+    "status": {
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "rejected": "Rejected",
+      "finished": "Finished",
+      "cancelled": "Cancelled"
+    },
+
+    "actions": {
+      "cancel": "Cancel appointment",
+      "cancelling": "Cancelling...",
+      "cancelBtn": "Cancel"
+    },
+
+    "empty": {
+      "title": "No appointments yet",
+      "description": "When you request an appointment with a specialist, it will appear here."
+    },
+
+    "cancel": {
+      "title": "Cancel appointment",
+      "message": "Are you sure you want to cancel this appointment?",
+      "specialist": "Specialist",
+      "currentStatus": "Current status",
+      "keep": "No, keep appointment",
+      "confirm": "Yes, cancel"
+    },
+
+    "rating": {
+      "saved": "Rating saved",
+      "create": "Rate specialist",
+      "edit": "Edit rating",
+      "title": "Rate specialist",
+      "question": "How was your session with",
+      "score": "Score",
+      "placeholder": "Tell us about your experience...",
+      "save": "Save rating",
+      "saving": "Saving..."
+    },
+
+    "report": {
+      "saved": "Report submitted",
+      "create": "Report specialist",
+      "edit": "Edit report",
+      "title": "Report specialist",
+      "subtitle": "Report",
+      "reasonPlaceholder": "Select a reason",
+      "placeholder": "Describe what happened...",
+      "save": "Submit report",
+      "saving": "Submitting...",
+      "reasons": {
+        "disrespect": "Disrespect",
+        "aggression": "Aggression",
+        "absence": "Absence without notice",
+        "inappropriateLanguage": "Inappropriate language",
+        "other": "Other"
+      }
     }
   }
 }
+
