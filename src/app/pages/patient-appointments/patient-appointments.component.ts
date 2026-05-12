@@ -8,8 +8,11 @@ import {
   SessionResponse,
   SessionService,
   SessionRating,
-  SessionReport
+  SessionReport,
+  CalificationResponse,
+  ReportResponse
 } from '../../services/session.service';
+import { SidebarService } from '../../services/sidebar.service';
 
 interface RatingDialog {
   visible: boolean;
@@ -52,8 +55,9 @@ export class PatientAppointmentsComponent implements OnInit {
   toastType: 'success' | 'error' = 'success';
   private toastTimer: any;
 
-  ratingsBySession: Record<number, SessionRating> = {};
-  reportsBySession: Record<number, SessionReport> = {};
+  ratingsBySession: Record<number, CalificationResponse> = {};
+
+  reportsBySession: Record<number, ReportResponse> = {};
 
   ratingDialog: RatingDialog = {
     visible: false,
@@ -75,13 +79,12 @@ export class PatientAppointmentsComponent implements OnInit {
 
   constructor(
     private sessionService: SessionService,
-    private authService: AuthService
+    private authService: AuthService,
+    public sidebarService: SidebarService
   ) {}
 
   ngOnInit(): void {
     this.patientId = this.getPatientId() ?? 0;
-    this.loadRatings();
-    this.loadReports();
     this.loadAppointments();
   }
 
@@ -99,12 +102,35 @@ export class PatientAppointmentsComponent implements OnInit {
       next: (sessions) => {
         this.appointments = sessions;
         this.loading = false;
+        this.loadRatingsAndReportsForFinishedSessions(sessions);
       },
       error: (error) => {
         this.errorMsg = error.error?.message || 'No se pudieron cargar tus citas.';
         this.loading = false;
       }
     });
+  }
+
+  
+  private loadRatingsAndReportsForFinishedSessions(sessions: SessionResponse[]): void {
+    sessions
+      .filter(s => s.status === 4)
+      .forEach(session => {
+
+        this.sessionService.getPatientRating(session.id).subscribe({
+          next: (rating) => {
+            if (rating?.evaluatorRole === 'PATIENT') {
+              this.ratingsBySession[session.id] = rating;
+            }
+          },
+          error: () => {} 
+        });
+
+        this.sessionService.getPatientReportBySession(session.id, this.patientId).subscribe({
+          next: (report) => { this.reportsBySession[session.id] = report; },
+          error: () => {} 
+        });
+      });
   }
 
 
@@ -148,7 +174,7 @@ export class PatientAppointmentsComponent implements OnInit {
     this.ratingDialog = {
       visible: true,
       appointment,
-      stars: existing?.stars ?? 0,
+      stars: existing?.rating ?? 0,
       comment: existing?.comment ?? '',
       saving: false,
       error: ''
@@ -157,12 +183,8 @@ export class PatientAppointmentsComponent implements OnInit {
 
   closeRatingDialog(): void {
     this.ratingDialog = {
-      visible: false,
-      appointment: null,
-      stars: 0,
-      comment: '',
-      saving: false,
-      error: ''
+      visible: false, appointment: null,
+      stars: 0, comment: '', saving: false, error: ''
     };
   }
 
@@ -187,18 +209,23 @@ export class PatientAppointmentsComponent implements OnInit {
     this.ratingDialog.saving = true;
     const appointment = this.ratingDialog.appointment;
 
-    const saved = this.sessionService.saveRating({
-      sessionId: appointment.id,
-      specialistId: appointment.specialistId,
-      patientName: appointment.patientName,
-      stars: this.ratingDialog.stars,
+    this.sessionService.createPatientRating(appointment.id, {
+      rating: this.ratingDialog.stars,
       comment: this.ratingDialog.comment.trim()
+    }).subscribe({
+      next: (saved) => {
+        if (saved?.evaluatorRole === 'PATIENT') {
+          this.ratingsBySession[appointment.id] = saved;
+        }
+        this.ratingDialog.saving = false;
+        this.closeRatingDialog();
+        this.showToastMessage('Calificación guardada correctamente', 'success');
+      },
+      error: (error) => {
+        this.ratingDialog.saving = false;
+        this.ratingDialog.error = error.error?.message || 'No se pudo guardar la calificación.';
+      }
     });
-
-    this.ratingsBySession[appointment.id] = saved;
-    this.ratingDialog.saving = false;
-    this.closeRatingDialog();
-    this.showToastMessage('Calificación guardada correctamente', 'success');
   }
 
   openReportDialog(appointment: SessionResponse): void {
@@ -206,8 +233,9 @@ export class PatientAppointmentsComponent implements OnInit {
     this.reportDialog = {
       visible: true,
       appointment,
+      // Si ya existe un reporte, pre-rellena el formulario
       reason: existing?.reason ?? '',
-      details: existing?.details ?? '',
+      details: existing?.description ?? '',
       saving: false,
       error: ''
     };
@@ -215,12 +243,8 @@ export class PatientAppointmentsComponent implements OnInit {
 
   closeReportDialog(): void {
     this.reportDialog = {
-      visible: false,
-      appointment: null,
-      reason: '',
-      details: '',
-      saving: false,
-      error: ''
+      visible: false, appointment: null,
+      reason: '', details: '', saving: false, error: ''
     };
   }
 
@@ -240,29 +264,38 @@ export class PatientAppointmentsComponent implements OnInit {
     this.reportDialog.saving = true;
     const appointment = this.reportDialog.appointment;
 
-    const saved = this.sessionService.saveReport({
+    // ✅ Ahora llama al endpoint correcto: POST /api/v1/reports/patient
+    this.sessionService.createPatientReport({
+      patientId: this.patientId,
       sessionId: appointment.id,
-      specialistId: appointment.specialistId,
-      patientName: appointment.patientName,
       reason: this.reportDialog.reason,
-      details: this.reportDialog.details.trim()
+      description: this.reportDialog.details.trim()
+    }).subscribe({
+      next: (saved) => {
+        this.reportsBySession[appointment.id] = saved;
+        this.reportDialog.saving = false;
+        this.closeReportDialog();
+        this.showToastMessage('Reporte enviado correctamente', 'success');
+      },
+      error: (error) => {
+        this.reportDialog.saving = false;
+        this.reportDialog.error = error.error?.message || 'No se pudo enviar el reporte.';
+      }
     });
-
-    this.reportsBySession[appointment.id] = saved;
-    this.reportDialog.saving = false;
-    this.closeReportDialog();
-    this.showToastMessage('Reporte enviado correctamente', 'success');
   }
 
+  
+  // ── Helpers de vista ───────────────────────────────────────────────────────
+
   isRateable(appointment: SessionResponse): boolean {
-    return appointment.status === 4 ;
+    return appointment.status === 4;
   }
 
   hasRating(sessionId: number): boolean {
     return !!this.ratingsBySession[sessionId];
   }
 
-  getRating(sessionId: number): SessionRating | null {
+  getRating(sessionId: number): CalificationResponse | null {
     return this.ratingsBySession[sessionId] ?? null;
   }
 
@@ -270,7 +303,7 @@ export class PatientAppointmentsComponent implements OnInit {
     return !!this.reportsBySession[sessionId];
   }
 
-  getReport(sessionId: number): SessionReport | null {
+  getReport(sessionId: number): ReportResponse | null {
     return this.reportsBySession[sessionId] ?? null;
   }
 
@@ -312,24 +345,44 @@ export class PatientAppointmentsComponent implements OnInit {
     this.toastTimer = setTimeout(() => this.showToast = false, 3000);
   }
 
-  private loadRatings(): void {
-    const all = this.sessionService.getRatingsBySpecialist(0);
-    this.ratingsBySession = all.reduce<Record<number, SessionRating>>((acc, r) => {
-      acc[r.sessionId] = r;
-      return acc;
-    }, {});
-  }
-
-  private loadReports(): void {
-    const all = this.sessionService.getReportsBySpecialist(0);
-    this.reportsBySession = all.reduce<Record<number, SessionReport>>((acc, r) => {
-      acc[r.sessionId] = r;
-      return acc;
-    }, {});
-  }
-
   private getPatientId(): number | null {
     const user = this.authService.getUser();
     return user?.id ?? null;
+  }
+
+  getAppointmentDate(appointment: SessionResponse): Date {
+    return appointment.scheduleDate
+      ? new Date(appointment.scheduleDate)
+      : new Date(appointment.createdDate);
+  }
+
+  getAppointmentTime(appointment: SessionResponse): string {
+    const start = appointment.startTime?.substring(0, 5) || '';
+    const end = appointment.endTime?.substring(0, 5) || '';
+
+    if (start && end) 
+      return `${start} - ${end}`;
+    if (start) 
+      return start;
+    
+    return 'Horario no disponible';
+  }
+
+ getSessionTypeLabel(typeOfSession: number): string {
+    switch (typeOfSession) {
+      case 1: return 'patientAppointments.card.virtual';
+      case 2: return 'patientAppointments.card.presential';
+      default: return 'patientAppointments.card.sessionTypeUnknown';
+    }
+  }
+
+  getInitials(name: string): string {
+    if (!name) return '?';
+    return name
+      .split(' ')
+      .slice(0, 2)
+      .map(n => n[0])
+      .join('')
+      .toUpperCase();
   }
 }

@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-
+ 
 export interface CreateSessionRequest {
   patientId: number;
   scheduleId: number;
   typeOfSession: number;
 }
-
+ 
 export interface SessionResponse {
   id: number;
   patientId: number;
@@ -19,13 +19,13 @@ export interface SessionResponse {
   createdDate: string;
   patientName: string;
   specialistName: string;
-
+ 
   patientEmail?: string;
   scheduleDate?: string;
   startTime?: string;
   endTime?: string;
 }
-
+ 
 export interface SessionStatusResponse {
   sessionId: number;
   specialistId: number;
@@ -36,16 +36,16 @@ export interface SessionStatusResponse {
   updatedAt: string;
   notificationDescription: string;
 }
-
+ 
 export interface CancelSessionRequest {
   patientId: number;
 }
-
+ 
 export interface UpdateSessionStatusRequest {
   specialistId: number;
   action: 'accept' | 'reject';
 }
-
+ 
 export interface SessionRating {
   sessionId: number;
   specialistId: number;
@@ -55,22 +55,22 @@ export interface SessionRating {
   createdAt: string;
   updatedAt: string;
 }
-
+ 
 export interface SessionReport {
   sessionId: number;
   specialistId: number;
   patientName: string;
   reason: string;
   details: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string | null;
+  updatedAt: string | null;
 }
-
+ 
 export interface CreateCalificationRequest {
   rating: number;
   comment?: string;
 }
-
+ 
 export interface CalificationResponse {
   id: number;
   sessionId: number;
@@ -81,14 +81,21 @@ export interface CalificationResponse {
   createdDate: string;
   evaluatorRole: string;
 }
-
+ 
 export interface CreateReportRequest {
   specialistId: number;
   sessionId: number;
   reason: string;
   description?: string;
 }
-
+ 
+export interface CreatePatientReportRequest {
+  patientId: number;
+  sessionId: number;
+  reason: string;
+  description?: string;
+}
+ 
 export interface ReportResponse {
   id: number;
   sessionId: number;
@@ -97,34 +104,38 @@ export interface ReportResponse {
   reason: string;
   description: string | null;
   status: string;
-  createdDate: string;
-  updatedDate: string;
+  createdDate: string | null;
+  updatedDate: string | null;
 }
-
+ 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
-
-  private readonly apiUrl = `${environment.apiUrl}/api/v1/sessions`;
-  private readonly reportsApiUrl = `${environment.apiUrl}/api/v1/reports`;
+ 
+  private readonly apiUrl         = `${environment.apiUrl}/api/v1/sessions`;
+  private readonly reportsApiUrl  = `${environment.apiUrl}/api/v1/reports`;
+  private readonly specialistsUrl = `${environment.apiUrl}/api/v1/specialists`;
+  private readonly patientsUrl    = `${environment.apiUrl}/api/v1/patients`;
+ 
   private readonly ratingsStorageKey = 'specialist_session_ratings';
-  private readonly reportsStorageKey = 'specialist_session_reports';
-
+ 
   constructor(private http: HttpClient) {}
-
+ 
+  // ── Sesiones ────────────────────────────────────────────────────────────────
+ 
   createSession(request: CreateSessionRequest): Observable<SessionResponse> {
     return this.http.post<SessionResponse>(this.apiUrl, request);
   }
-
+ 
   getSessionsByPatient(patientId: number): Observable<SessionResponse[]> {
     return this.http.get<SessionResponse[]>(`${this.apiUrl}/patient/${patientId}`);
   }
-
+ 
   getSessionsBySpecialist(specialistId: number): Observable<SessionResponse[]> {
     return this.http.get<SessionResponse[]>(`${this.apiUrl}/specialist/${specialistId}`);
   }
-
+ 
   updateSessionStatus(
     sessionId: number,
     request: UpdateSessionStatusRequest
@@ -134,7 +145,7 @@ export class SessionService {
       request
     );
   }
-
+ 
   cancelSession(
     sessionId: number,
     request: CancelSessionRequest
@@ -144,8 +155,31 @@ export class SessionService {
       request
     );
   }
+ 
+  // ── Calificaciones: paciente califica al especialista ───────────────────────
 
+  /** POST /api/v1/sessions/{sessionId}/specialist-ratings — evaluatorRole = PATIENT */
   createPatientRating(
+    sessionId: number,
+    request: CreateCalificationRequest
+  ): Observable<CalificationResponse> {
+    return this.http.post<CalificationResponse>(
+      `${this.apiUrl}/${sessionId}/specialist-ratings`,
+      request
+    );
+  }
+
+  /** GET /api/v1/sessions/{sessionId}/specialist-ratings — evaluatorRole = PATIENT */
+  getPatientRating(sessionId: number): Observable<CalificationResponse> {
+    return this.http.get<CalificationResponse>(
+      `${this.apiUrl}/${sessionId}/specialist-ratings`
+    );
+  }
+
+  // ── Calificaciones: especialista califica al paciente ───────────────────────
+
+  /** POST /api/v1/sessions/{sessionId}/patient-ratings — evaluatorRole = SPECIALIST */
+  createSpecialistRating(
     sessionId: number,
     request: CreateCalificationRequest
   ): Observable<CalificationResponse> {
@@ -155,121 +189,84 @@ export class SessionService {
     );
   }
 
-  getPatientRating(sessionId: number): Observable<CalificationResponse> {
+  /** GET /api/v1/sessions/{sessionId}/patient-ratings — evaluatorRole = SPECIALIST */
+  getSpecialistRating(sessionId: number): Observable<CalificationResponse> {
     return this.http.get<CalificationResponse>(
       `${this.apiUrl}/${sessionId}/patient-ratings`
     );
   }
-
+ 
+  // ── Reportes: especialista reporta paciente ─────────────────────────────────
+ 
+  /** POST /api/v1/reports */
   createReport(request: CreateReportRequest): Observable<ReportResponse> {
     return this.http.post<ReportResponse>(this.reportsApiUrl, request);
   }
-
+ 
+  /** GET /api/v1/reports/session/{sessionId}/specialist/{specialistId} */
   getReportBySession(sessionId: number, specialistId: number): Observable<ReportResponse> {
     return this.http.get<ReportResponse>(
       `${this.reportsApiUrl}/session/${sessionId}/specialist/${specialistId}`
     );
   }
-
-  getRatingsBySpecialist(specialistId: number): SessionRating[] {
-    return this.readRatings().filter((rating) => rating.specialistId === specialistId);
+ 
+  // ── Reportes: paciente reporta especialista ─────────────────────────────────
+ 
+  /** POST /api/v1/reports/patient */
+  createPatientReport(request: CreatePatientReportRequest): Observable<ReportResponse> {
+    return this.http.post<ReportResponse>(`${this.reportsApiUrl}/patient`, request);
   }
-
+ 
+  /** GET /api/v1/reports/session/{sessionId}/patient/{patientId} */
+  getPatientReportBySession(sessionId: number, patientId: number): Observable<ReportResponse> {
+    return this.http.get<ReportResponse>(
+      `${this.reportsApiUrl}/session/${sessionId}/patient/${patientId}`
+    );
+  }
+ 
+  /** GET /api/v1/patients/{patientId}/reports */
+  getReportsReceivedByPatient(patientId: number): Observable<ReportResponse[]> {
+    return this.http.get<ReportResponse[]>(`${this.patientsUrl}/${patientId}/reports`);
+  }
+ 
+  /** GET /api/v1/specialists/{specialistId}/reports */
+  getReportsReceivedBySpecialist(specialistId: number): Observable<ReportResponse[]> {
+    return this.http.get<ReportResponse[]>(`${this.specialistsUrl}/${specialistId}/reports`);
+  }
+ 
+  // ── localStorage: ratings (flujo legado) ────────────────────────────────────
+ 
+  getRatingsBySpecialist(specialistId: number): SessionRating[] {
+    return this.readRatings().filter(r => r.specialistId === specialistId);
+  }
+ 
   getRatingBySession(sessionId: number, specialistId: number): SessionRating | null {
     return this.readRatings().find(
-      (rating) => rating.sessionId === sessionId && rating.specialistId === specialistId
+      r => r.sessionId === sessionId && r.specialistId === specialistId
     ) ?? null;
   }
-
+ 
   saveRating(rating: Omit<SessionRating, 'createdAt' | 'updatedAt'>): SessionRating {
     const ratings = this.readRatings();
     const now = new Date().toISOString();
-    const existingIndex = ratings.findIndex(
-      (item) => item.sessionId === rating.sessionId && item.specialistId === rating.specialistId
+    const idx = ratings.findIndex(
+      r => r.sessionId === rating.sessionId && r.specialistId === rating.specialistId
     );
-
-    const nextRating: SessionRating = existingIndex >= 0
-      ? {
-          ...ratings[existingIndex],
-          ...rating,
-          updatedAt: now
-        }
-      : {
-          ...rating,
-          createdAt: now,
-          updatedAt: now
-        };
-
-    if (existingIndex >= 0) {
-      ratings[existingIndex] = nextRating;
-    } else {
-      ratings.push(nextRating);
-    }
-
+ 
+    const next: SessionRating = idx >= 0
+      ? { ...ratings[idx], ...rating, updatedAt: now }
+      : { ...rating, createdAt: now, updatedAt: now };
+ 
+    if (idx >= 0) { ratings[idx] = next; } else { ratings.push(next); }
     localStorage.setItem(this.ratingsStorageKey, JSON.stringify(ratings));
-    return nextRating;
+    return next;
   }
-
-  getReportsBySpecialist(specialistId: number): SessionReport[] {
-    return this.readReports().filter((report) => report.specialistId === specialistId);
-  }
-
-  saveReport(report: Omit<SessionReport, 'createdAt' | 'updatedAt'>): SessionReport {
-    const reports = this.readReports();
-    const now = new Date().toISOString();
-    const existingIndex = reports.findIndex(
-      (item) => item.sessionId === report.sessionId && item.specialistId === report.specialistId
-    );
-
-    const nextReport: SessionReport = existingIndex >= 0
-      ? {
-          ...reports[existingIndex],
-          ...report,
-          updatedAt: now
-        }
-      : {
-          ...report,
-          createdAt: now,
-          updatedAt: now
-        };
-
-    if (existingIndex >= 0) {
-      reports[existingIndex] = nextReport;
-    } else {
-      reports.push(nextReport);
-    }
-
-    localStorage.setItem(this.reportsStorageKey, JSON.stringify(reports));
-    return nextReport;
-  }
-
+ 
   private readRatings(): SessionRating[] {
-    const raw = localStorage.getItem(this.ratingsStorageKey);
-
-    if (!raw) {
-      return [];
-    }
-
     try {
-      const parsed = JSON.parse(raw) as SessionRating[];
+      const parsed = JSON.parse(localStorage.getItem(this.ratingsStorageKey) ?? '[]');
       return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
-  }
-
-  private readReports(): SessionReport[] {
-    const raw = localStorage.getItem(this.reportsStorageKey);
-
-    if (!raw) {
-      return [];
-    }
-
-    try {
-      const parsed = JSON.parse(raw) as SessionReport[];
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
+    } catch { return []; }
   }
 }
+ 
