@@ -25,6 +25,9 @@
       }
     }
   },
+  "sidebar": {
+    "close": "Cerrar menú"
+  },
 
     "footer": {
     "brandText": "Cuidando tu bienestar mental con amor y profesionalismo.",
@@ -84,7 +87,9 @@
     "tabs": {
       "patients": "Pacientes",
       "specialists": "Especialistas",
-      "validations": "Validaciones Pendientes"
+      "validations": "Validaciones Pendientes",
+      "appointments": "Historial de citas",
+      "reports": "Gestión de reportes"
     },
     "searchPlaceholder": "Buscar por nombre, apellido o correo",
     "sections": {
@@ -99,14 +104,17 @@
       "email": "Correo",
       "birthDate": "Fecha de nacimiento",
       "strikes": "Strikes",
+      "status": "Estado",
       "action": "Acción"
     },
     "roles": {
       "patient": "Paciente",
-      "specialist": "Especialista"
+      "specialist": "Especialista",
+      "admin": "Administrador"
     },
     "actions": {
       "suspend": "Suspender",
+      "activate": "Activar",
       "reject": "Rechazar",
       "approve": "Aprobar",
       "cancel": "Cancelar"
@@ -114,7 +122,9 @@
     "loading": {
       "patients": "Cargando pacientes...",
       "specialists": "Cargando especialistas...",
-      "validations": "Cargando validaciones..."
+      "validations": "Cargando validaciones...",
+      "appointments": "Cargando historial de citas...",
+      "reports": "Cargando gestión de reportes..."
     },
     "empty": {
       "patients": "No hay pacientes registrados.",
@@ -128,14 +138,124 @@
     "notifications": {
       "validated": "validado correctamente",
       "rejected": "rechazado correctamente",
-      "suspendedSuccessfully": "suspendido correctamente"
+      "suspendedSuccessfully": "suspendido correctamente",
+      "patientActivated": "Paciente activado correctamente",
+      "patientSuspended": "Paciente suspendido correctamente",
+      "specialistActivated": "Especialista activado correctamente",
+      "specialistSuspended": "Especialista suspendido correctamente"
     },
     "errors": {
       "loadPatients": "Error cargando pacientes",
       "loadSpecialists": "No se pudieron cargar los especialistas",
+      "loadValidations": "No se pudieron cargar las validaciones",
+      "loadAppointments": "No se pudo cargar el historial de citas",
+      "loadReports": "No se pudo cargar la gestión de reportes.",
+      "updateReport": "No se pudo actualizar el estado del reporte.",
       "processValidation": "No se pudo completar la operación en el servidor",
       "suspendUser": "No se pudo suspender el usuario",
       "couldNotSuspend": "No se pudo suspender el usuario"
+    },
+    "userStatus": {
+      "active": "Activo",
+      "suspended": "Suspendido"
+    },
+    "documents": {
+      "identityNumber": "CI",
+      "age": "Edad",
+      "identity": "Documento de identidad",
+      "selfie": "Selfie de verificación",
+      "certification": "Certificación profesional",
+      "viewCertification": "Ver PDF de certificación",
+      "unavailable": "No disponible"
+    },
+    "appointments": {
+      "title": "Historial de citas",
+      "subtitle": "Supervisa las citas realizadas y solicitadas entre pacientes y especialistas.",
+      "searchPlaceholder": "Buscar por usuario, correo o número de cita",
+      "results": "citas",
+      "filters": {
+        "status": "Estado",
+        "allStatuses": "Todos los estados",
+        "from": "Desde",
+        "to": "Hasta",
+        "clear": "Limpiar filtros"
+      },
+      "table": {
+        "id": "Cita",
+        "dateTime": "Fecha y hora",
+        "patient": "Paciente",
+        "specialist": "Especialista",
+        "modality": "Modalidad",
+        "status": "Estado"
+      },
+      "status": {
+        "pending": "Pendiente",
+        "accepted": "Aceptada",
+        "rejected": "Rechazada",
+        "finished": "Finalizada",
+        "cancelled": "Cancelada",
+        "unknown": "Desconocido"
+      },
+      "sessionTypes": {
+        "virtual": "Virtual",
+        "presential": "Presencial",
+        "unknown": "Sin especificar"
+      },
+      "confirm": {
+        "descriptionLabel": "Indicación para el paciente",
+        "descriptionPlaceholder": "Ej. Enlace de reunión virtual, indicaciones previas o detalles importantes para la cita."
+      },
+      "description": {
+        "label": "Indicación para el paciente",
+        "placeholder": "Ej. Enlace de reunión virtual, indicaciones previas o detalles importantes para la cita.",
+        "helper": "Este texto será visible para el paciente cuando la cita sea aceptada.",
+        "counter": "Máximo 500 caracteres"
+      },
+      "sessionDescription": {
+        "title": "Indicación para la cita",
+        "empty": "Sin indicaciones adicionales"
+      },
+      "empty": {
+        "title": "No hay citas para mostrar",
+        "description": "No se encontraron citas que coincidan con los filtros seleccionados."
+      }
+    },
+    "reports": {
+      "title": "Gestión de reportes",
+      "subtitle": "Supervisa los reportes realizados entre usuarios y especialistas.",
+      "results": "reportes",
+      "notRegistered": "No registrado",
+      "table": {
+        "reporter": "Reportó",
+        "reported": "Reportado",
+        "session": "Cita",
+        "date": "Fecha",
+        "reason": "Motivo",
+        "description": "Descripción",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "status": {
+        "pending": "Pendiente",
+        "accepted": "Aceptada",
+        "finished": "Finalizada",
+        "approved": "Aprobado",
+        "resolved": "Resuelto",
+        "rejected": "Rechazado",
+        "unknown": "No registrado"
+      },
+      "actions": {
+        "accept": "Aceptar",
+        "finish": "Finalizar",
+        "managed": "Gestionado"
+      },
+      "notifications": {
+        "accepted": "Reporte aceptado. Se agregó un strike al usuario reportado.",
+        "finished": "Reporte finalizado sin penalización."
+      },
+      "empty": {
+        "title": "No existen reportes registrados."
+      }
     }
   },
 
@@ -158,7 +278,10 @@
       "completeFields": "Completa todos los campos correctamente",
       "invalidCredentials": "Correo o contraseña incorrectos",
       "connection": "Error de conexión con el servidor",
-      "unknown": "Error desconocido"
+      "unknown": "Error desconocido",
+      "pendingApproval": "Tu cuenta aún está en revisión. Debes esperar la aprobación del administrador.",
+      "rejectedAccount": "Tu cuenta fue rechazada. Comunícate con soporte o vuelve a registrarte.",
+      "suspendedAccount": "Tu cuenta está suspendida. Comunícate con soporte para más información."
     }
   },
 
@@ -191,6 +314,23 @@
       "nextAppointments": "Citas próximas",
       "newMessages": "Mensajes nuevos",
       "favoriteSpecialists": "Especialistas favoritos"
+    },
+    "todayAppointments": {
+      "title": "Citas de hoy",
+      "subtitle": "Tus sesiones programadas para hoy.",
+      "loading": "Cargando tus citas de hoy...",
+      "empty": "No tienes citas programadas para hoy.",
+      "loadError": "No se pudieron cargar tus citas de hoy.",
+      "noPatient": "No se pudo identificar al paciente actual.",
+      "specialist": "Especialista",
+      "date": "Fecha",
+      "startTime": "Hora de inicio",
+      "endTime": "Hora de fin",
+      "sessionType": "Modalidad",
+      "viewAll": "Ver todas mis citas",
+      "details": "Ver detalles",
+      "timeUnavailable": "Horario no disponible",
+      "unknownStatus": "Sin estado"
     },
     "section": {
       "title": "Próximas consultas",
@@ -230,6 +370,13 @@
       "updateError": "Error al actualizar el perfil.",
       "updateConnectionError": "Error al actualizar el perfil. Intenta de nuevo.",
       "requiredFields": "Por favor, completa todos los campos requeridos."
+    },
+    "errors": {
+      "required": "Este campo es obligatorio",
+      "hasNumbers": "No se permiten números",
+      "doubleSpaces": "No se permiten dos espacios seguidos",
+      "invalidChars": "Solo se permiten letras y tildes",
+      "leadingTrailingSpaces": "No puede empezar ni terminar con espacios"
     }
   },
 
@@ -248,6 +395,7 @@
     "cardNote": "Muy pronto podrás revisar más detalles y agendar una cita desde aquí.",
     "states": {
       "loading": "Cargando especialistas...",
+      "loadError": "No se pudieron cargar los especialistas por el momento.",
       "emptyTitle": "No encontramos especialistas con ese criterio",
       "emptyText": "Prueba con otro nombre, especialidad o ubicación para ampliar los resultados."
     },
@@ -273,6 +421,25 @@
       "friday": "Viernes",
       "saturday": "Sábado",
       "sunday": "Domingo"
+    },
+    "schedule": {
+      "title": "Horarios disponibles",
+      "help": "Selecciona un horario para solicitar una cita.",
+      "loading": "Cargando horarios...",
+      "available": "Disponible",
+      "unavailable": "No disponible",
+      "empty": "No hay horarios disponibles para este especialista.",
+      "sessionType": "Tipo de sesión",
+      "virtual": "Virtual",
+      "presential": "Presencial",
+      "request": "Solicitar cita",
+      "requesting": "Solicitando...",
+      "undefinedDay": "Día no definido",
+      "loadError": "No se pudieron cargar los horarios.",
+      "selectRequired": "Selecciona un horario disponible.",
+      "patientRequired": "No se pudo identificar al paciente actual. Vuelve a iniciar sesión.",
+      "success": "Cita solicitada correctamente. El especialista recibirá una notificación.",
+      "requestError": "No se pudo solicitar la cita. Intenta nuevamente."
     }
   },
 
@@ -319,6 +486,10 @@
     },
     "states": {
       "loading": "Cargando perfil del especialista..."
+    },
+    "errors": {
+      "notFound": "No se encontró el especialista solicitado.",
+      "load": "No se pudo cargar el perfil del especialista."
     }
   },
 
@@ -351,25 +522,6 @@
       "documents": "Documentos de verificación"
     },
     "sectionHelp": "Sube tu documento de identidad y una selfie para validar tu cuenta.",
-    "fields": {
-      "names": "Nombres",
-      "firstLastname": "Primer apellido",
-      "secondLastname": "Segundo apellido",
-      "ci": "Documento de identidad",
-      "birthDate": "Fecha de nacimiento",
-      "email": "Correo electrónico",
-      "password": "Contraseña",
-      "ciPhoto": "Fotografía de CI",
-      "selfie": "Selfie de verificación"
-    },
-    "placeholders": {
-      "names": "Ej: Juan Carlos",
-      "firstLastname": "Ej: Pérez",
-      "secondLastname": "Ej: García",
-      "ci": "Número de CI",
-      "email": "Correo electrónico",
-      "password": "* * * * * * * *"
-    },
     "uploads": {
       "document": "Subir documento de identidad",
       "selfie": "Tomar una selfie"
@@ -385,44 +537,76 @@
       "createAccount": "Crear cuenta",
       "cancel": "Cancelar"
     },
+    "fields": {
+      "names": "Nombres",
+      "firstLastname": "Primer apellido",
+      "secondLastname": "Segundo apellido",
+      "ci": "Documento de identidad",
+      "birthDate": "Fecha de nacimiento",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "passwordConfirm": "Confirmar contraseña",
+      "ciPhoto": "Foto del CI",
+      "selfie": "Selfie de verificación"
+    },
+    "placeholders": {
+      "names": "Ej. Juan Carlos",
+      "firstLastname": "Ej. Pérez",
+      "secondLastname": "Ej. García",
+      "ci": "Número de CI",
+      "email": "Correo electrónico",
+      "password": "* * * * * * * *",
+      "passwordConfirm": "* * * * * * * *"
+    },
     "errors": {
       "names": {
-        "required": "Los nombres son obligatorios",
-        "minlength": "Los nombres deben tener al menos 3 caracteres",
-        "maxlength": "Los nombres no pueden tener más de 30 caracteres",
-        "pattern": "Solo se permiten letras y espacios"
+        "required": "Los nombres son obligatorios.",
+        "minlength": "Los nombres deben tener al menos 3 caracteres.",
+        "maxlength": "Los nombres no pueden tener más de 30 caracteres.",
+        "pattern": "Solo se permiten letras y espacios."
       },
       "firstLastname": {
-        "required": "El primer apellido es obligatorio",
-        "minlength": "El primer apellido debe tener al menos 3 caracteres",
-        "maxlength": "El primer apellido no puede tener más de 30 caracteres",
-        "pattern": "Solo se permiten letras y espacios"
+        "required": "El primer apellido es obligatorio.",
+        "minlength": "El primer apellido debe tener al menos 3 caracteres.",
+        "maxlength": "El primer apellido no puede tener más de 30 caracteres.",
+        "pattern": "Solo se permiten letras y espacios."
       },
       "secondLastname": {
-        "minlength": "El segundo apellido debe tener al menos 3 caracteres",
-        "maxlength": "El segundo apellido no puede tener más de 30 caracteres",
-        "pattern": "Solo se permiten letras y espacios"
+        "minlength": "El segundo apellido debe tener al menos 3 caracteres.",
+        "maxlength": "El segundo apellido no puede tener más de 30 caracteres.",
+        "pattern": "Solo se permiten letras y espacios."
       },
       "ci": {
-        "required": "El número de CI es obligatorio",
-        "minlength": "El número de CI debe tener al menos 6 caracteres",
-        "maxlength": "El número de CI no puede tener más de 10 caracteres",
+        "required": "El número de CI es obligatorio.",
+        "minlength": "El número de CI debe tener al menos 6 caracteres.",
+        "maxlength": "El número de CI no puede tener más de 10 caracteres.",
         "pattern": "Solo se permiten números y complemento."
       },
       "birthDate": {
-        "required": "La fecha de nacimiento es obligatoria"
+        "required": "La fecha de nacimiento es obligatoria."
       },
       "email": {
-        "required": "El correo electrónico es obligatorio",
-        "invalid": "El correo electrónico no es válido"
+        "required": "El correo electrónico es obligatorio.",
+        "invalid": "El correo electrónico no es válido."
       },
       "password": {
-        "required": "La contraseña es obligatoria",
-        "minlength": "La contraseña debe tener entre 8 y 50 caracteres"
+        "required": "La contraseña es obligatoria.",
+        "minlength": "La contraseña debe tener entre 8 a 50 caracteres y debe contener al menos una letra mayúscula, una letra minúscula y un número."
+      },
+      "passwordConfirm": {
+        "required": "La confirmación de contraseña es obligatoria.",
+        "minlength": "La confirmación debe tener entre 8 a 50 caracteres y debe contener al menos una letra mayúscula, una letra minúscula y un número.",
+        "mismatch": "Las contraseñas no coinciden."
       },
       "terms": {
         "required": "Debes aceptar los términos para continuar."
       }
+    },
+    "accessibility": {
+      "showPassword": "Mostrar contraseña.",
+      "hidePassword": "Ocultar contraseña.",
+      "showPasswordConfirm": "Mostrar confirmación de contraseña.",
+      "hidePasswordConfirm": "Ocultar confirmación de contraseña."
     },
     "toast": {
       "successTitle": "¡Cuenta creada!",
@@ -444,10 +628,17 @@
       "noConnectionTitle": "Sin conexión",
       "noConnectionMessage": "No se pudo conectar con el servidor. Verifica tu conexión a internet e intenta de nuevo.",
       "genericErrorTitle": "Error al registrarse",
-      "genericErrorMessage": "Ocurrió un error inesperado. Por favor, intenta de nuevo más tarde."
+      "genericErrorMessage": "Ocurrió un error inesperado. Por favor, intenta de nuevo más tarde.",
+      "invalidFileTitle": "Archivo no válido",
+      "invalidFileMessage": "Solo se permiten imágenes JPG, JPEG, PNG o WEBP.",
+      "fileTooLargeTitle": "Archivo demasiado grande",
+      "fileTooLargeMessage": "La imagen no debe superar los 5 MB.",
+      "filesRequiredTitle": "Archivos faltantes",
+      "filesRequiredMessage": "Debes subir la fotografía de tu CI y una selfie para verificar tu identidad.",
+      "uploadErrorTitle": "Error al subir archivos",
+      "uploadErrorMessage": "Ocurrió un error al subir tus archivos. Intenta de nuevo."
     }
   },
-
   
   "registerRole": {
     "titlePart1": "¿Cómo te gustaría usar ",
@@ -482,6 +673,7 @@
       "birthDate": "Fecha de nacimiento",
       "email": "Correo electrónico",
       "password": "Contraseña",
+      "passwordConfirm": "Confirmar contraseña",
       "document": "Documento de identidad",
       "idPhoto": "Foto del carnet (anverso)",
       "specialties": "Especialidades",
@@ -493,6 +685,7 @@
       "lastName2": "Ej: Johnson",
       "email": "jane@example.com",
       "password": "* * * * * * * *",
+      "passwordConfirm": "* * * * * * * *",
       "document": "Número de CI"
     },
     "uploads": {
@@ -509,7 +702,7 @@
     "actions": {
       "remove": "Eliminar",
       "processing": "Procesando registro...",
-      "complete": "Registro completo"
+      "complete": "Crear cuenta"
     },
     "errors": {
       "firstName": {
@@ -537,7 +730,13 @@
         "invalid": "El formato del correo electrónico es inválido."
       },
       "password": {
-        "range": "Mínimo 8 caracteres y máximo 50 caracteres."
+        "range": "Mínimo 8 caracteres y máximo 50 caracteres y debe contener al menos una letra mayúscula, una letra minúscula y un número.",
+        "required": "La contraseña es obligatoria."
+      },
+      "passwordConfirm": {
+        "required": "La confirmación de contraseña es obligatoria.",
+        "range": "Mínimo 8 caracteres y máximo 50 caracteres y debe contener al menos una letra mayúscula, una letra minúscula y un número.",
+        "mismatch": "Las contraseñas no coinciden."
       },
       "document": {
         "required": "El documento de identidad es obligatorio.",
@@ -557,6 +756,12 @@
       "terms": {
         "required": "Debes aceptar los términos para continuar."
       }
+    },
+    "accessibility": {
+      "showPassword": "Mostrar contraseña",
+      "hidePassword": "Ocultar contraseña",
+      "showPasswordConfirm": "Mostrar confirmación de contraseña",
+      "hidePasswordConfirm": "Ocultar confirmación de contraseña"
     },
     "toast": {
       "successTitle": "Registro exitoso",
@@ -586,12 +791,75 @@
       "idPhotoRequiredTitle": "Foto del carnet requerida",
       "idPhotoRequiredMessage": "Sube una foto del anverso de tu carnet de identidad.",
       "formIncompleteTitle": "Formulario incompleto",
-      "formIncompleteMessage": "Revisa que todos los campos obligatorios estén correctamente llenados."
+      "formIncompleteMessage": "Revisa que todos los campos obligatorios estén correctamente llenados.",
+      "invalidFileTitle": "Archivo inválido",
+      "invalidPdfMessage": "Solo se permite un archivo PDF.",
+      "fileTooLargeTitle": "Archivo muy grande",
+      "pdfTooLargeMessage": "El PDF no debe superar los 8 MB.",
+      "invalidIdPhotoMessage": "El carnet debe ser una imagen.",
+      "idPhotoTooLargeMessage": "La imagen del carnet no debe superar los 5 MB.",
+      "uploadErrorTitle": "Error al subir archivos",
+      "uploadErrorMessage": "No se pudo subir el carnet o el PDF de certificación."
+    }
+  },
+  
+  "specialistSchedule": {
+    "title": "Gestión de horarios",
+    "subtitle": "Configura los horarios disponibles para tus sesiones.",
+    "form": {
+      "createTitle": "Crear horario",
+      "editTitle": "Editar horario",
+      "date": "Fecha",
+      "day": "Día de la semana",
+      "startTime": "Hora de inicio",
+      "endTime": "Hora de fin"
+    },
+    "calendar": {
+      "title": "Agenda",
+      "rangePrefix": "Del",
+      "rangeTo": "al",
+      "help": "Selecciona un rango en el calendario para crear un horario."
+    },
+    "list": {
+      "title": "Horarios registrados",
+      "showing": "Mostrando horarios del",
+      "empty": "No hay horarios registrados en este rango de fechas."
+    },
+    "actions": {
+      "create": "Crear horario",
+      "save": "Guardar cambios",
+      "cancelEdit": "Cancelar edición",
+      "delete": "Eliminar horario",
+      "previousRange": "7 días anteriores",
+      "nextRange": "7 días siguientes"
+    },
+    "status": {
+      "available": "Disponible",
+      "booked": "Reservado"
+    },
+    "days": {
+      "monday": "Lunes",
+      "tuesday": "Martes",
+      "wednesday": "Miércoles",
+      "thursday": "Jueves",
+      "friday": "Viernes",
+      "saturday": "Sábado",
+      "sunday": "Domingo"
+    },
+    "messages": {
+      "notEditable": "Este horario no puede modificarse porque ya fue reservado o ya empezó.",
+      "loadError": "No se pudieron cargar los horarios.",
+      "invalidForm": "Verifica que la fecha y las horas sean correctas.",
+      "createError": "No se pudo crear el horario.",
+      "editBlocked": "Solo puedes editar horarios disponibles que todavía no han empezado.",
+      "updateError": "No se pudo actualizar el horario.",
+      "selectToDelete": "Selecciona un horario para eliminar.",
+      "deleteBlocked": "Solo puedes eliminar horarios disponibles que todavía no han empezado.",
+      "confirmDelete": "¿Seguro que deseas eliminar este horario?",
+      "deleteError": "No se pudo eliminar el horario."
     }
   },
 
-
-  
   "specialistDashboard": {
     "menu": {
       "dashboard": "Dashboard",
@@ -611,6 +879,20 @@
       "patients": "Pacientes",
       "sessionsToday": "Sesiones hoy",
       "requests": "Solicitudes"
+    },
+    "upcoming": {
+      "loading": "Cargando resumen y próximas citas...",
+      "empty": "No tienes próximas citas programadas.",
+      "loadError": "No se pudo cargar el resumen del panel.",
+      "noSpecialist": "No se pudo identificar al especialista actual.",
+      "patient": "Paciente",
+      "date": "Fecha",
+      "startTime": "Hora de inicio",
+      "endTime": "Hora de fin",
+      "sessionType": "Modalidad",
+      "unknownStatus": "Sin estado",
+      "viewAll": "Ver todas las citas",
+      "manage": "Gestionar cita"
     },
     "section": {
       "title": "Próximas citas",
@@ -636,6 +918,27 @@
       "loading": "Cargando notificaciones...",
       "emptyTitle": "No tienes notificaciones todavía",
       "emptyText": "Cuando se agende una nueva cita o cambie un estado importante, aparecerá aquí."
+    }
+  },
+
+  "patientNotifications": {
+    "tag": "Alertas en tiempo real",
+    "title": "Notificaciones",
+    "subtitle": "Revisa respuestas y cambios importantes de tus citas.",
+    "open": "Abrir notificaciones",
+    "close": "Cerrar notificaciones",
+    "status": {
+      "unread": "No leída",
+      "read": "Leída"
+    },
+    "actions": {
+      "markRead": "Marcar como leída",
+      "markUnread": "Marcar como no leída"
+    },
+    "states": {
+      "loading": "Cargando notificaciones...",
+      "emptyTitle": "No tienes notificaciones todavía",
+      "emptyText": "Cuando un especialista acepte o rechace una cita, aparecerá aquí."
     }
   },
 
@@ -694,6 +997,12 @@
       "addressRequired": "Ingresa la dirección principal del consultorio.",
       "cityRequired": "Ingresa la ciudad de atención."
     },
+    "messages": {
+      "noUserId": "No se pudo obtener el identificador del usuario.",
+      "loadError": "Error al cargar el perfil. Verifica la conexión.",
+      "locationUpdateError": "Error al actualizar la ubicación del especialista.",
+      "updateError": "Error al actualizar el perfil."
+    },
 
     "buttons": {
       "edit": "Editar perfil",
@@ -737,7 +1046,8 @@
     },
 
     "states": {
-      "loading": "Cargando biblioteca..."
+      "loading": "Cargando biblioteca...",
+      "loadError": "No se pudieron cargar los materiales disponibles en este momento."
     },
 
     "results": "documentos disponibles"
@@ -751,14 +1061,16 @@
     "filters": {
       "pending": "Pendientes",
       "accepted": "Aceptadas",
-      "rejected": "Rechazadas"
+      "rejected": "Rechazadas",
+      "finished": "Finalizadas"
     },
 
     "status": {
       "pending": "Pendiente",
       "accepted": "Aceptada",
       "rejected": "Rechazada",
-      "finished": "Finalizada"
+      "finished": "Finalizada",
+      "cancelled": "Cancelada"
     },
 
     "actions": {
@@ -773,12 +1085,15 @@
       "rejectMessage": "Confirmas que deseas rechazar la cita de",
       "cancel": "Cancelar",
       "confirmAccept": "Sí, aceptar",
-      "confirmReject": "Sí, rechazar"
+      "confirmReject": "Sí, rechazar",
+      "descriptionLabel": "Indicación para el paciente",
+      "descriptionPlaceholder": "Ej. Enlace de reunión virtual, indicaciones previas o detalles importantes para la cita."
     },
 
     "toast": {
       "accepted": "✅ Cita aceptada correctamente",
-      "rejected": "❌ Cita rechazada"
+      "rejected": "❌ Cita rechazada",
+      "statusError": "No se pudo actualizar el estado de la cita."
     },
 
     "empty": {
@@ -802,7 +1117,8 @@
       },
       "errors": {
         "starsRequired": "Selecciona una cantidad de estrellas.",
-        "commentRequired": "Escribe un comentario de al menos 5 caracteres."
+        "commentRequired": "Escribe un comentario de al menos 5 caracteres.",
+        "saveFailed": "No se pudo guardar la calificación."
       },
       "toast": {
         "saved": "⭐ Calificación guardada correctamente"
@@ -825,7 +1141,8 @@
       },
       "errors": {
         "reasonRequired": "Selecciona un motivo para el reporte.",
-        "detailsRequired": "Escribe una descripción de al menos 10 caracteres."
+        "detailsRequired": "Escribe una descripción de al menos 10 caracteres.",
+        "saveFailed": "No se pudo guardar el reporte."
       },
       "reasons": {
         "disrespect": "Falta de respeto",
@@ -837,6 +1154,19 @@
       "toast": {
         "saved": "🚩 Reporte guardado correctamente"
       }
+    },
+    "sessionTypes": {
+      "virtual": "Sesión virtual",
+      "presential": "Sesión presencial",
+      "unknown": "Tipo de sesión no especificado"
+    },
+    "fallback": {
+      "patient": "Paciente sin nombre",
+      "time": "Horario no disponible"
+    },
+    "error": {
+      "noSpecialistId": "No se pudo identificar al especialista actual.",
+      "load": "No se pudieron cargar las citas."
     }
   },
 
@@ -844,6 +1174,11 @@
     "title": "Mis Documentos",
     "subtitle": "Gestiona tus archivos clínicos de forma segura",
     "uploadBtn": "Subir documento",
+    "errors": {
+      "invalidFormat": "Formato no permitido. Solo se aceptan: PDF, Word, JPG.",
+      "invalidType": "Tipo de archivo no válido.",
+      "tooLarge": "El archivo supera el límite de {{limit}}MB. ({{size}}MB)"
+    },
 
     "upload": {
       "title": "Subir nuevo documento",
@@ -916,7 +1251,8 @@
       "fileRequired": "Debes seleccionar un archivo",
       "invalidFormat": "Formato no permitido. Solo PDF, DOC o DOCX",
       "invalidType": "Tipo de archivo no válido",
-      "tooLarge": "El archivo supera el límite de 10MB"
+      "tooLarge": "El archivo supera el límite de 10MB",
+      "load": "Error al cargar los recursos"
     },
 
     "toast": {
@@ -956,7 +1292,10 @@
       "registeredDate": "Solicitud registrada",
       "sessionType": "Tipo de sesión",
       "virtual": "Virtual",
-      "presential": "Presencial"
+      "presential": "Presencial",
+      "sessionTypeUnknown": "Sin especificar",
+      "timeUnavailable": "Horario no disponible",
+      "specialistComment": "Indicación del especialista"
     },
 
     "status": {
@@ -997,6 +1336,14 @@
       "placeholder": "Cuéntanos sobre tu experiencia...",
       "save": "Guardar calificación",
       "saving": "Guardando..."
+      ,"errors": {
+        "starsRequired": "Debes seleccionar al menos una estrella.",
+        "commentRequired": "El comentario debe tener al menos 5 caracteres.",
+        "saveFailed": "No se pudo guardar la calificación."
+      },
+      "toast": {
+        "saved": "Calificación guardada correctamente"
+      }
     },
 
     "report": {
@@ -1015,9 +1362,21 @@
         "absence": "Ausencia sin aviso",
         "inappropriateLanguage": "Lenguaje inapropiado",
         "other": "Otro"
+      },
+      "errors": {
+        "reasonRequired": "Debes seleccionar un motivo.",
+        "detailsRequired": "Los detalles deben tener al menos 10 caracteres.",
+        "saveFailed": "No se pudo enviar el reporte."
+      },
+      "toast": {
+        "saved": "Reporte enviado correctamente"
       }
+    },
+    "messages": {
+      "noPatient": "No se pudo identificar al paciente actual.",
+      "loadError": "No se pudieron cargar tus citas.",
+      "cancelSuccess": "Cita cancelada correctamente.",
+      "cancelError": "No se pudo cancelar la cita."
     }
   }
 }
-
-

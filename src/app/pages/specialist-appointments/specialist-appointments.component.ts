@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { catchError, forkJoin, map, of } from 'rxjs';
  
@@ -29,6 +29,7 @@ export interface Appointment {
   endTime?: string;
   sessionTypeLabel: string;
   status: AppointmentStatus;
+  description?: string;
   loading?: boolean;
 }
  
@@ -36,6 +37,7 @@ interface ConfirmDialog {
   visible: boolean;
   action: DialogAction;
   appointment: Appointment | null;
+  description: string;
 }
  
 interface RatingDialog {
@@ -75,6 +77,8 @@ export class SpecialistAppointmentsComponent implements OnInit {
   private toastTimer: any;
  
   specialistId!: number;
+  highlightedAppointmentId: number | null = null;
+  private requestedAppointmentId: number | null = null;
  
   // Calificaciones que el ESPECIALISTA hizo al paciente (evaluatorRole = SPECIALIST)
   ratingsBySession: Record<number, SessionRating> = {};
@@ -85,7 +89,8 @@ export class SpecialistAppointmentsComponent implements OnInit {
   confirmDialog: ConfirmDialog = {
     visible: false,
     action: 'accept',
-    appointment: null
+    appointment: null,
+    description: ''
   };
  
   ratingDialog: RatingDialog = {
@@ -111,10 +116,12 @@ export class SpecialistAppointmentsComponent implements OnInit {
   constructor(
     public sidebarService: SidebarService,
     private sessionService: SessionService,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute
   ) {}
  
   ngOnInit(): void {
+    this.requestedAppointmentId = this.readRequestedAppointmentId();
     this.specialistId = this.getLoggedSpecialistId();
  
     if (!this.specialistId) {
@@ -139,11 +146,11 @@ export class SpecialistAppointmentsComponent implements OnInit {
   }
  
   openConfirmDialog(appointment: Appointment, action: DialogAction): void {
-    this.confirmDialog = { visible: true, action, appointment };
+    this.confirmDialog = { visible: true, action, appointment, description: '' };
   }
  
   closeConfirmDialog(): void {
-    this.confirmDialog = { visible: false, action: 'accept', appointment: null };
+    this.confirmDialog = { visible: false, action: 'accept', appointment: null, description: '' };
   }
  
   openRatingDialog(appointment: Appointment): void {
@@ -272,13 +279,69 @@ export class SpecialistAppointmentsComponent implements OnInit {
  
   confirmAction(): void {
     if (!this.confirmDialog.appointment) return;
-    const { action, appointment } = this.confirmDialog;
+
+    const action = this.confirmDialog.action;
+    const appointment = this.confirmDialog.appointment;
+    const description = this.confirmDialog.description.trim();
+
     this.closeConfirmDialog();
+
     if (action === 'accept') {
-      this.acceptAppointment(appointment);
+      this.acceptAppointment(appointment, description);
     } else {
       this.rejectAppointment(appointment);
     }
+  }
+
+  acceptAppointment(appointment: Appointment, description: string = ''): void {
+    this.updateStatus(appointment, 'accept', 'accepted', description);
+  }
+
+  rejectAppointment(appointment: Appointment): void {
+    this.updateStatus(appointment, 'reject', 'rejected');
+  }
+
+  private updateStatus(
+    appointment: Appointment,
+    action: 'accept' | 'reject',
+    newStatus: AppointmentStatus,
+    description: string = ''
+  ): void {
+    appointment.loading = true;
+
+    const cleanDescription = description.trim();
+
+    const payload = {
+      specialistId: this.specialistId,
+      action,
+      ...(action === 'accept' && cleanDescription
+        ? { description: cleanDescription }
+        : {})
+    };
+
+    this.sessionService.updateSessionStatus(appointment.id, payload).subscribe({
+      next: (response) => {
+        appointment.status = newStatus;
+        appointment.loading = false;
+
+        if (action === 'accept') {
+          appointment.description = response.description || cleanDescription;
+        }
+
+        const messageKey = newStatus === 'accepted'
+          ? 'appointments.toast.accepted'
+          : 'appointments.toast.rejected';
+
+        const toastType = newStatus === 'accepted' ? 'success' : 'error';
+
+        this.showToastMessage(messageKey, toastType);
+      },
+      error: (error: any) => {
+        console.error('Error al actualizar estado de cita:', error);
+        appointment.loading = false;
+        this.showToastMessage('appointments.toast.statusError', 'error');
+      }
+    });
   }
  
   loadAppointments(): void {
@@ -288,6 +351,7 @@ export class SpecialistAppointmentsComponent implements OnInit {
     this.sessionService.getSessionsBySpecialist(this.specialistId).subscribe({
       next: (response) => {
         this.appointments = response.map(item => this.mapSessionResponse(item));
+        this.focusRequestedAppointment();
         this.loadRatingsForAppointments(this.appointments);
         this.loadReportsForAppointments(this.appointments);
         this.loading = false;
@@ -296,42 +360,6 @@ export class SpecialistAppointmentsComponent implements OnInit {
         console.error('Error al cargar citas del especialista:', error);
         this.errorMsg = 'appointments.error.load';
         this.loading = false;
-      }
-    });
-  }
- 
-  acceptAppointment(appointment: Appointment): void {
-    this.updateStatus(appointment, 'accept', 'accepted');
-  }
- 
-  rejectAppointment(appointment: Appointment): void {
-    this.updateStatus(appointment, 'reject', 'rejected');
-  }
- 
-  private updateStatus(
-    appointment: Appointment,
-    action: 'accept' | 'reject',
-    newStatus: AppointmentStatus
-  ): void {
-    appointment.loading = true;
- 
-    this.sessionService.updateSessionStatus(appointment.id, {
-      specialistId: this.specialistId,
-      action
-    }).subscribe({
-      next: () => {
-        appointment.status = newStatus;
-        appointment.loading = false;
-        const messageKey = newStatus === 'accepted'
-          ? 'appointments.toast.accepted'
-          : 'appointments.toast.rejected';
-        const toastType = newStatus === 'accepted' ? 'success' : 'error';
-        this.showToastMessage(messageKey, toastType);
-      },
-      error: (error: any) => {
-        console.error('Error al actualizar estado de cita:', error);
-        appointment.loading = false;
-        this.showToastMessage('appointments.toast.statusError', 'error');
       }
     });
   }
@@ -398,29 +426,30 @@ export class SpecialistAppointmentsComponent implements OnInit {
  
   private mapSessionResponse(item: SessionResponse): Appointment {
     const appointmentDate = item.scheduleDate
-      ? new Date(item.scheduleDate)
+      ? new Date(`${item.scheduleDate}T00:00:00`)
       : item.createdDate
         ? new Date(item.createdDate)
         : new Date();
  
     return {
       id: item.id,
-      patientName: item.patientName || 'Paciente sin nombre',
+      patientName: item.patientName || 'appointments.fallback.patient',
       patientEmail: item.patientEmail || '',
       date: appointmentDate,
       time: this.buildAppointmentTime(item),
       endTime: this.formatTime(item.endTime),
       sessionTypeLabel: this.getSessionTypeLabel(item.typeOfSession),
       status: this.mapStatus(item.status),
+      description: item.description || '',
       loading: false
     };
   }
  
   private getSessionTypeLabel(typeOfSession: number): string {
     switch (typeOfSession) {
-      case 1: return 'Sesión virtual';
-      case 2: return 'Sesión presencial';
-      default: return 'Tipo de sesión no especificado';
+      case 1: return 'appointments.sessionTypes.virtual';
+      case 2: return 'appointments.sessionTypes.presential';
+      default: return 'appointments.sessionTypes.unknown';
     }
   }
  
@@ -530,7 +559,7 @@ export class SpecialistAppointmentsComponent implements OnInit {
     if (start && end) return `${start} - ${end}`;
     if (start) return start;
     if (end) return end;
-    return 'Horario no disponible';
+    return 'appointments.fallback.time';
   }
  
   private formatTime(time?: string): string {
@@ -557,6 +586,35 @@ export class SpecialistAppointmentsComponent implements OnInit {
     if (!range.includes('-')) return '';
     const parts = range.split('-').map(v => v.trim());
     return parts[1] || '';
+  }
+
+  private readRequestedAppointmentId(): number | null {
+    const value = Number(this.route.snapshot.queryParamMap.get('sessionId'));
+    return Number.isInteger(value) && value > 0 ? value : null;
+  }
+
+  private focusRequestedAppointment(): void {
+    if (!this.requestedAppointmentId) {
+      return;
+    }
+
+    const appointment = this.appointments.find(
+      item => item.id === this.requestedAppointmentId
+    );
+
+    if (!appointment) {
+      return;
+    }
+
+    this.activeFilter = appointment.status;
+    this.highlightedAppointmentId = appointment.id;
+
+    setTimeout(() => {
+      document.getElementById(`appointment-${appointment.id}`)?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    });
   }
  
   private getLoggedSpecialistId(): number {

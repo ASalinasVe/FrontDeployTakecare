@@ -34,7 +34,8 @@ export class SidebarComponent implements OnInit {
   }
 
   detectRole(): void {
-    const segments = this.router.url.split('/').filter(Boolean);
+    const urlWithoutParams = this.router.url.split('?')[0];
+    const segments = urlWithoutParams.split('/').filter(Boolean);
     const firstSegment = segments[0];
 
     if (firstSegment === 'patient') {
@@ -66,7 +67,7 @@ export class SidebarComponent implements OnInit {
     this.sidebarService.close();
   }
 
-  isAdminTab(tab: 'patients' | 'specialists' | 'validations'): boolean {
+  isAdminTab(tab: 'patients' | 'specialists' | 'validations' | 'appointments' | 'reports'): boolean {
     if (this.role !== 'admin') {
       return false;
     }
@@ -74,7 +75,10 @@ export class SidebarComponent implements OnInit {
     const url = this.router.url;
 
     if (tab === 'patients') {
-      return !url.includes('tab=specialists') && !url.includes('tab=validations');
+      return !url.includes('tab=specialists') &&
+        !url.includes('tab=validations') &&
+        !url.includes('tab=appointments') &&
+        !url.includes('tab=reports');
     }
 
     return url.includes(`tab=${tab}`);

@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { LocalizedDatePipe } from '../../shared/pipes/localized-date.pipe';
+import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
 import {
+  AdminAppointmentHistory,
+  AdminReport,
   AdminService,
   Patient,
   Specialist,
@@ -16,7 +19,7 @@ import {
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslatePipe, LocalizedDatePipe],
+  imports: [CommonModule, FormsModule, TranslatePipe, LocalizedDatePipe, SidebarComponent],
   templateUrl:'./admin.component.html',
   styleUrls: ['./admin.component.css']
 })
@@ -30,12 +33,23 @@ export class AdminComponent implements OnInit {
   pendingValidations: PendingValidationUser[] = [];
   filteredValidations: PendingValidationUser[] = [];
 
-  activeTab: 'patients' | 'specialists' | 'validations' = 'patients';
+  appointments: AdminAppointmentHistory[] = [];
+  filteredAppointments: AdminAppointmentHistory[] = [];
+
+  reports: AdminReport[] = [];
+
+  activeTab: 'patients' | 'specialists' | 'validations' | 'appointments' | 'reports' = 'patients';
   searchTerm = '';
+  appointmentStatus: number | 'all' = 'all';
+  appointmentDateFrom = '';
+  appointmentDateTo = '';
 
   loadingPatients = false;
   loadingSpecialists = false;
   loadingValidations = false;
+  loadingAppointments = false;
+  loadingReports = false;
+  processingReportId: number | null = null;
   errorMsg = '';
 
   notification: { message: string; type: 'success' | 'error' } | null = null;
@@ -43,15 +57,15 @@ export class AdminComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private translate: TranslateService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params) => {
       const tab = params.get('tab');
 
-      if (tab === 'specialists' || tab === 'validations' || tab === 'patients') {
+      if (tab === 'specialists' || tab === 'validations' || tab === 'appointments' ||
+          tab === 'reports' || tab === 'patients') {
         this.activeTab = tab;
       } else {
         this.activeTab = 'patients';
@@ -75,7 +89,17 @@ export class AdminComponent implements OnInit {
       return;
     }
 
-    this.loadPendingValidations();
+    if (this.activeTab === 'validations') {
+      this.loadPendingValidations();
+      return;
+    }
+
+    if (this.activeTab === 'appointments') {
+      this.loadAppointmentHistory();
+      return;
+    }
+
+    this.loadReports();
   }
 
   loadPatients(): void {
@@ -131,10 +155,39 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  setTab(tab: 'patients' | 'specialists' | 'validations'): void {
-    this.router.navigate(['/admin'], {
-      queryParams: { tab },
-      replaceUrl: true
+  loadAppointmentHistory(): void {
+    this.loadingAppointments = true;
+
+    this.adminService.getAppointmentHistory().subscribe({
+      next: (data) => {
+        this.appointments = data;
+        this.applyAppointmentFilters();
+        this.loadingAppointments = false;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.appointments = [];
+        this.filteredAppointments = [];
+        this.errorMsg = this.translate.instant('admin.errors.loadAppointments');
+        this.loadingAppointments = false;
+        console.error(err);
+      }
+    });
+  }
+
+  loadReports(): void {
+    this.loadingReports = true;
+
+    this.adminService.getReports().subscribe({
+      next: (data) => {
+        this.reports = data;
+        this.loadingReports = false;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.reports = [];
+        this.errorMsg = this.translate.instant('admin.errors.loadReports');
+        this.loadingReports = false;
+        console.error(err);
+      }
     });
   }
 
@@ -151,7 +204,12 @@ export class AdminComponent implements OnInit {
       return;
     }
 
-    this.filteredValidations = this.pendingValidations.filter(user => this.matchesSearch(user, term));
+    if (this.activeTab === 'validations') {
+      this.filteredValidations = this.pendingValidations.filter(user => this.matchesSearch(user, term));
+      return;
+    }
+
+    this.applyAppointmentFilters();
   }
 
   private matchesSearch(user: User, term: string): boolean {
@@ -161,6 +219,152 @@ export class AdminComponent implements OnInit {
       user.email.toLowerCase().includes(term) ||
       (user.ciNumber || '').toLowerCase().includes(term)
     );
+  }
+
+  applyAppointmentFilters(): void {
+    const term = this.searchTerm.toLowerCase().trim();
+
+    this.filteredAppointments = this.appointments.filter((appointment) => {
+      const matchesTerm =
+        !term ||
+        appointment.patientName.toLowerCase().includes(term) ||
+        appointment.specialistName.toLowerCase().includes(term) ||
+        String(appointment.id).includes(term) ||
+        (appointment.patientEmail || '').toLowerCase().includes(term) ||
+        (appointment.specialistEmail || '').toLowerCase().includes(term);
+
+      const matchesStatus =
+        this.appointmentStatus === 'all' || appointment.status === this.appointmentStatus;
+
+      const appointmentDate = this.getAppointmentDateValue(appointment);
+      const matchesFrom = !this.appointmentDateFrom || appointmentDate >= this.appointmentDateFrom;
+      const matchesTo = !this.appointmentDateTo || appointmentDate <= this.appointmentDateTo;
+
+      return matchesTerm && matchesStatus && matchesFrom && matchesTo;
+    });
+  }
+
+  clearAppointmentFilters(): void {
+    this.searchTerm = '';
+    this.appointmentStatus = 'all';
+    this.appointmentDateFrom = '';
+    this.appointmentDateTo = '';
+    this.applyAppointmentFilters();
+  }
+
+  getAppointmentStatusLabel(status: number): string {
+    const labels: Record<number, string> = {
+      1: 'admin.appointments.status.pending',
+      2: 'admin.appointments.status.accepted',
+      3: 'admin.appointments.status.rejected',
+      4: 'admin.appointments.status.finished',
+      5: 'admin.appointments.status.cancelled'
+    };
+
+    return labels[status] || 'admin.appointments.status.unknown';
+  }
+
+  getAppointmentStatusClass(status: number): string {
+    const classes: Record<number, string> = {
+      1: 'status-pending',
+      2: 'status-accepted',
+      3: 'status-rejected',
+      4: 'status-finished',
+      5: 'status-cancelled'
+    };
+
+    return classes[status] || 'status-cancelled';
+  }
+
+  getSessionTypeLabel(typeOfSession: number): string {
+    return typeOfSession === 1
+      ? 'admin.appointments.sessionTypes.virtual'
+      : typeOfSession === 2
+        ? 'admin.appointments.sessionTypes.presential'
+        : 'admin.appointments.sessionTypes.unknown';
+  }
+
+  getAppointmentDateValue(appointment: AdminAppointmentHistory): string {
+    return appointment.scheduleDate || appointment.createdDate.substring(0, 10);
+  }
+
+  getAppointmentTime(appointment: AdminAppointmentHistory): string {
+    if (!appointment.startTime) {
+      return '-';
+    }
+
+    const start = appointment.startTime.substring(0, 5);
+    const end = appointment.endTime?.substring(0, 5);
+    return end ? `${start} - ${end}` : start;
+  }
+
+  getReportRoleLabel(role?: string): string {
+    const labels: Record<string, string> = {
+      PATIENT: 'admin.roles.patient',
+      SPECIALIST: 'admin.roles.specialist',
+      ADMIN: 'admin.roles.admin'
+    };
+
+    return labels[(role || '').toUpperCase()] || 'admin.reports.notRegistered';
+  }
+
+  getReportStatusLabel(status?: string): string {
+    const labels: Record<string, string> = {
+      '0': 'admin.reports.status.pending',
+      PENDING: 'admin.reports.status.pending',
+      ACCEPTED: 'admin.reports.status.accepted',
+      FINISHED: 'admin.reports.status.finished',
+      APPROVED: 'admin.reports.status.approved',
+      RESOLVED: 'admin.reports.status.resolved',
+      REJECTED: 'admin.reports.status.rejected'
+    };
+
+    return labels[(status || '').toUpperCase()] || 'admin.reports.status.unknown';
+  }
+
+  getReportStatusClass(status?: string): string {
+    const normalizedStatus = (status || '').toUpperCase();
+
+    if (normalizedStatus === '0' || normalizedStatus === 'PENDING') {
+      return 'status-pending';
+    }
+    if (normalizedStatus === 'ACCEPTED') {
+      return 'status-accepted';
+    }
+    if (normalizedStatus === 'FINISHED' || normalizedStatus === 'APPROVED' || normalizedStatus === 'RESOLVED') {
+      return 'status-finished';
+    }
+    return 'status-rejected';
+  }
+
+  isPendingReport(report: AdminReport): boolean {
+    const status = (report.status || '').toUpperCase();
+    return status === '0' || status === 'PENDING';
+  }
+
+  updateReportStatus(report: AdminReport, status: 'ACCEPTED' | 'FINISHED'): void {
+    this.processingReportId = report.id;
+    this.errorMsg = '';
+
+    this.adminService.updateReportStatus(report.id, status).subscribe({
+      next: (updatedReport) => {
+        this.reports = this.reports.map(item => item.id === updatedReport.id ? updatedReport : item);
+        this.processingReportId = null;
+        this.showNotification(
+          this.translate.instant(
+            status === 'ACCEPTED'
+              ? 'admin.reports.notifications.accepted'
+              : 'admin.reports.notifications.finished'
+          )
+        );
+      },
+      error: (err: HttpErrorResponse) => {
+        this.processingReportId = null;
+        this.errorMsg = this.translate.instant('admin.errors.updateReport');
+        this.showNotification(this.errorMsg, 'error');
+        console.error(err);
+      }
+    });
   }
 
   processValidation(user: PendingValidationUser, status: 'approved' | 'rejected'): void {

@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule, AbstractControl, ValidationErrors } from '@angular/forms';import { Router } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ApiService, SpecialistRegisterRequest } from '../../services/api.service';
 import { CloudinaryUploadService } from '../../services/cloudinary-upload.service';
@@ -18,6 +17,9 @@ export class RegisterSpecialistComponent implements OnInit {
   submitted = false;
   isDragging = false;
   isLoading: boolean = false;
+
+  showPassword = false;
+  showPasswordConfirm = false;
 
   fileList: { file: File, size: string }[] = [];
   carnetFile: { file: File, url: string } | null = null;
@@ -37,12 +39,12 @@ export class RegisterSpecialistComponent implements OnInit {
   private toastTimer: any;
 
   especialidadesOpciones = [
-    { id: 'mental', nombre: 'Trastornos mentales', seleccionado: false },
-    { id: 'adicciones', nombre: 'Adicciones', seleccionado: false },
-    { id: 'familia', nombre: 'Terapia familiar', seleccionado: false },
-    { id: 'infantil', nombre: 'Psicología infantil', seleccionado: false },
-    { id: 'depresion', nombre: 'Depresión y ansiedad', seleccionado: false },
-    { id: 'ocupacional', nombre: 'Terapia ocupacional', seleccionado: false }
+    { id: 'mental', nombre: 'Trastornos mentales', translationKey: 'patientSearch.filters.mentalHealth', seleccionado: false },
+    { id: 'adicciones', nombre: 'Adicciones', translationKey: 'patientSearch.filters.addictions', seleccionado: false },
+    { id: 'familia', nombre: 'Terapia familiar', translationKey: 'patientSearch.filters.familyTherapy', seleccionado: false },
+    { id: 'infantil', nombre: 'Psicología infantil', translationKey: 'patientSearch.filters.childPsychology', seleccionado: false },
+    { id: 'depresion', nombre: 'Depresión y ansiedad', translationKey: 'patientSearch.filters.depressionAnxiety', seleccionado: false },
+    { id: 'ocupacional', nombre: 'Terapia ocupacional', translationKey: 'patientSearch.filters.occupationalTherapy', seleccionado: false }
   ];
 
   constructor(
@@ -72,11 +74,17 @@ export class RegisterSpecialistComponent implements OnInit {
         Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)]],
       fechaNacimiento: ['', Validators.required],
       email: ['', [
-        Validators.required, 
-        Validators.email]],
+        Validators.required,
+        Validators.email,
+        Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+      ]],
       password: ['', [
         Validators.required, 
         Validators.minLength(8), 
+        Validators.maxLength(50)]],
+      passwordConfirm: ['', [
+        Validators.required,
+        Validators.minLength(8),
         Validators.maxLength(50)]],
       documento: ['', [
         Validators.required,
@@ -85,10 +93,23 @@ export class RegisterSpecialistComponent implements OnInit {
         Validators.pattern(/^[0-9-A-Za-z\s]+$/)]],
       aceptaTerminos: [false, Validators.requiredTrue],
       aceptaComunicaciones: [false]
+    },{
+      validators: this.passwordsMatchValidator 
     });
   }
 
   get f() { return this.registerForm.controls; }
+
+  passwordsMatchValidator(group: AbstractControl): ValidationErrors | null {
+    const password = group.get('password')?.value;
+    const passwordConfirm = group.get('passwordConfirm')?.value;
+
+    if (!password || !passwordConfirm) {
+      return null;
+    }
+
+    return password === passwordConfirm ? null : { passwordMismatch: true };
+  }
 
   showToast(type: 'error' | 'success' | 'warning', title: string, message: string): void {
     clearTimeout(this.toastTimer);
@@ -173,12 +194,12 @@ export class RegisterSpecialistComponent implements OnInit {
     if (!file) return;
 
     if (file.type !== 'application/pdf') {
-      this.showToast('warning', 'Archivo inválido', 'Solo se permite un archivo PDF.');
+      this.showToast('warning', this.translate.instant('registerSpecialist.toast.invalidFileTitle'), this.translate.instant('registerSpecialist.toast.invalidPdfMessage'));
       return;
     }
 
     if (file.size > 8 * 1024 * 1024) {
-      this.showToast('warning', 'Archivo muy grande', 'El PDF no debe superar los 8 MB.');
+      this.showToast('warning', this.translate.instant('registerSpecialist.toast.fileTooLargeTitle'), this.translate.instant('registerSpecialist.toast.pdfTooLargeMessage'));
       return;
     }
 
@@ -195,12 +216,12 @@ export class RegisterSpecialistComponent implements OnInit {
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      this.showToast('warning', 'Archivo inválido', 'El carnet debe ser una imagen.');
+      this.showToast('warning', this.translate.instant('registerSpecialist.toast.invalidFileTitle'), this.translate.instant('registerSpecialist.toast.invalidIdPhotoMessage'));
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      this.showToast('warning', 'Archivo muy grande', 'La imagen del carnet no debe superar los 5 MB.');
+      this.showToast('warning', this.translate.instant('registerSpecialist.toast.fileTooLargeTitle'), this.translate.instant('registerSpecialist.toast.idPhotoTooLargeMessage'));
       return;
     }
 
@@ -325,7 +346,11 @@ export class RegisterSpecialistComponent implements OnInit {
         next: (res) => {
           this.isLoading = false;
           console.log('✅ REGISTRO DE ESPECIALISTA EXITOSO', res);
-          this.showToast('success', 'Registro exitoso', 'Tu perfil será revisado y te notificaremos por correo.');
+          this.showToast(
+            'success',
+            this.translate.instant('registerSpecialist.toast.successTitle'),
+            this.translate.instant('registerSpecialist.toast.successMessage')
+          );
           this.router.navigate(['/login']);
         },
         error: (err) => {
@@ -339,7 +364,11 @@ export class RegisterSpecialistComponent implements OnInit {
     } catch (error) {
       this.isLoading = false;
       console.error('❌ ERROR SUBIENDO ARCHIVOS A CLOUDINARY:', error);
-      this.showToast('error', 'Error al subir archivos', 'No se pudo subir el carnet o el PDF de certificación.');
+      this.showToast(
+        'error',
+        this.translate.instant('registerSpecialist.toast.uploadErrorTitle'),
+        this.translate.instant('registerSpecialist.toast.uploadErrorMessage')
+      );
     }
   }
 }

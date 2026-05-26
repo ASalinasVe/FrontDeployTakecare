@@ -1,5 +1,5 @@
 <aside class="sidebar" [class.open]="sidebarService.isOpen()">
-  <button type="button" class="sidebar-close" (click)="closeSidebar()" aria-label="Cerrar menú">
+  <button type="button" class="sidebar-close" (click)="closeSidebar()" [attr.aria-label]="'sidebar.close' | translate">
     <span class="material-symbols-outlined">close</span>
   </button>
 
@@ -52,10 +52,6 @@
       <i class="fas fa-folder-open"></i> {{ 'specialistDashboard.menu.resources' | translate }}
     </a>
 
-    <a class="menu-item" routerLink="/specialist/messages" routerLinkActive="active" (click)="closeSidebarOnMobile()">
-      <i class="fas fa-envelope"></i> {{ 'specialistDashboard.menu.messages' | translate }}
-    </a>
-
     <a class="menu-item" routerLink="/specialist/profile" routerLinkActive="active" (click)="closeSidebarOnMobile()">
       <i class="fas fa-user"></i> {{ 'specialistDashboard.menu.editProfile' | translate }}
     </a>
@@ -81,12 +77,30 @@
       </a>
 
       <a
-        class="menu-item"
+        class="menu-item admin-validation-item"
         routerLink="/admin"
         [queryParams]="{ tab: 'validations' }"
         [class.active]="isAdminTab('validations')"
         (click)="closeSidebarOnMobile()">
         <i class="fas fa-id-card"></i> {{ 'admin.tabs.validations' | translate }}
+      </a>
+
+      <a
+        class="menu-item"
+        routerLink="/admin"
+        [queryParams]="{ tab: 'appointments' }"
+        [class.active]="isAdminTab('appointments')"
+        (click)="closeSidebarOnMobile()">
+        <i class="fas fa-calendar-check"></i> {{ 'admin.tabs.appointments' | translate }}
+      </a>
+
+      <a
+        class="menu-item"
+        routerLink="/admin"
+        [queryParams]="{ tab: 'reports' }"
+        [class.active]="isAdminTab('reports')"
+        (click)="closeSidebarOnMobile()">
+        <i class="fas fa-flag"></i> {{ 'admin.tabs.reports' | translate }}
       </a>
     </ng-container>
 

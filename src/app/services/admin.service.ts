@@ -40,6 +40,39 @@ export interface PendingValidationUser extends User {
   selfieVerification?: string;
 }
 
+export interface AdminAppointmentHistory {
+  id: number;
+  patientId: number;
+  specialistId: number;
+  scheduleId: number;
+  patientName: string;
+  specialistName: string;
+  patientEmail?: string;
+  specialistEmail?: string;
+  status: number;
+  typeOfSession: number;
+  createdDate: string;
+  scheduleDate?: string;
+  startTime?: string;
+  endTime?: string;
+}
+
+export interface AdminReport {
+  id: number;
+  reporterId?: number;
+  reporterName?: string;
+  reporterRole?: string;
+  reportedId?: number;
+  reportedName?: string;
+  reportedRole?: string;
+  sessionId?: number;
+  sessionDate?: string;
+  reason?: string;
+  description?: string;
+  status?: string;
+  createdDate?: string;
+}
+
 interface SpecialistProfileResponse {
   id: number;
   names: string;
@@ -184,6 +217,30 @@ private normalizeSpecialist(raw: any): Specialist {
 
         return [...pendingPatients, ...pendingSpecialists];
       })
+    );
+  }
+
+  /**
+   * HU19: expected backend contract is GET /api/v1/admin/sessions.
+   * The endpoint must return all sessions visible to an administrator.
+   */
+  getAppointmentHistory(): Observable<AdminAppointmentHistory[]> {
+    return this.http.get<AdminAppointmentHistory[]>(`${this.apiUrl}/api/v1/admin/sessions`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  getReports(): Observable<AdminReport[]> {
+    return this.http.get<AdminReport[]>(`${this.apiUrl}/api/v1/admin/reports`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  updateReportStatus(id: number, status: 'ACCEPTED' | 'FINISHED'): Observable<AdminReport> {
+    return this.http.put<AdminReport>(
+      `${this.apiUrl}/api/v1/admin/reports/${id}/status`,
+      { status },
+      { headers: this.getHeaders() }
     );
   }
 

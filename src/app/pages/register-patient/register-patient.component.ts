@@ -18,6 +18,8 @@ export class RegisterPatientComponent {
   form: FormGroup;
   submitted = false;
   loading = false;
+  showPassword = false;
+  showPasswordConfirm = false;
 
   documentoFile: File | null = null;
   selfieFile: File | null = null;
@@ -77,6 +79,11 @@ export class RegisterPatientComponent {
         Validators.minLength(8),
         Validators.maxLength(50)
       ]],
+      passwordConfirm: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(50)
+      ]],
 
       documento: [null, Validators.required],
       selfie: [null, Validators.required],
@@ -97,13 +104,21 @@ export class RegisterPatientComponent {
     const allowedImagesTypes = ['image/jpg','image/jpeg','image/png','image/webp'];
 
     if (!allowedImagesTypes.includes(file.type)){
-      this.showToast('warning', 'Archivo no valido', 'Solo se permiten imágenes en el formate jpg, jpeg, png y webp');
+      this.showToast(
+        'warning',
+        this.translate.instant('registerPatient.toast.invalidFileTitle'),
+        this.translate.instant('registerPatient.toast.invalidFileMessage')
+      );
       input.value = '';
       return;
     }
 
     if (file.size > 5 * 1024 *1024) {
-      this.showToast('warning','Archivo demasiado grande', 'La imagen es demasiado grande, no debe superar los 5MB');
+      this.showToast(
+        'warning',
+        this.translate.instant('registerPatient.toast.fileTooLargeTitle'),
+        this.translate.instant('registerPatient.toast.fileTooLargeMessage')
+      );
       input.value = '';
       return;
     }
@@ -198,6 +213,12 @@ export class RegisterPatientComponent {
     };
   }
 
+  passwordsMatch(): boolean {
+    const password = this.form.get('password')?.value;
+    const passwordConfirm = this.form.get('passwordConfirm')?.value;
+    return password === passwordConfirm && password?.length > 0;
+  }
+
    async onSubmit() {
     this.submitted = true;
 
@@ -206,9 +227,22 @@ export class RegisterPatientComponent {
       return;
     }
 
+    if (!this.passwordsMatch()) {
+      this.showToast(
+        'error',
+        this.translate.instant('registerPatient.toast.passwordMismatchTitle') || 'Contraseñas no coinciden',
+        this.translate.instant('registerPatient.toast.passwordMismatchMessage') || 'Las contraseñas deben ser iguales'
+      );
+      return;
+    }
+
     if (!this.documentoFile || !this.selfieFile)
     {
-      this.showToast('warning', 'Archivos faltantes', 'Debes subir la fotografia de tu documento CI y una selfie para verificar tu identidad');
+      this.showToast(
+        'warning',
+        this.translate.instant('registerPatient.toast.filesRequiredTitle'),
+        this.translate.instant('registerPatient.toast.filesRequiredMessage')
+      );
       return;
     }
 
@@ -244,7 +278,11 @@ export class RegisterPatientComponent {
         next: (res) => {
           this.loading = false;
           console.log('✅ REGISTRO EXITOSO', res);
-          this.showToast('success', '¡Cuenta creada!', 'Tu registro fue exitoso. Redirigiendo al inicio de sesión...');
+          this.showToast(
+            'success',
+            this.translate.instant('registerPatient.toast.successTitle'),
+            this.translate.instant('registerPatient.toast.successMessage')
+          );
           setTimeout(() => this.router.navigate(['/login']), 2000);
         },
         error: (err) => {
@@ -256,7 +294,11 @@ export class RegisterPatientComponent {
       });
     } catch(error) {
       console.error('X Error subiendo archivos a Firebase:', error);
-      this.showToast('error', 'Error al subir archivos', 'Ocurrió un error al subir tus archivos. Intenta de nuevo.');
+      this.showToast(
+        'error',
+        this.translate.instant('registerPatient.toast.uploadErrorTitle'),
+        this.translate.instant('registerPatient.toast.uploadErrorMessage')
+      );
     }
   }
 
