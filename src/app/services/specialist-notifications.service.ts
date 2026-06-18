@@ -10,6 +10,8 @@ export interface SpecialistNotification {
   sessionId: number;
   specialistId: number;
   patientId?: number;
+  carePlanId?: number | null;
+  carePlanItemId?: number | null;
   description: string;
   type: number;
   status: number;
@@ -124,6 +126,7 @@ export class SpecialistNotificationsService {
         this.unreadCountSubject.next(response.unreadCount ?? 0);
       });
   }
+
 
   setReadStatus(
     notificationId: number,

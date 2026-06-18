@@ -21,6 +21,11 @@ export interface SpecialistDirectoryItem {
   shift?: string;
   reputationAverage?: number;
   certificationImg?: string;
+  availableSchedules?: Array<{
+    dayOfWeek: number;
+    startTime: string;
+    endTime: string;
+  }>;
 }
 
 export interface SpecialistLocationRequest {
@@ -79,7 +84,6 @@ export class SpecialistService {
   }
 
   getProfile(id: number): Observable<any> {
-    console.log(`Obteniendo perfil de especialista: ${this.baseUrl}/api/v1/specialists/${id}/profile`);
     return this.http.get(`${this.baseUrl}/api/v1/specialists/${id}/profile`);
   }
 
@@ -88,7 +92,6 @@ export class SpecialistService {
   }
   
   updateProfile(id: number, data: any): Observable<any> {
-    console.log(`Actualizando perfil de especialista: ${this.baseUrl}/api/v1/specialists/${id}/profile`, data);
     return this.http.put(`${this.baseUrl}/api/v1/specialists/${id}/profile`, data);
   }
 
@@ -143,7 +146,8 @@ export class SpecialistService {
       specialties,
       shift: specialist.shift,
       reputationAverage: specialist.reputationAverage,
-      certificationImg: specialist.certificationImg
+      certificationImg: specialist.certificationImg,
+      availableSchedules: specialist.availableSchedules
     };
   }
 

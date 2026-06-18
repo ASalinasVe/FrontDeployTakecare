@@ -1,16 +1,17 @@
 <header *ngIf="navbarMode === 'public'" class="navbar">
-  <div class="logo" routerLink="/">
+  <button type="button" class="logo logo-button" (click)="navigateToLogoRoute()" aria-label="Take Care">
     <img src="assets/images/logo.png" alt="Take Care" />
-  </div>
+  </button>
 
   <nav class="links">
-    <a routerLink="/">{{ 'navbar.home' | translate }}</a>
-    <a routerLink="/">{{ 'navbar.about' | translate }}</a>
+    <a routerLink="/" fragment="inicio">{{ 'navbar.home' | translate }}</a>
+    <a routerLink="/" fragment="nosotros">{{ 'navbar.about' | translate }}</a>
   </nav>
 
   <div class="actions">
     <select
       class="lang-select"
+      [attr.aria-label]="'navbar.language' | translate"
       [value]="languageService.getCurrentLanguage()"
       (change)="changeLanguage($event)">
       <option value="es">ES</option>
@@ -35,26 +36,27 @@
     </span>
   </button>
   
-  <div class="logo" routerLink="/">
+  <button type="button" class="logo logo-button" (click)="navigateToLogoRoute()" aria-label="Take Care">
     <img src="assets/images/logo.png" alt="Take Care" />
     <div class="brand-copy">
       <span *ngIf="!isDashboard">{{ ('navbar.private.' + privateArea + '.label') | translate }}</span>
     </div>
-  </div>
+  </button>
 
-  <div *ngIf="isDashboard" style="flex: 1;"></div>
+  <div *ngIf="isDashboard" class="navbar-spacer"></div>
 
   <nav class="links private-links" *ngIf="privateArea === 'patient' && !isDashboard">
     <a routerLink="/patient" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
       {{ 'navbar.private.patient.dashboard' | translate }}
     </a>
-    <a routerLink="/patient/profile" routerLinkActive="active-link">
-      {{ 'navbar.private.patient.profile' | translate }}
-    </a>
   </nav>
 
   <div class="actions private-actions">
-    <select class="lang-select" [value]="languageService.getCurrentLanguage()" (change)="changeLanguage($event)">
+    <select
+      class="lang-select"
+      [attr.aria-label]="'navbar.language' | translate"
+      [value]="languageService.getCurrentLanguage()"
+      (change)="changeLanguage($event)">
       <option value="es">ES</option>
       <option value="en">EN</option>
     </select>

@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-recover-password',
@@ -16,11 +17,9 @@ export class RecoverPasswordComponent {
   submitted = false;
   isLoading = false;
   isSent = false;
+  errorMsg = '';
 
-  constructor(
-    private fb: FormBuilder,
-    private translate: TranslateService
-  ) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
     this.recoveryForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });
@@ -32,19 +31,22 @@ export class RecoverPasswordComponent {
 
   onSubmit(): void {
     this.submitted = true;
+    this.errorMsg = '';
 
     if (this.recoveryForm.invalid) {
       return;
     }
 
     this.isLoading = true;
-
-    console.log('Enviando correo a:', this.recoveryForm.value.email);
-    
-    setTimeout(() => {
-      this.isLoading = false;
-      this.isSent = true;
-      alert(this.translate.instant('recoverPassword.alertMessage'));
-    }, 2000);
+    this.authService.forgotPassword(this.recoveryForm.value.email).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.isSent = true;
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMsg = err.error || 'No se pudo enviar el correo de recuperación';
+      }
+    });
   }
 }

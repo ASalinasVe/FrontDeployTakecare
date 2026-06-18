@@ -4,6 +4,7 @@
     "about": "About us",
     "login": "Log in",
     "register": "Sign up",
+    "language": "Select language",
     "private": {
       "common": {
         "home": "Home",
@@ -45,33 +46,48 @@
     "hero": {
       "tag": "Your journey begins here",
       "title": "You are not alone.",
-      "subtitle": "Find professional support and manage your mental well-being with Take Care. A safe and compassionate space for your path toward healing and peace of mind.",
-      "primaryButton": "Find Help",
-      "secondaryButton": "Watch Video"
+      "subtitle": "Find verified specialists, schedule appointments, and manage your mental well-being in Take Care, a safe and supportive space to move at your own pace.",
+      "primaryButton": "Find support",
+      "secondaryButton": "Explore the platform",
+      "imageAlt": "Therapeutic support illustration"
     },
     "stats": {
       "specialists": "Verified Specialists",
       "sessions": "Secure Sessions",
-      "success": "Patient Success"
+      "success": "People supported"
     },
     "features": {
-      "title": "Compassionate Care for Everyone",
+      "title": "Clear, human, and secure care",
+      "subtitle": "Take Care is designed to make asking for help simpler: less uncertainty, more information, and professional support.",
       "card1": {
-        "title": "Clinical Excellence",
-        "text": "Access top-tier psychologists and psychiatrists with verified backgrounds and full licenses."
+        "title": "Verified specialists",
+        "text": "Each specialist goes through a review before joining the platform."
       },
       "card2": {
-        "title": "Radical Privacy",
-        "text": "Your sessions and data are your business. We use military-grade encryption to keep them that way."
+        "title": "Privacy handled with care",
+        "text": "Your health information is handled with care, clarity, and controlled access."
       },
       "card3": {
-        "title": "Seamless Booking",
-        "text": "Forget the calls. Book, reschedule, or cancel appointments directly through our intuitive calendar."
+        "title": "Simple scheduling",
+        "text": "Find specialists, review availability, and request appointments without unnecessary calls."
+      }
+    },
+    "trust": {
+      "tag": "About us",
+      "title": "A platform designed to support you better",
+      "text": "Take Care connects patients, specialists, and administration in a clear flow: registration, validation, search, appointments, and follow-up.",
+      "item1": {
+        "title": "Validation before care",
+        "text": "Profiles go through review to strengthen trust in the system."
+      },
+      "item2": {
+        "title": "Supervised activity",
+        "text": "The system supports reviewing appointments, reports, and statuses to protect the experience."
       }
     },
     "cta": {
       "title": "Ready to begin your journey?",
-      "text": "Join thousands of people who have taken the first step toward a healthier mind.",
+      "text": "Create your account and start looking for the professional support that best fits you.",
       "button": "Start Now"
     }
   },
@@ -102,6 +118,8 @@
       "lastnames": "Last names",
       "email": "Email",
       "birthDate": "Birth date",
+      "ciNumber": "ID (CI)",
+      "specialties": "Specialties",
       "strikes": "Strikes",
       "status": "Status",
       "action": "Action"
@@ -117,6 +135,16 @@
       "reject": "Reject",
       "approve": "Approve",
       "cancel": "Cancel"
+    },
+    "confirmations": {
+      "suspendPatient": "Are you sure you want to suspend this patient? They will not be able to use their account until you activate it again.",
+      "activatePatient": "Are you sure you want to activate this patient?",
+      "suspendSpecialist": "Are you sure you want to suspend this specialist? They will not be able to use their account until you activate it again.",
+      "activateSpecialist": "Are you sure you want to activate this specialist?",
+      "suspendPatientTitle": "Confirm Suspension",
+      "activatePatientTitle": "Confirm Activation",
+      "suspendSpecialistTitle": "Confirm Suspension",
+      "activateSpecialistTitle": "Confirm Activation"
     },
     "loading": {
       "patients": "Loading patients...",
@@ -165,7 +193,8 @@
       "selfie": "Verification selfie",
       "certification": "Professional certification",
       "viewCertification": "View certification PDF",
-      "unavailable": "Unavailable"
+      "unavailable": "Unavailable",
+      "specialties": "Specialties"
     },
     "appointments": {
       "title": "Appointment history",
@@ -245,6 +274,12 @@
         "finish": "Finish",
         "managed": "Managed"
       },
+      "confirmations": {
+        "accept": "Are you sure you want to accept this report? A strike will be added to the reported user.",
+        "finish": "Are you sure you want to finish this report without a penalty?",
+        "acceptTitle": "Confirm Report Acceptance",
+        "finishTitle": "Confirm Report Completion"
+      },
       "notifications": {
         "accepted": "Report accepted. A strike was added to the reported user.",
         "finished": "Report finished without a penalty."
@@ -268,6 +303,10 @@
     "submit": "Log In",
     "success": "Login successful",
     "secure": "Secure connection",
+    "accessibility": {
+      "showPassword": "Show password",
+      "hidePassword": "Hide password"
+    },
     "errors": {
       "invalidEmail": "Invalid email",
       "passwordRequired": "Password required (min. 8 characters)",
@@ -298,7 +337,9 @@
       "history": "My History",
       "editProfile": "Edit profile",
       "documents": "Library",
-      "files": "My files"
+      "files": "My files",
+      "carePlans": "My follow-up",
+      "emotionalLog": "Emotional log"
     },
     "searchPlaceholder": "Search specialists...",
     "newAppointment": "New Appointment",
@@ -335,12 +376,112 @@
     }
   },
 
-  
+  "emotionalLog": {
+    "tag": "Emotional record",
+    "title": "Emotional log",
+    "subtitle": "Record how you feel and review your emotional progress.",
+    "recordSingular": "record",
+    "recordPlural": "records",
+    "loading": "Loading your emotional history...",
+    "today": "Today",
+    "actions": {
+      "register": "Record emotion",
+      "registerNew": "Record new emotion",
+      "loadMore": "Load more records"
+    },
+    "modal": {
+      "close": "Close modal"
+    },
+    "hero": {
+      "tag": "A moment for you",
+      "title": "Your emotional state deserves follow-up too",
+      "text": "This space helps you recognize mood, anxiety, and stress patterns. You can record how you feel at different moments of the day."
+    },
+    "info": {
+      "title": "How does the emotional log work?",
+      "text": "Record your emotional state whenever you need to. Each entry is ordered by date and time so you and your specialist can review your progress.",
+      "step1": "You can record more than one emotion during the day.",
+      "step2": "The history shows each moment by time.",
+      "step3": "Your specialist can use this information to support you better."
+    },
+    "form": {
+      "title": "Record mood",
+      "subtitle": "Select how you feel right now.",
+      "moodLabel": "How do you feel?",
+      "moodHelper": "Choose the face that best represents your current state.",
+      "moodLevel": "Mood level",
+      "moodLevelHelp": "1 is very low and 5 is very high.",
+      "anxiety": "Anxiety",
+      "anxietyHelp": "1 is very calm and 5 is very intense.",
+      "stress": "Stress",
+      "stressHelp": "1 is very low and 5 is very intense.",
+      "notes": "Personal notes",
+      "notesPlaceholder": "Example: Today I felt calmer after walking and talking with someone I trust.",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving..."
+    },
+    "moods": {
+      "excellent": "Excellent",
+      "good": "Good",
+      "neutral": "Neutral",
+      "low": "Low",
+      "veryLow": "Very low",
+      "unknown": "No status"
+    },
+    "moodHelpers": {
+      "excellent": "I feel full, with high energy, motivated and capable of enjoying the day.",
+      "good": "I feel encouraged, ready to face the day and in a pleasant mood.",
+      "neutral": "Neither good nor bad. A stable day where I can accomplish my tasks without complications.",
+      "low": "I feel sad, irritated, or with low motivation; I struggle to keep up with the pace of the day.",
+      "veryLow": "I feel overwhelmed, without energy or direction; I struggle to carry out my activities normally."
+    },
+    "dayparts": {
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "night": "Night"
+    },
+    "summary": {
+      "title": "Visual summary",
+      "text": "Averages from your loaded records to spot quick trends.",
+      "mood": "Mood",
+      "anxiety": "Anxiety",
+      "stress": "Stress"
+    },
+    "history": {
+      "title": "Record history",
+      "subtitle": "Your most recent entries appear first, grouped by day and time.",
+      "mood": "Mood",
+      "anxiety": "Anxiety",
+      "stress": "Stress",
+      "noNotes": "No additional notes."
+    },
+    "empty": {
+      "title": "You do not have records yet",
+      "text": "When you save your first emotional state, it will appear here as part of your history."
+    },
+    "toast": {
+      "saved": "Emotional state recorded successfully."
+    },
+    "registered": {
+      "title": "Daily registration completed",
+      "subtitle": "You have already recorded your emotional state today.",
+      "at": "Recorded at"
+    },
+    "errors": {
+      "noPatient": "Could not identify the current patient.",
+      "load": "Could not load emotional history.",
+      "save": "Could not record the emotional state.",
+      "formInvalid": "Select how you feel to continue.",
+      "moodRequired": "Select how you feel to continue.",
+      "alreadyToday": "There is already a recent emotional record. You can record another one if you need to."
+    }
+  },
   "patientProfile": {
     "back": "Back",
     "tag": "Patient profile",
     "title": "Edit profile",
-    "subtitle": "Update your information and improve your presence on TakeCare.",
+    "subtitle": "Update your information and improve your presence on Take Care.",
     "fields": {
       "names": "First names",
       "firstLastname": "First last name",
@@ -416,7 +557,8 @@
       "thursday": "Thursday",
       "friday": "Friday",
       "saturday": "Saturday",
-      "sunday": "Sunday"
+      "sunday": "Sunday",
+      "onlyAvailable": "Only with available schedules"
     },
     "schedule": {
       "title": "Available schedules",
@@ -504,7 +646,34 @@
     "successText2": "Please check your inbox.",
     "tryAnother": "Try another email",
     "backToSession": "Back to sign in",
-    "alertMessage": "If the email exists, you will receive a link soon."
+    "alertMessage": "If the email exists, you will receive a link soon.",
+    "errors": {
+      "required": "Enter the email associated with your account.",
+      "email": "Enter a valid email address, for example name@domain.com."
+    }
+  },
+  "resetPassword": {
+    "title": "Reset Password",
+    "subtitle": "Enter your new password below to update your account securely.",
+    "passwordLabel": "New Password",
+    "passwordPlaceholder": "Min. 8, max. 50 characters",
+    "confirmPasswordLabel": "Confirm Password",
+    "confirmPasswordPlaceholder": "Repeat the password",
+    "saving": "Saving...",
+    "submit": "Reset password",
+    "backToLogin": "Back to sign in",
+    "successTitle": "Password updated!",
+    "successText": "Your password has been successfully updated. You will be redirected to the sign in page in a few seconds.",
+    "redirecting": "Redirecting...",
+    "passwordInfo": "Password must be between 8 and 50 characters, including at least one uppercase letter, one number, and one special character.",
+    "errors": {
+      "required": "Password is required.",
+      "minlength": "Password must be at least 8 characters long.",
+      "maxlength": "Password must not exceed 50 characters.",
+      "pattern": "Password must include at least one uppercase letter, one number, and one special character.",
+      "confirmRequired": "Confirm your password.",
+      "mismatch": "Passwords do not match."
+    }
   },
   "registerPatient": {
     "title": "Patient Registration",
@@ -516,9 +685,14 @@
       "documents": "Verification Documents"
     },
     "sectionHelp": "Upload your identity document and a selfie to validate your account.",
+    "passwordRequirements": "Use between 8 and 50 characters, with at least one uppercase letter, one lowercase letter, and one number.",
     "uploads": {
       "document": "Upload identity document",
       "selfie": "Take a selfie"
+    },
+    "uploadHelp": {
+      "document": "JPG, PNG, or WEBP. Max. 5 MB.",
+      "selfie": "JPG, PNG, or WEBP. Max. 5 MB."
     },
     "terms": {
       "text1": "I accept the",
@@ -553,6 +727,10 @@
       "passwordConfirm": "* * * * * * * *"
     },
     "errors": {
+      "summary": {
+        "title": "Review the highlighted fields",
+        "message": "Each message explains what to correct before creating your account."
+      },
       "names": {
         "required": "First names are required.",
         "minlength": "First names must have at least 3 characters.",
@@ -577,20 +755,32 @@
         "pattern": "Only numbers and suffix are allowed."
       },
       "birthDate": {
-        "required": "Birth date is required."
+        "required": "Birth date is required.",
+        "invalid": "Enter a valid date.",
+        "future": "Birth date cannot be in the future.",
+        "underage": "You must be at least 18 years old to register."
       },
       "email": {
         "required": "Email address is required.",
-        "invalid": "Email address is invalid."
+        "invalid": "Enter a valid email address, for example name@domain.com."
       },
       "password": {
         "required": "Password is required.",
-        "minlength": "Password must contain between 8 and 50 characters and must contain at least one uppercase letter, one lowercase letter and one number."
+        "minlength": "Password must have at least 8 characters.",
+        "maxlength": "Password cannot have more than 50 characters.",
+        "strength": "Include at least one uppercase letter, one lowercase letter, and one number."
       },
       "passwordConfirm": {
         "required": "Password confirmation is required.",
-        "minlength": "Password confirmation must contain between 8 and 50 characters and must contain at least one uppercase letter, one lowercase letter and one number.",
+        "minlength": "Password confirmation must have at least 8 characters.",
+        "maxlength": "Password confirmation cannot have more than 50 characters.",
         "mismatch": "Passwords do not match."
+      },
+      "ciPhoto": {
+        "required": "Upload a clear photo of your identity document."
+      },
+      "selfie": {
+        "required": "Upload a selfie to verify that you are the person in the document."
       },
       "terms": {
         "required": "You must accept the terms to continue."
@@ -661,6 +851,7 @@
     "optional": "Optional.",
     "readyToUpload": "Ready to upload",
     "footerNote": "ⓘ Your profile will be reviewed by the administrator",
+    "passwordRequirements": "Use between 8 and 50 characters, with at least one uppercase letter, one lowercase letter, and one number.",
     "fields": {
       "firstName": "First name",
       "lastName1": "Last name",
@@ -684,8 +875,12 @@
       "document": "ID number"
     },
     "uploads": {
-      "idPhoto": "📷 Upload ID photo",
-      "certifications": "➕ Drag or click to upload PDFs"
+      "idPhoto": "Upload ID photo",
+      "certifications": "Drag or click to upload PDFs"
+    },
+    "uploadHelp": {
+      "idPhoto": "JPG, PNG, or WEBP. Max. 5 MB.",
+      "certifications": "PDF. Max. 8 MB."
     },
     "terms": {
       "text1": "I accept the",
@@ -700,6 +895,10 @@
       "complete": "Create account"
     },
     "errors": {
+      "summary": {
+        "title": "Review the highlighted fields",
+        "message": "Each message explains what to correct before sending your registration."
+      },
       "firstName": {
         "required": "First name is required.",
         "pattern": "First name must contain letters only.",
@@ -718,19 +917,27 @@
         "minlength": "Second last name must have at least 3 characters."
       },
       "birthDate": {
-        "required": "Birth date is required."
+        "required": "Birth date is required.",
+        "invalid": "Enter a valid date.",
+        "future": "Birth date cannot be in the future.",
+        "underage": "You must be at least 18 years old to register as a specialist."
       },
       "email": {
         "required": "Email address is required.",
-        "invalid": "Email format is invalid."
+        "invalid": "Enter a valid email address, for example specialist@domain.com."
       },
       "password": {
         "required": "Password is required.",
-        "range": "Minimum 8 characters and maximum 50 characters and must contain at least one uppercase letter, one lowercase letter, and one number."
+        "range": "Minimum 8 characters and maximum 50 characters and must contain at least one uppercase letter, one lowercase letter, and one number.",
+        "minlength": "Password must have at least 8 characters.",
+        "maxlength": "Password cannot have more than 50 characters.",
+        "strength": "Include at least one uppercase letter, one lowercase letter, and one number."
       },
       "passwordConfirm": {
         "required": "Password confirmation is required.",
         "range": "Password confirmation must contain between 8 and 50 characters and must contain at least one uppercase letter, one lowercase letter, and one number.",
+        "minlength": "Password confirmation must have at least 8 characters.",
+        "maxlength": "Password confirmation cannot have more than 50 characters.",
         "mismatch": "Passwords do not match."
       },
       "document": {
@@ -842,6 +1049,12 @@
       "saturday": "Saturday",
       "sunday": "Sunday"
     },
+    "confirm": {
+      "deleteTitle": "Delete this schedule?",
+      "deleteMessage": "Are you sure you want to delete this schedule from your calendar? This action cannot be undone.",
+      "cancel": "Cancel",
+      "delete": "Yes, delete"
+    },
     "messages": {
       "notEditable": "This schedule cannot be changed because it has already been booked or has started.",
       "loadError": "Could not load schedules.",
@@ -852,7 +1065,10 @@
       "selectToDelete": "Select a schedule to delete.",
       "deleteBlocked": "You can only delete available schedules that have not started yet.",
       "confirmDelete": "Are you sure you want to delete this schedule?",
-      "deleteError": "Could not delete the schedule."
+      "deleteError": "Could not delete the schedule.",
+      "deleteSuccess": "Schedule deleted successfully.",
+      "createSuccess": "Schedule created successfully.",
+      "updateSuccess": "Schedule updated successfully."
     }
   },
 
@@ -864,17 +1080,19 @@
       "messages": "Messages",
       "editProfile": "Edit profile",
       "appointments": "Appointments",
-      "resources": "Resources"
+      "resources": "Resources",
+      "carePlans": "Care plans",
+      "alerts": "Preventive alerts"
     },
     "searchPlaceholder": "Search patients...",
     "newSession": "New session",
     "tag": "Specialist dashboard",
     "welcome": "Welcome",
-    "subtitle": "Your professional space in TakeCare",
+    "subtitle": "Your professional space in Take Care",
     "stats": {
       "patients": "Patients",
       "sessionsToday": "Sessions today",
-      "requests": "Requests"
+      "pendingAlerts": "Pending alerts"
     },
     "upcoming": {
       "loading": "Loading summary and upcoming appointments...",
@@ -896,6 +1114,65 @@
     }
   },
 
+  "specialistAlerts": {
+    "tag": "Preventive alerts",
+    "title": "Specialist alerts dashboard",
+    "subtitle": "Review important signals detected in your patients.",
+    "loading": "Loading preventive alerts...",
+    "hero": {
+      "tag": "Clinical follow-up",
+      "title": "Detect critical patterns early",
+      "text": "This dashboard classifies alerts by priority and suggests preventive messages to guide each patient's follow-up."
+    },
+    "summary": {
+      "high": "High priority",
+      "medium": "Medium priority",
+      "low": "Low priority",
+      "pending": "Pending review"
+    },
+    "board": {
+      "title": "Patient alerts",
+      "subtitle": "Prioritize review by severity and mark each alert as reviewed when finished."
+    },
+    "filters": {
+      "status": "Status",
+      "priority": "Priority",
+      "pending": "Pending",
+      "reviewed": "Reviewed",
+      "allStatuses": "All statuses",
+      "allPriorities": "All priorities"
+    },
+    "priorities": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "status": {
+      "reviewed": "Reviewed"
+    },
+    "fields": {
+      "patient": "Patient",
+      "alertType": "Alert type"
+    },
+    "actions": {
+      "viewPatients": "View patients",
+      "markReviewed": "Mark as reviewed",
+      "alreadyReviewed": "Already reviewed"
+    },
+    "empty": {
+      "title": "No alerts to show",
+      "text": "When the system detects preventive patterns, they will appear here with their priority."
+    },
+    "toast": {
+      "reviewed": "Alert marked as reviewed."
+    },
+    "errors": {
+      "noSpecialist": "Could not identify the current specialist.",
+      "load": "Could not load preventive alerts.",
+      "review": "Could not mark the alert as reviewed."
+    }
+  },
+
   "specialistPatients": {
     "title": "My patients",
     "subtitle": "Patients associated with your appointments.",
@@ -907,9 +1184,249 @@
     "lastSession": "Last session",
     "nextSession": "Next session",
     "notAvailable": "No record",
+    "actions": {
+      "viewPlans": "View plans",
+      "viewProfile": "View profile"
+    },
     "errors": {
       "noSpecialist": "Could not identify the current specialist.",
       "load": "Could not load your patients."
+    }
+  },
+
+  "carePlans": {
+    "title": "Care plans",
+    "followUpTitle": "My follow-up",
+    "subtitle": "Manage the follow-up plans assigned to the patient.",
+    "generalSubtitle": "Review and manage the follow-up plans assigned to your patients.",
+    "patientSubtitle": "Review your plans, activities, and follow-up progress.",
+    "followUpSubtitle": "Review your plan, assigned activities, and therapeutic progress.",
+    "followUpSelectPlan": "Select plan",
+    "followUpActivities": "Assigned activities",
+    "followUpEmptyTitle": "You do not have assigned follow-up plans.",
+    "followUpEmptyText": "When your specialist creates a care plan, it will appear in this section.",
+    "followUpNoActivitiesTitle": "This plan does not have activities yet",
+    "followUpNoActivitiesText": "When your specialist adds activities, you will be able to mark them as completed here.",
+    "followUpOverview": {
+      "activePlan": "Active plan",
+      "progress": "Plan progress",
+      "completed": "Completed activities",
+      "pending": "Pending",
+      "progressHelp": "Progress updates according to the completed activities in the plan."
+    },
+    "followUpLocked": {
+      "paused": "This plan is paused. You cannot complete activities right now.",
+      "completed": "This plan has been completed. You can no longer modify activities.",
+      "cancelled": "This plan has been cancelled."
+    },
+    "patient": "Patient",
+    "patientFallback": "Selected patient",
+    "generalLabel": "All your patients",
+    "totalLabel": "General list",
+    "counter": "Plans",
+    "counterSingular": "Plan",
+    "searchPlaceholder": "Search by patient, title, or status...",
+    "loading": "Loading care plans...",
+    "empty": "There are no care plans registered for this patient.",
+    "emptyGeneral": "There are no registered care plans.",
+    "emptySearch": "No plans matched that search.",
+    "notAvailable": "No record",
+    "actions": {
+      "backToPatients": "Back to patients",
+      "new": "New plan",
+      "create": "Create plan",
+      "save": "Save plan",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "detail": "View detail",
+      "viewDetails": "View details",
+      "edit": "Edit plan",
+      "delete": "Delete",
+      "archive": "Archive plan",
+      "hideFromView": "Hide from my view",
+      "addActivity": "Add activity",
+      "removeActivity": "Remove activity"
+    },
+    "fields": {
+      "title": "Plan title",
+      "patient": "Patient",
+      "specialist": "Specialist",
+      "status": "Status",
+      "planStatus": "Plan status",
+      "progress": "Progress",
+      "reviewDate": "Review date",
+      "followUpSession": "Follow-up appointment",
+      "dayOfWeek": "Day of week",
+      "reviewStartTime": "Start time",
+      "reviewEndTime": "End time",
+      "completed": "completed",
+      "completedDate": "Completed date",
+      "createdDate": "Created date",
+      "therapeuticObjectives": "Therapeutic objectives",
+      "generalRecommendations": "General recommendations",
+      "professionalObservations": "Professional observations",
+      "activities": "Activities",
+      "activity": "Activity",
+      "activityTitle": "Activity title",
+      "activityDescription": "Activity description",
+      "itemType": "Activity type",
+      "dueDate": "Due date",
+      "checklist": "Checklist"
+    },
+    "form": {
+      "createTitle": "Create care plan",
+      "createSubtitle": "Define objectives, recommendations, and follow-up activities for the patient.",
+      "editTitle": "Edit plan",
+      "editSubtitle": "Update the general information and status of the plan.",
+      "selectSchedule": "Select an available schedule"
+    },
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "itemTypes": {
+      "objective": "Objective",
+      "activity": "Activity",
+      "recommendation": "Recommendation"
+    },
+    "status": {
+      "active": "Active",
+      "paused": "Paused",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "unknown": "No status"
+    },
+    "messages": {
+      "completedLocked": "This plan has already been completed and cannot be modified.",
+      "completedCannotReactivate": "A completed plan cannot be reactivated or modified.",
+      "completedReadOnly": "This plan has been completed. You can no longer modify activities.",
+      "archiveOnlyCompleted": "Only completed plans can be archived.",
+      "carePlanUpdatedTitle": "Care plan updated",
+      "carePlanUpdatedText": "Your care plan was updated"
+    },
+    "itemStatus": {
+      "pending": "Pending activity",
+      "completed": "Completed activity",
+      "cancelled": "Cancelled activity"
+    },
+    "activities": {
+      "new": "New activity",
+      "create": "Create activity",
+      "edit": "Edit activity",
+      "cancel": "Cancel activity",
+      "restore": "Restore activity",
+      "confirmCancel": "Do you want to cancel this activity?",
+      "viewCancelled": "View cancelled activities",
+      "cancelledTitle": "Cancelled activities",
+      "completedByPatient": "Activity completed by the patient",
+      "subtitle": "Manage assigned tasks and the plan's automatic progress.",
+      "empty": "No activities registered",
+      "validation": {
+        "titleRequired": "Activity title is required.",
+        "dueDateNotPast": "Due date cannot be earlier than today."
+      },
+      "toast": {
+        "created": "Activity created successfully.",
+        "updated": "Activity updated successfully.",
+        "cancelled": "Activity cancelled successfully.",
+        "restored": "Activity restored successfully.",
+        "completed": "Activity completed.",
+        "pending": "Activity marked as pending.",
+        "progressUpdated": "Progress updated.",
+        "createError": "Could not create the activity.",
+        "updateError": "Could not update the activity.",
+        "cancelError": "Could not cancel the activity.",
+        "restoreError": "Could not restore the activity.",
+        "completedLocked": "You cannot modify an activity that has already been completed by the patient."
+      }
+    },
+    "validation": {
+      "titleRequired": "Title is required.",
+      "objectivesRequired": "Therapeutic objectives are required.",
+      "recommendationsRequired": "General recommendations are required.",
+      "progressRange": "Progress must be between 0 and 100.",
+      "reviewScheduleRequired": "Select a review schedule.",
+      "reviewDateRequired": "Review date is required.",
+      "reviewStartTimeRequired": "Start time is required.",
+      "reviewEndTimeRequired": "End time is required.",
+      "reviewEndAfterStart": "End time must be later than start time.",
+      "reviewDateNotPast": "Review date must be today or later.",
+      "reviewDateAtLeast24h": "The review appointment must be scheduled at least 24 hours in advance.",
+      "itemDueDateNotPast": "Activity due date must be today or later.",
+      "itemsRequired": "Add at least one activity.",
+      "itemTitleRequired": "Each activity must have a title."
+    },
+    "toast": {
+      "created": "Plan created successfully and follow-up appointment scheduled.",
+      "createError": "Could not create the plan.",
+      "updated": "Plan updated successfully.",
+      "updatedWithReview": "Plan updated and follow-up appointment rescheduled.",
+      "updateError": "Could not update the plan.",
+      "statusUpdated": "Plan status updated successfully.",
+      "statusUpdateError": "Could not update the plan status.",
+      "scheduleConflict": "There is already an appointment in that time slot.",
+      "inactivePlanActivityError": "You cannot modify activities because the plan is not active.",
+      "detailError": "Could not load plan detail.",
+      "itemCompleted": "Activity completed successfully.",
+      "itemPending": "Activity marked as pending.",
+      "itemError": "Could not update the activity.",
+      "deleted": "Plan deleted successfully.",
+      "deleteError": "Could not delete the plan.",
+      "archived": "Plan archived successfully.",
+      "archiveError": "Could not archive the plan.",
+      "completedPlanLocked": "This plan has already been completed and cannot be modified.",
+      "followUpScheduled": "A follow-up appointment was scheduled."
+    },
+    "delete": {
+      "title": "Delete care plan",
+      "message": "Are you sure you want to delete this plan?",
+      "warning": "Deleting this plan will also cancel the associated follow-up appointment. Do you want to continue?"
+    },
+    "archive": {
+      "title": "Archive plan",
+      "message": "This completed plan will be hidden from your main view. Do you want to continue?"
+    },
+    "errors": {
+      "noSpecialist": "Could not identify the current specialist.",
+      "noPatient": "Could not identify the selected patient.",
+      "load": "Could not load care plans."
+    },
+    "dashboard": {
+      "title": "Progress dashboard",
+      "rangeLabel": "Average over the last {{count}} days",
+      "loadingEmotional": "Loading emotional state...",
+      "mood": "Average mood",
+      "anxiety": "Average anxiety",
+      "stress": "Average stress",
+      "emotionalEmpty": "No emotional records yet",
+      "emotionalError": "Couldn't load emotional state",
+      "completed": "Completed",
+      "overdue": "Overdue",
+      "pending": "Pending",
+      "noTasks": "This plan has no activities yet"
+    },
+    "logbook": {
+      "toggleLabel": "View follow-up logbook",
+      "title": "Private follow-up logbook",
+      "subtitle": "Notes and observations shared between specialist and patient.",
+      "loading": "Loading notes...",
+      "loadError": "Couldn't load the notes",
+      "empty": "No logbook notes yet",
+      "roleSpecialist": "Specialist",
+      "rolePatient": "Patient",
+      "placeholderSpecialist": "Write a clinical observation...",
+      "placeholderPatient": "Write a comment about your follow-up...",
+      "send": "Send",
+      "sending": "Sending...",
+      "validation": {
+        "tooShort": "The note must be at least 5 characters long",
+        "addError": "Couldn't save the note"
+      }
     }
   },
 
@@ -925,7 +1442,10 @@
     },
     "actions": {
       "markRead": "Mark as read",
-      "markUnread": "Mark as unread"
+      "markUnread": "Mark as unread",
+      "viewAppointment": "Mark as read and view appointment",
+      "viewPlan": "Mark as read and view plan",
+      "viewFollowUp": "View follow-up"
     },
     "states": {
       "loading": "Loading notifications...",
@@ -946,7 +1466,10 @@
     },
     "actions": {
       "markRead": "Mark as read",
-      "markUnread": "Mark as unread"
+      "markUnread": "Mark as unread",
+      "viewAppointment": "Mark as read and view appointment",
+      "viewPlan": "Mark as read and view plan",
+      "viewFollowUp": "View follow-up"
     },
     "states": {
       "loading": "Loading notifications...",
@@ -960,8 +1483,14 @@
     "back": "Back",
     "tag": "Specialist profile",
     "title": "Edit profile",
-    "subtitle": "Update your information and improve your presence on TakeCare.",
+    "subtitle": "Update your information and improve your presence on Take Care.",
     "loading": "Loading information...",
+    "sections": {
+      "personal": "Personal information",
+      "personalHelp": "This information identifies your professional account inside Take Care.",
+      "professional": "Professional presentation",
+      "professionalHelp": "Help patients understand your approach, experience, and session cost."
+    },
 
     "fields": {
       "names": "Names",
@@ -1070,6 +1599,7 @@
     "title": "Appointments Panel",
     "subtitle": "Manage your patients' requests",
     "loading": "Loading appointments...",
+    "policyInfo": "Appointments can be cancelled up to 24 hours in advance.",
 
     "filters": {
       "pending": "Pending",
@@ -1088,17 +1618,21 @@
 
     "actions": {
       "accept": "Accept",
-      "reject": "Reject"
+      "reject": "Reject",
+      "cancel": "Cancel appointment"
     },
 
     "confirm": {
       "acceptTitle": "Accept this appointment?",
       "rejectTitle": "Reject this appointment?",
+      "cancelTitle": "Cancel this appointment?",
       "acceptMessage": "You are about to accept the appointment of",
       "rejectMessage": "You are about to reject the appointment of",
+      "cancelMessage": "You are about to cancel the scheduled appointment of",
       "cancel": "Cancel",
       "confirmAccept": "Yes, accept",
       "confirmReject": "Yes, reject",
+      "confirmCancel": "Yes, cancel",
       "descriptionLabel": "Instructions for the patient",
       "descriptionPlaceholder": "E.g. virtual meeting link, previous instructions, or important appointment details."
     },
@@ -1106,6 +1640,8 @@
     "toast": {
       "accepted": "✅ Appointment accepted successfully",
       "rejected": "❌ Appointment rejected",
+      "cancelled": "✅ Appointment cancelled successfully",
+      "cancelError": "Could not cancel the appointment.",
       "statusError": "Could not update the appointment status."
     },
 
@@ -1269,14 +1805,24 @@
     },
 
     "toast": {
-      "success": "✅ Resource uploaded successfully",
-      "deleted": " 🗑️ Resource deleted",
-      "error": "❌ An error occurred, please try again"
+      "success": "Resource uploaded successfully",
+      "deleted": "Resource deleted",
+      "error": "An error occurred, please try again"
     },
 
     "actions": {
       "delete": "Delete",
-      "preview": "Preview"
+      "preview": "Preview",
+      "close": "Close",
+      "removeFile": "Remove file"
+    },
+
+    "confirmations": {
+      "delete": "Are you sure you want to delete this resource? This action cannot be undone from the interface.",
+      "deleteTitle": "Delete this resource?",
+      "deleteMessage": "Are you sure you want to delete this resource? This action cannot be undone.",
+      "cancel": "Cancel",
+      "deleteConfirm": "Yes, delete"
     },
 
     "empty": {
@@ -1288,6 +1834,7 @@
     "preview": {
       "wordUnsupported": "Preview not available",
       "wordDescription": "Word files cannot be previewed. Open it in a new tab.",
+      "openPdf": "Open PDF",
       "openExternal": "Open file",
       "notAvailable": "File not available yet",
       "notAvailableDesc": "The file will be available once the backend processes the upload."
@@ -1299,6 +1846,7 @@
     "title": "Appointment requests",
     "subtitle": "Check the status of your requested appointments and cancel those that still apply.",
     "loading": "Loading your appointments...",
+    "policyInfo": "Appointments can be cancelled up to 24 hours in advance.",
 
     "card": {
       "requestedBy": "Appointment requested by",

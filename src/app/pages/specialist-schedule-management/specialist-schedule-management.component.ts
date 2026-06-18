@@ -23,6 +23,12 @@ export class SpecialistScheduleManagementComponent implements OnInit {
 
   specialistId!: number;
 
+  showToast = false;
+  toastMessage = '';
+  toastType: 'success' | 'error' = 'success';
+  private toastTimer: any;
+  showConfirmDelete = false;
+
   schedules: SpecialistScheduleResponse[] = [];
   events: DayPilot.EventData[] = [];
 
@@ -115,8 +121,6 @@ export class SpecialistScheduleManagementComponent implements OnInit {
 
     const user = JSON.parse(userData);
     this.specialistId = Number(user.id);
-
-    console.log('Specialist ID usado en Agenda:', this.specialistId);
   }
 
   private initializeCurrentSevenDaysRange(): void {
@@ -135,8 +139,14 @@ export class SpecialistScheduleManagementComponent implements OnInit {
     };
 
     this.resetForm();
+  }
 
-    console.log('Rango visible:', this.currentRangeStart, 'a', this.currentRangeEnd);
+  showToastMessage(messageKey: string, type: 'success' | 'error'): void {
+    if (this.toastTimer) clearTimeout(this.toastTimer);
+    this.toastMessage = messageKey;
+    this.toastType = type;
+    this.showToast = true;
+    this.toastTimer = setTimeout(() => { this.showToast = false; }, 3000);
   }
 
   loadSchedules(): void {
@@ -151,14 +161,14 @@ export class SpecialistScheduleManagementComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading schedules:', error);
-        alert(this.translate.instant('specialistSchedule.messages.loadError'));
+        this.showToastMessage('specialistSchedule.messages.loadError', 'error');
       }
     });
   }
 
   saveSchedule(): void {
     if (!this.isValidForm()) {
-      alert(this.translate.instant('specialistSchedule.messages.invalidForm'));
+      this.showToastMessage('specialistSchedule.messages.invalidForm', 'error');
       return;
     }
 
@@ -172,12 +182,13 @@ export class SpecialistScheduleManagementComponent implements OnInit {
   createSchedule(): void {
     this.scheduleService.createSchedule(this.specialistId, this.form).subscribe({
       next: () => {
+        this.showToastMessage('specialistSchedule.messages.createSuccess', 'success');
         this.resetForm();
         this.loadSchedules();
       },
       error: (error) => {
         console.error('Error creating schedule:', error);
-        alert(error?.error?.message || this.translate.instant('specialistSchedule.messages.createError'));
+        this.showToastMessage(error?.error?.message || 'specialistSchedule.messages.createError', 'error');
       }
     });
   }
@@ -190,49 +201,55 @@ export class SpecialistScheduleManagementComponent implements OnInit {
     const selectedSchedule = this.getSelectedSchedule();
 
     if (!selectedSchedule || !this.canModifySchedule(selectedSchedule)) {
-      alert(this.translate.instant('specialistSchedule.messages.editBlocked'));
+      this.showToastMessage('specialistSchedule.messages.editBlocked', 'error');
       return;
     }
 
     this.scheduleService.updateSchedule(this.selectedScheduleId, this.form).subscribe({
       next: () => {
+        this.showToastMessage('specialistSchedule.messages.updateSuccess', 'success');
         this.resetForm();
         this.loadSchedules();
       },
       error: (error) => {
         console.error('Error updating schedule:', error);
-        alert(error?.error?.message || this.translate.instant('specialistSchedule.messages.updateError'));
+        this.showToastMessage(error?.error?.message || 'specialistSchedule.messages.updateError', 'error');
       }
     });
   }
 
   deleteSelectedSchedule(): void {
     if (!this.selectedScheduleId) {
-      alert(this.translate.instant('specialistSchedule.messages.selectToDelete'));
+      this.showToastMessage('specialistSchedule.messages.selectToDelete', 'error');
       return;
     }
 
     const selectedSchedule = this.getSelectedSchedule();
 
     if (!selectedSchedule || !this.canModifySchedule(selectedSchedule)) {
-      alert(this.translate.instant('specialistSchedule.messages.deleteBlocked'));
+      this.showToastMessage('specialistSchedule.messages.deleteBlocked', 'error');
       return;
     }
 
-    const confirmed = confirm(this.translate.instant('specialistSchedule.messages.confirmDelete'));
+    this.showConfirmDelete = true;
+  }
 
-    if (!confirmed) {
-      return;
-    }
+  closeConfirmDelete(): void {
+    this.showConfirmDelete = false;
+  }
 
+  executeDeleteSchedule(): void {
+    if (!this.selectedScheduleId) return;
+    this.showConfirmDelete = false;
     this.scheduleService.deleteSchedule(this.selectedScheduleId).subscribe({
       next: () => {
+        this.showToastMessage('specialistSchedule.messages.deleteSuccess', 'success');
         this.resetForm();
         this.loadSchedules();
       },
       error: (error) => {
         console.error('Error deleting schedule:', error);
-        alert(error?.error?.message || this.translate.instant('specialistSchedule.messages.deleteError'));
+        this.showToastMessage(error?.error?.message || 'specialistSchedule.messages.deleteError', 'error');
       }
     });
   }

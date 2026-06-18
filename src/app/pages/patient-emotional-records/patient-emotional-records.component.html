@@ -1,0 +1,186 @@
+<div class="emotional-log-page">
+  <app-sidebar></app-sidebar>
+
+  <div class="sidebar-overlay" *ngIf="sidebarService.isOpen()" (click)="sidebarService.close()"></div>
+
+  <div class="main">
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <h1 class="page-title">{{ 'emotionalLog.title' | translate }}</h1>
+        <p class="page-subtitle">{{ 'emotionalLog.subtitle' | translate }}</p>
+      </div>
+
+      <div class="top-bar-actions">
+        <div class="counter-card">
+          <strong>{{ loading ? '...' : records.length }}</strong>
+          <span>{{ getRecordsLabel() | translate }}</span>
+        </div>
+
+        <button type="button" class="register-button" (click)="openRecordModal()">
+          <span class="material-symbols-outlined" aria-hidden="true">add_reaction</span>
+          {{ 'emotionalLog.actions.registerNew' | translate }}
+        </button>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="hero-card">
+        <div>
+          <span class="hero-pill">{{ 'emotionalLog.hero.tag' | translate }}</span>
+          <h2>{{ 'emotionalLog.hero.title' | translate }}</h2>
+          <p>{{ 'emotionalLog.hero.text' | translate }}</p>
+        </div>
+        <span class="material-symbols-outlined hero-icon" aria-hidden="true">self_improvement</span>
+      </section>
+
+      <section class="daily-registered-card" *ngIf="hasRegisteredToday && !loading">
+        <div class="registered-content">
+          <div class="registered-icon-wrapper">
+            <span class="material-symbols-outlined registered-icon" aria-hidden="true">task_alt</span>
+          </div>
+          <div class="registered-info">
+            <h3>{{ 'emotionalLog.registered.title' | translate }}</h3>
+            <p>{{ 'emotionalLog.registered.subtitle' | translate }}</p>
+            <span class="registered-time" *ngIf="todayRegistrationTime">
+              {{ 'emotionalLog.registered.at' | translate }} {{ todayRegistrationTime | date:'HH:mm' }}
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <section class="daily-info-banner">
+        <div class="daily-info-icon">
+          <span class="material-symbols-outlined" aria-hidden="true">calendar_today</span>
+        </div>
+        <div class="daily-info-content">
+          <h3>{{ 'emotionalLog.info.title' | translate }}</h3>
+          <p>{{ 'emotionalLog.info.text' | translate }}</p>
+          <ul class="daily-info-steps">
+            <li>
+              <span class="material-symbols-outlined step-icon" aria-hidden="true">add_circle</span>
+              {{ 'emotionalLog.info.step1' | translate }}
+            </li>
+            <li>
+              <span class="material-symbols-outlined step-icon" aria-hidden="true">schedule</span>
+              {{ 'emotionalLog.info.step2' | translate }}
+            </li>
+            <li>
+              <span class="material-symbols-outlined step-icon" aria-hidden="true">trending_up</span>
+              {{ 'emotionalLog.info.step3' | translate }}
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="summary-panel">
+        <div>
+          <h2>{{ 'emotionalLog.summary.title' | translate }}</h2>
+          <p>{{ 'emotionalLog.summary.text' | translate }}</p>
+        </div>
+
+        <div class="summary-metrics">
+          <div>
+            <span>{{ 'emotionalLog.summary.mood' | translate }}</span>
+            <strong>{{ getAverage('moodLevel') || '-' }}</strong>
+          </div>
+          <div>
+            <span>{{ 'emotionalLog.summary.anxiety' | translate }}</span>
+            <strong>{{ getAverage('anxietyLevel') || '-' }}</strong>
+          </div>
+          <div>
+            <span>{{ 'emotionalLog.summary.stress' | translate }}</span>
+            <strong>{{ getAverage('stressLevel') || '-' }}</strong>
+          </div>
+        </div>
+
+        <section class="status-card" *ngIf="loading">
+          <i class="fas fa-spinner fa-spin"></i>
+          {{ 'emotionalLog.loading' | translate }}
+        </section>
+
+        <section class="status-card error" *ngIf="!loading && errorMsg">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ errorMsg | translate }}
+        </section>
+
+        <section class="empty-state" *ngIf="!loading && !errorMsg && !records.length">
+          <span class="material-symbols-outlined" aria-hidden="true">history</span>
+          <h3>{{ 'emotionalLog.empty.title' | translate }}</h3>
+          <p>{{ 'emotionalLog.empty.text' | translate }}</p>
+          <button type="button" class="register-button secondary" (click)="openRecordModal()">
+            {{ 'emotionalLog.actions.register' | translate }}
+          </button>
+        </section>
+      </section>
+
+      <section class="history-section" *ngIf="!loading && !errorMsg && records.length">
+        <div class="section-heading">
+          <h2>{{ 'emotionalLog.history.title' | translate }}</h2>
+          <p>{{ 'emotionalLog.history.subtitle' | translate }}</p>
+        </div>
+
+        <div class="history-list">
+          <ng-container *ngFor="let record of displayedRecords; let i = index; trackBy: trackByRecord">
+            <h3 class="day-heading" *ngIf="getDayLabel(record, i) as dayKey">
+              {{ dayKey | translate }}
+            </h3>
+
+            <article class="history-card">
+              <div class="history-icon">
+                <span class="material-symbols-outlined" aria-hidden="true">{{ getMoodIcon(record.moodLevel) }}</span>
+              </div>
+
+              <div class="history-content">
+                <div class="history-header">
+                  <div>
+                    <h3>{{ getMoodLabel(record.moodLevel) | translate }}</h3>
+                    <span class="daypart">{{ getDaypartKey(record) | translate }}</span>
+                  </div>
+                  <time *ngIf="getRecordDate(record)">
+                    {{ getRecordDate(record) | date:'HH:mm' }}
+                  </time>
+                </div>
+
+                <p *ngIf="record.notes; else noNotes">{{ record.notes }}</p>
+                <ng-template #noNotes>
+                  <p class="muted">{{ 'emotionalLog.history.noNotes' | translate }}</p>
+                </ng-template>
+
+                <div class="history-metrics">
+                  <span>{{ 'emotionalLog.history.mood' | translate }}: <strong>{{ record.moodLevel }}/5</strong></span>
+                  <span>{{ 'emotionalLog.history.anxiety' | translate }}: <strong>{{ record.anxietyLevel }}/5</strong></span>
+                  <span>{{ 'emotionalLog.history.stress' | translate }}: <strong>{{ record.stressLevel }}/5</strong></span>
+                </div>
+              </div>
+            </article>
+          </ng-container>
+        </div>
+        
+        <div class="load-more-container" *ngIf="hasMoreRecords()">
+          <button type="button" class="load-more-button" (click)="loadMoreRecords()">
+            <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+            {{ 'emotionalLog.actions.loadMore' | translate }}
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <app-emotional-record-modal
+    *ngIf="showRecordModal"
+    [patientId]="patientId"
+    [required]="false"
+    (saved)="handleRecordSaved($event)"
+    (failed)="handleRecordSaveFailed($event)"
+    (cancelled)="closeRecordModal()">
+  </app-emotional-record-modal>
+
+  <div
+    class="toast"
+    [class.show]="showToast"
+    [class.toast-success]="toastType === 'success'"
+    [class.toast-error]="toastType === 'error'">
+    <i [class]="toastType === 'success' ? 'fas fa-check-circle' : 'fas fa-times-circle'"></i>
+    {{ toastMessage | translate }}
+  </div>
+</div>

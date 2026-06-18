@@ -4,6 +4,7 @@
     "about": "Nosotros",
     "login": "Iniciar sesión",
     "register": "Registrarse",
+    "language": "Seleccionar idioma",
     "private": {
       "common": {
         "home": "Inicio",
@@ -28,8 +29,7 @@
   "sidebar": {
     "close": "Cerrar menú"
   },
-
-    "footer": {
+  "footer": {
     "brandText": "Cuidando tu bienestar mental con amor y profesionalismo.",
     "platform": "Plataforma",
     "home": "Inicio",
@@ -39,45 +39,55 @@
     "recoverPassword": "Recuperar contraseña",
     "copyright": "© 2026 Take Care. Todos los derechos reservados."
   },
-
-  
   "home": {
     "hero": {
-      "tag": "Su viaje comienza aquí",
-      "title": "Usted no está solo.",
-      "subtitle": "Encuentra apoyo profesional y gestiona tu bienestar mental con Take Care. Un espacio seguro y compasivo para tu camino hacia la sanación y la paz mental.",
-      "primaryButton": "Encuentra Ayuda",
-      "secondaryButton": "Ver Video"
+      "tag": "Tu proceso comienza aquí",
+      "title": "No tienes que hacerlo solo.",
+      "subtitle": "Encuentra especialistas verificados, agenda citas y gestiona tu bienestar mental en Take Care, un espacio seguro y cercano para avanzar a tu ritmo.",
+      "primaryButton": "Encontrar apoyo",
+      "secondaryButton": "Conocer la plataforma",
+      "imageAlt": "Ilustración de acompañamiento terapéutico"
     },
     "stats": {
-      "specialists": "Especialistas Verificados",
-      "sessions": "Sesiones Seguras",
-      "success": "Éxito de Pacientes"
+      "specialists": "Especialistas verificados",
+      "sessions": "Sesiones seguras",
+      "success": "Personas acompañadas"
     },
     "features": {
-      "title": "Cuidado Compasivo para Todos",
+      "title": "Cuidado claro, humano y seguro",
+      "subtitle": "Diseñamos Take Care para que pedir ayuda sea más simple: menos incertidumbre, más información y acompañamiento profesional.",
       "card1": {
-        "title": "Excelencia Clínica",
-        "text": "Acceda a psicólogos y psiquiatras de primer nivel, con antecedentes verificados y con licencia completa."
+        "title": "Especialistas verificados",
+        "text": "Cada especialista pasa por revisión antes de formar parte de la plataforma."
       },
       "card2": {
-        "title": "Privacidad Radical",
-        "text": "Tus sesiones y datos son asunto tuyo. Usamos cifrado de nivel militar para garantizar que así sea."
+        "title": "Privacidad cuidada",
+        "text": "Tu información de salud se trata con cuidado, claridad y acceso controlado."
       },
       "card3": {
-        "title": "Reserva Sin Interrupciones",
-        "text": "Olvídate de las llamadas. Reserva, reprograma o cancela citas directamente a través de nuestro calendario intuitivo."
+        "title": "Agenda simple",
+        "text": "Busca especialistas, revisa disponibilidad y solicita citas sin llamadas innecesarias."
+      }
+    },
+    "trust": {
+      "tag": "Sobre nosotros",
+      "title": "Una plataforma pensada para acompañarte mejor",
+      "text": "Take Care conecta pacientes, especialistas y administración en un flujo claro: registro, validación, búsqueda, citas y seguimiento.",
+      "item1": {
+        "title": "Validación antes de atender",
+        "text": "Los perfiles pasan por revisión para fortalecer la confianza del sistema."
+      },
+      "item2": {
+        "title": "Actividad supervisada",
+        "text": "El sistema permite revisar citas, reportes y estados para cuidar la experiencia."
       }
     },
     "cta": {
-      "title": "¿Listo para comenzar tu viaje?",
-      "text": "Únete a miles de personas que han dado el primer paso hacia una mente más saludable.",
-      "button": "Comienza Ahora"
+      "title": "¿Listo para dar el primer paso?",
+      "text": "Crea tu cuenta y empieza a buscar el apoyo profesional que mejor se adapte a ti.",
+      "button": "Comenzar ahora"
     }
-  
-},
-
-
+  },
   "admin": {
     "hero": {
       "tag": "Panel de gestión",
@@ -103,6 +113,8 @@
       "lastnames": "Apellidos",
       "email": "Correo",
       "birthDate": "Fecha de nacimiento",
+      "ciNumber": "CI",
+      "specialties": "Especialidades",
       "strikes": "Strikes",
       "status": "Estado",
       "action": "Acción"
@@ -118,6 +130,16 @@
       "reject": "Rechazar",
       "approve": "Aprobar",
       "cancel": "Cancelar"
+    },
+    "confirmations": {
+      "suspendPatient": "¿Seguro que deseas suspender a este paciente? No podrá usar su cuenta hasta que lo actives nuevamente.",
+      "activatePatient": "¿Seguro que deseas activar a este paciente?",
+      "suspendSpecialist": "¿Seguro que deseas suspender a este especialista? No podrá usar su cuenta hasta que lo actives nuevamente.",
+      "activateSpecialist": "¿Seguro que deseas activar a este especialista?",
+      "suspendPatientTitle": "Confirmar suspensión",
+      "activatePatientTitle": "Confirmar activación",
+      "suspendSpecialistTitle": "Confirmar suspensión",
+      "activateSpecialistTitle": "Confirmar activación"
     },
     "loading": {
       "patients": "Cargando pacientes...",
@@ -166,7 +188,8 @@
       "selfie": "Selfie de verificación",
       "certification": "Certificación profesional",
       "viewCertification": "Ver PDF de certificación",
-      "unavailable": "No disponible"
+      "unavailable": "No disponible",
+      "specialties": "Especialidades"
     },
     "appointments": {
       "title": "Historial de citas",
@@ -249,6 +272,12 @@
         "finish": "Finalizar",
         "managed": "Gestionado"
       },
+      "confirmations": {
+        "accept": "¿Seguro que deseas aceptar este reporte? Se agregará un strike al usuario reportado.",
+        "finish": "¿Seguro que deseas finalizar este reporte sin penalización?",
+        "acceptTitle": "Confirmar aceptación de reporte",
+        "finishTitle": "Confirmar finalización de reporte"
+      },
       "notifications": {
         "accepted": "Reporte aceptado. Se agregó un strike al usuario reportado.",
         "finished": "Reporte finalizado sin penalización."
@@ -258,12 +287,10 @@
       }
     }
   },
-
-  
   "login": {
     "title": "Tu espacio seguro comienza aquí",
     "subtitle": "Take Care: Tu bienestar mental es nuestra prioridad.",
-    "emailLabel": "Email",
+    "emailLabel": "Correo electrónico",
     "emailPlaceholder": "ejemplo@correo.com",
     "passwordLabel": "Contraseña",
     "passwordPlaceholder": "••••••••",
@@ -272,8 +299,12 @@
     "submit": "Iniciar Sesión",
     "success": "Inicio de sesión exitoso",
     "secure": "Conexión segura",
+    "accessibility": {
+      "showPassword": "Mostrar contraseña",
+      "hidePassword": "Ocultar contraseña"
+    },
     "errors": {
-      "invalidEmail": "Email inválido",
+      "invalidEmail": "Correo inválido",
       "passwordRequired": "Contraseña requerida (mín. 8 caracteres)",
       "completeFields": "Completa todos los campos correctamente",
       "invalidCredentials": "Correo o contraseña incorrectos",
@@ -284,16 +315,12 @@
       "suspendedAccount": "Tu cuenta está suspendida. Comunícate con soporte para más información."
     }
   },
-
-  
   "notFound": {
     "title": "Parece que te has desviado del camino",
     "text": "No te preocupes, estamos aquí para ayudarte. La página que buscas no existe o fue movida.",
     "backHome": "Volver al Inicio",
     "contactSupport": "Contactar soporte"
   },
-
-  
   "patientDashboard": {
     "menu": {
       "panel": "Mi Panel",
@@ -302,7 +329,9 @@
       "history": "Mi Historial",
       "editProfile": "Editar perfil",
       "documents": "Biblioteca",
-      "files": "Mis archivos"
+      "files": "Mis archivos",
+      "carePlans": "Mi seguimiento",
+      "emotionalLog": "Bitácora emocional"
     },
     "searchPlaceholder": "Buscar especialistas...",
     "newAppointment": "Nueva Cita",
@@ -338,13 +367,112 @@
       "link": "¡Explora especialistas para comenzar!"
     }
   },
-
-  
+  "emotionalLog": {
+    "tag": "Registro emocional",
+    "title": "Bitácora emocional",
+    "subtitle": "Registra cómo te sientes y revisa tu evolución emocional.",
+    "recordSingular": "registro",
+    "recordPlural": "registros",
+    "loading": "Cargando tu historial emocional...",
+    "today": "Hoy",
+    "actions": {
+      "register": "Registrar emoción",
+      "registerNew": "Registrar nueva emoción",
+      "loadMore": "Cargar más registros"
+    },
+    "modal": {
+      "close": "Cerrar modal"
+    },
+    "hero": {
+      "tag": "Un momento para ti",
+      "title": "Tu estado emocional también merece seguimiento",
+      "text": "Este espacio te ayuda a reconocer patrones de ánimo, ansiedad y estrés. Puedes registrar cómo te sientes en distintos momentos del día."
+    },
+    "info": {
+      "title": "¿Cómo funciona la Bitácora emocional?",
+      "text": "Registra tu estado emocional cuando lo necesites. Cada entrada queda ordenada por fecha y hora para que tú y tu especialista puedan revisar tu evolución.",
+      "step1": "Puedes registrar más de una emoción durante el día.",
+      "step2": "El historial muestra cada momento por hora.",
+      "step3": "Tu especialista puede usar esta información para acompañarte mejor."
+    },
+    "form": {
+      "title": "Registrar estado de ánimo",
+      "subtitle": "Selecciona cómo te sientes en este momento.",
+      "moodLabel": "¿Cómo te sientes?",
+      "moodHelper": "Elige la carita que mejor representa tu estado actual.",
+      "moodLevel": "Nivel de ánimo",
+      "moodLevelHelp": "1 es muy bajo y 5 es muy alto.",
+      "anxiety": "Ansiedad",
+      "anxietyHelp": "1 es muy tranquila y 5 es muy intensa.",
+      "stress": "Estrés",
+      "stressHelp": "1 es muy bajo y 5 es muy intenso.",
+      "notes": "Notas personales",
+      "notesPlaceholder": "Ej. Hoy me sentí más tranquilo después de caminar y hablar con alguien de confianza.",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "saving": "Guardando..."
+    },
+    "moods": {
+      "excellent": "Excelente",
+      "good": "Bien",
+      "neutral": "Neutral",
+      "low": "Bajo",
+      "veryLow": "Muy bajo",
+      "unknown": "Sin estado"
+    },
+    "moodHelpers": {
+      "excellent": "Me siento pleno, con energía alta, motivado y capaz de disfrutar el día.",
+      "good": "Me siento animado, con disposición para enfrentar el día y un estado de ánimo agradable.",
+      "neutral": "Ni bien ni mal. Un día estable donde puedo cumplir mis tareas sin complicaciones.",
+      "low": "Me siento triste, irritado o con poca motivación; me cuesta mantener el ritmo del día.",
+      "veryLow": "Me siento desbordado, sin energía y rumbo; me cuesta realizar mis actividades con normalidad."
+    },
+    "dayparts": {
+      "morning": "Mañana",
+      "afternoon": "Tarde",
+      "night": "Noche"
+    },
+    "summary": {
+      "title": "Resumen visual",
+      "text": "Promedios de tus registros cargados para mirar tendencias rápidas.",
+      "mood": "Ánimo",
+      "anxiety": "Ansiedad",
+      "stress": "Estrés"
+    },
+    "history": {
+      "title": "Historial de registros",
+      "subtitle": "Tus entradas más recientes aparecen primero, agrupadas por día y hora.",
+      "mood": "Ánimo",
+      "anxiety": "Ansiedad",
+      "stress": "Estrés",
+      "noNotes": "Sin notas adicionales."
+    },
+    "empty": {
+      "title": "Aún no tienes registros",
+      "text": "Cuando guardes tu primer estado emocional, aparecerá aquí como parte de tu historial."
+    },
+    "toast": {
+      "saved": "Estado emocional registrado correctamente."
+    },
+    "registered": {
+      "title": "Registro diario completado",
+      "subtitle": "Ya has registrado tu estado emocional de hoy.",
+      "at": "Registrado a las"
+    },
+    "errors": {
+      "noPatient": "No se pudo identificar al paciente actual.",
+      "load": "No se pudo cargar el historial emocional.",
+      "save": "No se pudo registrar el estado emocional.",
+      "formInvalid": "Selecciona cómo te sientes para continuar.",
+      "moodRequired": "Selecciona cómo te sientes para continuar.",
+      "alreadyToday": "Ya existe un registro emocional reciente. Puedes registrar otro si lo necesitas."
+    }
+  },
   "patientProfile": {
     "back": "Volver",
     "tag": "Perfil del paciente",
     "title": "Editar perfil",
-    "subtitle": "Actualiza tu información y mejora tu presencia en TakeCare.",
+    "subtitle": "Actualiza tu información y mejora tu presencia en Take Care.",
     "fields": {
       "names": "Nombres",
       "firstLastname": "Primer apellido",
@@ -379,7 +507,6 @@
       "leadingTrailingSpaces": "No puede empezar ni terminar con espacios"
     }
   },
-
   "patientSearch": {
     "tag": "Búsqueda de especialistas",
     "title": "Encuentra un especialista",
@@ -420,7 +547,8 @@
       "thursday": "Jueves",
       "friday": "Viernes",
       "saturday": "Sábado",
-      "sunday": "Domingo"
+      "sunday": "Domingo",
+      "onlyAvailable": "Solo con horarios disponibles"
     },
     "schedule": {
       "title": "Horarios disponibles",
@@ -442,7 +570,6 @@
       "requestError": "No se pudo solicitar la cita. Intenta nuevamente."
     }
   },
-
   "patientSpecialistProfile": {
     "back": "Volver a especialistas",
     "tag": "Perfil del especialista",
@@ -492,9 +619,6 @@
       "load": "No se pudo cargar el perfil del especialista."
     }
   },
-
-
-
   "recoverPassword": {
     "title": "Recuperar contraseña",
     "subtitle": "No te preocupes, dinos el correo asociado a tu cuenta y te enviaremos las instrucciones",
@@ -508,10 +632,35 @@
     "successText2": "Por favor, revisa tu bandeja de entrada.",
     "tryAnother": "Intentar con otro correo",
     "backToSession": "Volver al inicio de sesión",
-    "alertMessage": "Si el correo existe, recibirás un enlace pronto."
+    "alertMessage": "Si el correo existe, recibirás un enlace pronto.",
+    "errors": {
+      "required": "Ingresa el correo asociado a tu cuenta.",
+      "email": "Ingresa un correo válido, por ejemplo nombre@dominio.com."
+    }
   },
-
-  
+  "resetPassword": {
+    "title": "Restablecer contraseña",
+    "subtitle": "Ingresa tu nueva contraseña para actualizar tu cuenta de forma segura.",
+    "passwordLabel": "Nueva Contraseña",
+    "passwordPlaceholder": "Mín. 8, máx. 50 caracteres",
+    "confirmPasswordLabel": "Confirmar Contraseña",
+    "confirmPasswordPlaceholder": "Repite la contraseña",
+    "saving": "Guardando...",
+    "submit": "Restablecer contraseña",
+    "backToLogin": "Volver al inicio de sesión",
+    "successTitle": "¡Contraseña actualizada!",
+    "successText": "Tu contraseña ha sido actualizada con éxito. Serás redirigido al inicio de sesión en unos segundos.",
+    "redirecting": "Redirigiendo...",
+    "passwordInfo": "La contraseña debe tener entre 8 y 50 caracteres, incluyendo al menos una mayúscula, un número y un carácter especial.",
+    "errors": {
+      "required": "La contraseña es obligatoria.",
+      "minlength": "La contraseña debe tener al menos 8 caracteres.",
+      "maxlength": "La contraseña no debe superar los 50 caracteres.",
+      "pattern": "La contraseña debe incluir al menos una mayúscula, un número y un carácter especial.",
+      "confirmRequired": "Confirma tu contraseña.",
+      "mismatch": "Las contraseñas no coinciden."
+    }
+  },
   "registerPatient": {
     "title": "Registro de Paciente",
     "subtitle": "Crea tu cuenta para comenzar tu proceso de atención en salud mental.",
@@ -522,9 +671,14 @@
       "documents": "Documentos de verificación"
     },
     "sectionHelp": "Sube tu documento de identidad y una selfie para validar tu cuenta.",
+    "passwordRequirements": "Usa entre 8 y 50 caracteres, con al menos una mayúscula, una minúscula y un número.",
     "uploads": {
       "document": "Subir documento de identidad",
       "selfie": "Tomar una selfie"
+    },
+    "uploadHelp": {
+      "document": "JPG, PNG o WEBP. Máx. 5 MB.",
+      "selfie": "JPG, PNG o WEBP. Máx. 5 MB."
     },
     "terms": {
       "text1": "Acepto los",
@@ -559,6 +713,10 @@
       "passwordConfirm": "* * * * * * * *"
     },
     "errors": {
+      "summary": {
+        "title": "Revisa los campos marcados",
+        "message": "Cada mensaje te indica qué corregir antes de crear tu cuenta."
+      },
       "names": {
         "required": "Los nombres son obligatorios.",
         "minlength": "Los nombres deben tener al menos 3 caracteres.",
@@ -583,20 +741,32 @@
         "pattern": "Solo se permiten números y complemento."
       },
       "birthDate": {
-        "required": "La fecha de nacimiento es obligatoria."
+        "required": "La fecha de nacimiento es obligatoria.",
+        "invalid": "Ingresa una fecha válida.",
+        "future": "La fecha de nacimiento no puede ser futura.",
+        "underage": "Debes tener al menos 18 años para registrarte."
       },
       "email": {
         "required": "El correo electrónico es obligatorio.",
-        "invalid": "El correo electrónico no es válido."
+        "invalid": "Ingresa un correo válido, por ejemplo nombre@dominio.com."
       },
       "password": {
         "required": "La contraseña es obligatoria.",
-        "minlength": "La contraseña debe tener entre 8 a 50 caracteres y debe contener al menos una letra mayúscula, una letra minúscula y un número."
+        "minlength": "La contraseña debe tener al menos 8 caracteres.",
+        "maxlength": "La contraseña no puede tener más de 50 caracteres.",
+        "strength": "Incluye al menos una letra mayúscula, una minúscula y un número."
       },
       "passwordConfirm": {
         "required": "La confirmación de contraseña es obligatoria.",
-        "minlength": "La confirmación debe tener entre 8 a 50 caracteres y debe contener al menos una letra mayúscula, una letra minúscula y un número.",
+        "minlength": "La confirmación debe tener al menos 8 caracteres.",
+        "maxlength": "La confirmación no puede tener más de 50 caracteres.",
         "mismatch": "Las contraseñas no coinciden."
+      },
+      "ciPhoto": {
+        "required": "Sube una foto clara de tu documento de identidad."
+      },
+      "selfie": {
+        "required": "Sube una selfie para verificar que eres la persona del documento."
       },
       "terms": {
         "required": "Debes aceptar los términos para continuar."
@@ -639,7 +809,6 @@
       "uploadErrorMessage": "Ocurrió un error al subir tus archivos. Intenta de nuevo."
     }
   },
-  
   "registerRole": {
     "titlePart1": "¿Cómo te gustaría usar ",
     "titlePart2": "?",
@@ -656,8 +825,6 @@
       "description": "Soy un profesional certificado que desea ayudar a pacientes."
     }
   },
-
-  
   "registerSpecialist": {
     "title": "Registro de Especialista",
     "subtitle": "Únase a nuestra red de profesionales de salud mental y comience a ayudar a otros.",
@@ -666,6 +833,7 @@
     "optional": "Opcional.",
     "readyToUpload": "Listo para subir",
     "footerNote": "ⓘ Su perfil será revisado por el administrador",
+    "passwordRequirements": "Usa entre 8 y 50 caracteres, con al menos una mayúscula, una minúscula y un número.",
     "fields": {
       "firstName": "Nombre",
       "lastName1": "Apellido paterno",
@@ -689,8 +857,12 @@
       "document": "Número de CI"
     },
     "uploads": {
-      "idPhoto": "📷 Subir fotografía de CI",
-      "certifications": "➕ Arrastra o haz clic para subir PDFs"
+      "idPhoto": "Subir fotografía de CI",
+      "certifications": "Arrastra o haz clic para subir PDFs"
+    },
+    "uploadHelp": {
+      "idPhoto": "JPG, PNG o WEBP. Máx. 5 MB.",
+      "certifications": "PDF. Máx. 8 MB."
     },
     "terms": {
       "text1": "Acepto los",
@@ -705,6 +877,10 @@
       "complete": "Crear cuenta"
     },
     "errors": {
+      "summary": {
+        "title": "Revisa los campos marcados",
+        "message": "Cada mensaje te indica qué corregir antes de enviar tu registro."
+      },
       "firstName": {
         "required": "El nombre es obligatorio.",
         "pattern": "El nombre solo debe tener caracteres.",
@@ -723,19 +899,27 @@
         "minlength": "El segundo apellido debe tener al menos 3 caracteres."
       },
       "birthDate": {
-        "required": "La fecha de nacimiento es obligatoria."
+        "required": "La fecha de nacimiento es obligatoria.",
+        "invalid": "Ingresa una fecha válida.",
+        "future": "La fecha de nacimiento no puede ser futura.",
+        "underage": "Debes tener al menos 18 años para registrarte como especialista."
       },
       "email": {
         "required": "El correo electrónico es obligatorio.",
-        "invalid": "El formato del correo electrónico es inválido."
+        "invalid": "Ingresa un correo válido, por ejemplo especialista@dominio.com."
       },
       "password": {
         "range": "Mínimo 8 caracteres y máximo 50 caracteres y debe contener al menos una letra mayúscula, una letra minúscula y un número.",
-        "required": "La contraseña es obligatoria."
+        "required": "La contraseña es obligatoria.",
+        "minlength": "La contraseña debe tener al menos 8 caracteres.",
+        "maxlength": "La contraseña no puede tener más de 50 caracteres.",
+        "strength": "Incluye al menos una letra mayúscula, una minúscula y un número."
       },
       "passwordConfirm": {
         "required": "La confirmación de contraseña es obligatoria.",
         "range": "Mínimo 8 caracteres y máximo 50 caracteres y debe contener al menos una letra mayúscula, una letra minúscula y un número.",
+        "minlength": "La confirmación debe tener al menos 8 caracteres.",
+        "maxlength": "La confirmación no puede tener más de 50 caracteres.",
         "mismatch": "Las contraseñas no coinciden."
       },
       "document": {
@@ -802,7 +986,6 @@
       "uploadErrorMessage": "No se pudo subir el carnet o el PDF de certificación."
     }
   },
-  
   "specialistSchedule": {
     "title": "Gestión de horarios",
     "subtitle": "Configura los horarios disponibles para tus sesiones.",
@@ -846,6 +1029,12 @@
       "saturday": "Sábado",
       "sunday": "Domingo"
     },
+    "confirm": {
+      "deleteTitle": "¿Eliminar este horario?",
+      "deleteMessage": "Confirmas que deseas eliminar este horario de tu agenda. Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "delete": "Sí, eliminar"
+    },
     "messages": {
       "notEditable": "Este horario no puede modificarse porque ya fue reservado o ya empezó.",
       "loadError": "No se pudieron cargar los horarios.",
@@ -856,10 +1045,12 @@
       "selectToDelete": "Selecciona un horario para eliminar.",
       "deleteBlocked": "Solo puedes eliminar horarios disponibles que todavía no han empezado.",
       "confirmDelete": "¿Seguro que deseas eliminar este horario?",
-      "deleteError": "No se pudo eliminar el horario."
+      "deleteError": "No se pudo eliminar el horario.",
+      "deleteSuccess": "Horario eliminado correctamente.",
+      "createSuccess": "Horario creado correctamente.",
+      "updateSuccess": "Horario actualizado correctamente."
     }
   },
-
   "specialistDashboard": {
     "menu": {
       "dashboard": "Dashboard",
@@ -868,17 +1059,19 @@
       "messages": "Mensajes",
       "editProfile": "Editar perfil",
       "appointments": "Citas",
-      "resources": "Recursos"
+      "resources": "Recursos",
+      "carePlans": "Planes de atencion",
+      "alerts": "Alertas preventivas"
     },
     "searchPlaceholder": "Buscar pacientes...",
     "newSession": "Nueva sesión",
     "tag": "Panel especialista",
     "welcome": "Bienvenido",
-    "subtitle": "Tu espacio profesional en TakeCare",
+    "subtitle": "Tu espacio profesional en Take Care",
     "stats": {
       "patients": "Pacientes",
       "sessionsToday": "Sesiones hoy",
-      "requests": "Solicitudes"
+      "pendingAlerts": "Alertas pendientes"
     },
     "upcoming": {
       "loading": "Cargando resumen y próximas citas...",
@@ -899,7 +1092,64 @@
       "text": "Aquí se mostrarán las sesiones del especialista."
     }
   },
-
+  "specialistAlerts": {
+    "tag": "Alertas preventivas",
+    "title": "Tablero de alertas del especialista",
+    "subtitle": "Revisa señales importantes detectadas en tus pacientes.",
+    "loading": "Cargando alertas preventivas...",
+    "hero": {
+      "tag": "Seguimiento clinico",
+      "title": "Detecta patrones criticos a tiempo",
+      "text": "Este tablero clasifica alertas por prioridad y propone mensajes preventivos para orientar el seguimiento de cada paciente."
+    },
+    "summary": {
+      "high": "Prioridad alta",
+      "medium": "Prioridad media",
+      "low": "Prioridad baja",
+      "pending": "Pendientes por revisar"
+    },
+    "board": {
+      "title": "Alertas de pacientes",
+      "subtitle": "Prioriza la revision segun la severidad y marca cada alerta como revisada cuando termines."
+    },
+    "filters": {
+      "status": "Estado",
+      "priority": "Prioridad",
+      "pending": "Pendientes",
+      "reviewed": "Revisadas",
+      "allStatuses": "Todos los estados",
+      "allPriorities": "Todas las prioridades"
+    },
+    "priorities": {
+      "high": "Alta",
+      "medium": "Media",
+      "low": "Baja"
+    },
+    "status": {
+      "reviewed": "Revisada"
+    },
+    "fields": {
+      "patient": "Paciente",
+      "alertType": "Tipo de alerta"
+    },
+    "actions": {
+      "viewPatients": "Ver pacientes",
+      "markReviewed": "Marcar como revisada",
+      "alreadyReviewed": "Ya revisada"
+    },
+    "empty": {
+      "title": "No hay alertas para mostrar",
+      "text": "Cuando el sistema detecte patrones preventivos, apareceran aqui con su prioridad."
+    },
+    "toast": {
+      "reviewed": "Alerta marcada como revisada."
+    },
+    "errors": {
+      "noSpecialist": "No se pudo identificar al especialista actual.",
+      "load": "No se pudieron cargar las alertas preventivas.",
+      "review": "No se pudo marcar la alerta como revisada."
+    }
+  },
   "specialistPatients": {
     "title": "Mis pacientes",
     "subtitle": "Pacientes asociados a tus citas.",
@@ -911,12 +1161,250 @@
     "lastSession": "Última sesión",
     "nextSession": "Próxima sesión",
     "notAvailable": "Sin registro",
+    "actions": {
+      "viewPlans": "Ver planes",
+      "viewProfile": "Ver perfil"
+    },
     "errors": {
       "noSpecialist": "No se pudo identificar al especialista actual.",
       "load": "No se pudieron cargar tus pacientes."
     }
   },
-
+  "carePlans": {
+    "title": "Planes de atención",
+    "followUpTitle": "Mi seguimiento",
+    "subtitle": "Gestiona los planes de seguimiento asignados al paciente.",
+    "generalSubtitle": "Consulta y gestiona los planes de seguimiento asignados a tus pacientes.",
+    "patientSubtitle": "Revisa tus planes, actividades y progreso de seguimiento.",
+    "followUpSubtitle": "Revisa tu plan, tus actividades asignadas y tu progreso terapéutico.",
+    "followUpSelectPlan": "Seleccionar plan",
+    "followUpActivities": "Actividades asignadas",
+    "followUpEmptyTitle": "No tienes planes de seguimiento asignados.",
+    "followUpEmptyText": "Cuando tu especialista cree un plan de atencion, aparecera en esta seccion.",
+    "followUpNoActivitiesTitle": "Este plan aun no tiene actividades",
+    "followUpNoActivitiesText": "Cuando tu especialista agregue actividades, podras marcarlas como completadas desde aqui.",
+    "followUpOverview": {
+      "activePlan": "Plan activo",
+      "progress": "Progreso del plan",
+      "completed": "Actividades completadas",
+      "pending": "Pendientes",
+      "progressHelp": "El progreso se actualiza segun las actividades completadas del plan."
+    },
+    "followUpLocked": {
+      "paused": "Este plan esta pausado. No puedes completar actividades por el momento.",
+      "completed": "Este plan fue completado. Ya no puedes modificar actividades.",
+      "cancelled": "Este plan fue cancelado."
+    },
+    "patient": "Paciente",
+    "patientFallback": "Paciente seleccionado",
+    "generalLabel": "Todos tus pacientes",
+    "totalLabel": "Listado general",
+    "counter": "Planes",
+    "counterSingular": "Plan",
+    "searchPlaceholder": "Buscar por paciente, titulo o estado...",
+    "loading": "Cargando planes de atencion...",
+    "empty": "No existen planes registrados para este paciente.",
+    "emptyGeneral": "No existen planes de atencion registrados.",
+    "emptySearch": "No se encontraron planes con esa busqueda.",
+    "notAvailable": "Sin registro",
+    "actions": {
+      "backToPatients": "Volver a pacientes",
+      "new": "Nuevo plan",
+      "create": "Crear plan",
+      "save": "Guardar plan",
+      "saving": "Guardando...",
+      "cancel": "Cancelar",
+      "detail": "Ver detalle",
+      "viewDetails": "Ver detalles",
+      "edit": "Editar plan",
+      "delete": "Eliminar",
+      "archive": "Archivar plan",
+      "hideFromView": "Ocultar de mi vista",
+      "addActivity": "Agregar actividad",
+      "removeActivity": "Eliminar actividad"
+    },
+    "fields": {
+      "title": "Titulo del plan",
+      "patient": "Paciente",
+      "specialist": "Especialista",
+      "status": "Estado",
+      "planStatus": "Estado del plan",
+      "progress": "Progreso",
+      "reviewDate": "Fecha de control: ",
+      "followUpSession": "Cita de seguimiento: ",
+      "dayOfWeek": "Dia de la semana",
+      "reviewStartTime": "Hora de inicio",
+      "reviewEndTime": "Hora de fin",
+      "completed": "completado",
+      "completedDate": "Fecha de completado",
+      "createdDate": "Fecha de creacion: ",
+      "therapeuticObjectives": "Objetivos terapeuticos",
+      "generalRecommendations": "Recomendaciones generales",
+      "professionalObservations": "Observaciones profesionales",
+      "activities": "Actividades",
+      "activity": "Actividad",
+      "activityTitle": "Titulo de actividad",
+      "activityDescription": "Descripcion de actividad",
+      "itemType": "Tipo de actividad",
+      "dueDate": "Fecha limite",
+      "checklist": "Checklist"
+    },
+    "form": {
+      "createTitle": "Crear plan de atencion",
+      "createSubtitle": "Define objetivos, recomendaciones y actividades de seguimiento para el paciente.",
+      "editTitle": "Editar plan",
+      "editSubtitle": "Actualiza la informacion general y el estado del plan.",
+      "selectSchedule": "Selecciona un horario disponible"
+    },
+    "days": {
+      "monday": "Lunes",
+      "tuesday": "Martes",
+      "wednesday": "Miercoles",
+      "thursday": "Jueves",
+      "friday": "Viernes",
+      "saturday": "Sabado",
+      "sunday": "Domingo"
+    },
+    "itemTypes": {
+      "objective": "Objetivo",
+      "activity": "Actividad",
+      "recommendation": "Recomendacion"
+    },
+    "status": {
+      "active": "Activo",
+      "paused": "Pausado",
+      "completed": "Completado",
+      "cancelled": "Cancelado",
+      "unknown": "Sin estado"
+    },
+    "messages": {
+      "completedLocked": "Este plan ya fue completado y no puede modificarse.",
+      "completedCannotReactivate": "Un plan completado no puede reactivarse ni modificarse.",
+      "completedReadOnly": "Este plan fue completado. Ya no puedes modificar actividades.",
+      "archiveOnlyCompleted": "Solo se pueden archivar planes completados.",
+      "carePlanUpdatedTitle": "Plan de atencion actualizado",
+      "carePlanUpdatedText": "Tu plan de atencion fue actualizado"
+    },
+    "itemStatus": {
+      "pending": "Actividad pendiente",
+      "completed": "Actividad completada",
+      "cancelled": "Actividad cancelada"
+    },
+    "activities": {
+      "new": "Nueva actividad",
+      "create": "Crear actividad",
+      "edit": "Editar actividad",
+      "cancel": "Cancelar actividad",
+      "restore": "Restaurar actividad",
+      "confirmCancel": "¿Desea cancelar esta actividad?",
+      "viewCancelled": "Ver actividades canceladas",
+      "cancelledTitle": "Actividades canceladas",
+      "completedByPatient": "Actividad completada por el paciente",
+      "subtitle": "Gestiona las tareas asignadas y el progreso automatico del plan.",
+      "empty": "No existen actividades registradas",
+      "validation": {
+        "titleRequired": "El titulo de la actividad es obligatorio.",
+        "dueDateNotPast": "La fecha limite no puede ser anterior a hoy."
+      },
+      "toast": {
+        "created": "Actividad creada correctamente.",
+        "updated": "Actividad actualizada correctamente.",
+        "cancelled": "Actividad cancelada correctamente.",
+        "restored": "Actividad restaurada correctamente.",
+        "completed": "Actividad completada.",
+        "pending": "Actividad pendiente.",
+        "progressUpdated": "Progreso actualizado.",
+        "createError": "No se pudo crear la actividad.",
+        "updateError": "No se pudo actualizar la actividad.",
+        "cancelError": "No se pudo cancelar la actividad.",
+        "restoreError": "No se pudo restaurar la actividad.",
+        "completedLocked": "No se puede modificar una actividad que ya fue completada por el paciente."
+      }
+    },
+    "validation": {
+      "titleRequired": "El titulo es obligatorio.",
+      "objectivesRequired": "Los objetivos terapeuticos son obligatorios.",
+      "recommendationsRequired": "Las recomendaciones generales son obligatorias.",
+      "progressRange": "El progreso debe estar entre 0 y 100.",
+      "reviewScheduleRequired": "Debes seleccionar un horario de control.",
+      "reviewDateRequired": "La fecha de control es obligatoria.",
+      "reviewStartTimeRequired": "La hora de inicio es obligatoria.",
+      "reviewEndTimeRequired": "La hora de fin es obligatoria.",
+      "reviewEndAfterStart": "La hora de fin debe ser mayor que la hora de inicio.",
+      "reviewDateNotPast": "La fecha de control debe ser igual o posterior a hoy.",
+      "reviewDateAtLeast24h": "La cita de control debe agendarse con al menos 24 horas de anticipacion.",
+      "itemDueDateNotPast": "La fecha limite de la actividad debe ser igual o posterior a hoy.",
+      "itemsRequired": "Debes agregar al menos una actividad.",
+      "itemTitleRequired": "Cada actividad debe tener titulo."
+    },
+    "toast": {
+      "created": "Plan creado correctamente y cita de seguimiento agendada.",
+      "createError": "No se pudo crear el plan.",
+      "updated": "Plan actualizado correctamente.",
+      "updatedWithReview": "Plan actualizado y cita de seguimiento reprogramada.",
+      "updateError": "No se pudo actualizar el plan.",
+      "statusUpdated": "Estado del plan actualizado correctamente.",
+      "statusUpdateError": "No se pudo actualizar el estado del plan.",
+      "scheduleConflict": "Ya existe una cita en ese horario.",
+      "inactivePlanActivityError": "No puedes modificar actividades porque el plan no esta activo.",
+      "detailError": "No se pudo cargar el detalle del plan.",
+      "itemCompleted": "Actividad completada correctamente.",
+      "itemPending": "Actividad marcada como pendiente.",
+      "itemError": "No se pudo actualizar la actividad.",
+      "deleted": "Plan eliminado correctamente.",
+      "deleteError": "No se pudo eliminar el plan.",
+      "archived": "Plan archivado correctamente.",
+      "archiveError": "No se pudo archivar el plan.",
+      "completedPlanLocked": "Este plan ya fue completado y no puede modificarse.",
+      "followUpScheduled": "Se agendo una cita de seguimiento."
+    },
+    "delete": {
+      "title": "Eliminar plan de atencion",
+      "message": "Esta seguro de que desea eliminar este plan?",
+      "warning": "Al eliminar este plan tambien se cancelara la cita de seguimiento asociada. Desea continuar?"
+    },
+    "archive": {
+      "title": "Archivar plan",
+      "message": "Este plan completado se ocultara de tu vista principal. Deseas continuar?"
+    },
+    "errors": {
+      "noSpecialist": "No se pudo identificar al especialista actual.",
+      "noPatient": "No se pudo identificar al paciente seleccionado.",
+      "load": "No se pudieron cargar los planes de atencion."
+    },
+    "dashboard": {
+      "title": "Panel de progreso",
+      "rangeLabel": "Promedio de los últimos {{count}} días",
+      "loadingEmotional": "Cargando estado emocional...",
+      "mood": "Ánimo promedio",
+      "anxiety": "Ansiedad promedio",
+      "stress": "Estrés promedio",
+      "emotionalEmpty": "Aún no hay registros emocionales",
+      "emotionalError": "No se pudo cargar el estado emocional",
+      "completed": "Cumplidas",
+      "overdue": "Vencidas",
+      "pending": "Pendientes",
+      "noTasks": "Este plan aún no tiene actividades"
+    },
+    "logbook": {
+      "toggleLabel": "Ver bitácora de seguimiento",
+      "title": "Bitácora privada de seguimiento",
+      "subtitle": "Notas y observaciones compartidas entre especialista y paciente.",
+      "loading": "Cargando notas...",
+      "loadError": "No se pudieron cargar las notas",
+      "empty": "Aún no hay notas en la bitácora",
+      "roleSpecialist": "Especialista",
+      "rolePatient": "Paciente",
+      "placeholderSpecialist": "Escribe una observación clínica...",
+      "placeholderPatient": "Escribe un comentario sobre tu seguimiento...",
+      "send": "Enviar",
+      "sending": "Enviando...",
+      "validation": {
+        "tooShort": "La nota debe tener al menos 5 caracteres",
+        "addError": "No se pudo guardar la nota"
+      }
+    }
+  },
   "specialistNotifications": {
     "tag": "Alertas en tiempo real",
     "title": "Notificaciones",
@@ -929,7 +1417,10 @@
     },
     "actions": {
       "markRead": "Marcar como leída",
-      "markUnread": "Marcar como no leída"
+      "markUnread": "Marcar como no leída",
+      "viewAppointment": "Marcar como leída y ver cita",
+      "viewPlan": "Marcar como leída y Ver plan",
+      "viewFollowUp": "Ver seguimiento"
     },
     "states": {
       "loading": "Cargando notificaciones...",
@@ -937,7 +1428,6 @@
       "emptyText": "Cuando se agende una nueva cita o cambie un estado importante, aparecerá aquí."
     }
   },
-
   "patientNotifications": {
     "tag": "Alertas en tiempo real",
     "title": "Notificaciones",
@@ -950,7 +1440,10 @@
     },
     "actions": {
       "markRead": "Marcar como leída",
-      "markUnread": "Marcar como no leída"
+      "markUnread": "Marcar como no leída",
+      "viewAppointment": "Marcar como leída y ver cita",
+      "viewPlan": "Marcar como leída y Ver plan",
+      "viewFollowUp": "Ver seguimiento"
     },
     "states": {
       "loading": "Cargando notificaciones...",
@@ -958,15 +1451,18 @@
       "emptyText": "Cuando un especialista acepte o rechace una cita, aparecerá aquí."
     }
   },
-
-  
   "specialistProfile": {
     "back": "Volver",
     "tag": "Perfil especialista",
     "title": "Editar perfil",
-    "subtitle": "Actualiza tu información y mejora tu presencia en TakeCare.",
+    "subtitle": "Actualiza tu información y mejora tu presencia en Take Care.",
     "loading": "Cargando información...",
-
+    "sections": {
+      "personal": "Datos personales",
+      "personalHelp": "Esta información identifica tu cuenta profesional dentro de Take Care.",
+      "professional": "Presentación profesional",
+      "professionalHelp": "Ayuda a los pacientes a entender tu enfoque, experiencia y costo por sesión."
+    },
     "fields": {
       "names": "Nombres",
       "firstLastname": "Primer apellido",
@@ -976,14 +1472,12 @@
       "office": "Ubicación del consultorio",
       "cost": "Costo por sesión"
     },
-
     "placeholders": {
       "secondLastname": "Ej: García",
       "biography": "Describe tu especialidad, experiencia o enfoque terapéutico...",
       "office": "Ej: Av. América #123",
       "cost": "Ej: 150"
     },
-
     "location": {
       "tag": "Atención presencial",
       "title": "Ubicación profesional",
@@ -1009,7 +1503,6 @@
       "note": "Tu dirección profesional se guardará junto con esta configuración para que puedas gestionar mejor tu atención presencial.",
       "visibilityStatus": "Si eliges ubicación pública, los pacientes podrán verla. Si eliges privada, la mantendremos reservada."
     },
-
     "validation": {
       "addressRequired": "Ingresa la dirección principal del consultorio.",
       "cityRequired": "Ingresa la ciudad de atención."
@@ -1020,68 +1513,56 @@
       "locationUpdateError": "Error al actualizar la ubicación del especialista.",
       "updateError": "Error al actualizar el perfil."
     },
-
     "buttons": {
       "edit": "Editar perfil",
       "cancel": "Cancelar",
       "save": "Guardar cambios"
     },
-
     "success": "Perfil actualizado correctamente"
   },
-
   "documents": {
     "title": "Biblioteca de recursos",
     "subtitle": "Consulta documentos publicados por especialistas para complementar tu proceso de ayuda.",
     "searchPlaceholder": "Busca por título, especialista o tipo de archivo",
-
     "filters": {
       "allTypes": "Todos los tipos",
       "reset": "Limpiar filtros"
     },
-
     "banner": {
       "title": "Material compartido por la comunidad profesional",
       "description": "Aquí encontrarás guías y documentos de apoyo publicados por especialistas para informar y acompañar a los usuarios."
     },
-
     "actions": {
       "open": "Abrir documento",
       "download": "Descargar"
     },
-
     "card": {
       "publishedBy": "Publicado por",
       "fileType": "Tipo de archivo",
       "publishedAt": "Fecha de publicación"
     },
-
     "empty": {
       "title": "No hay documentos disponibles",
       "description": "Todavía no se han publicado materiales que coincidan con tu búsqueda o con los filtros seleccionados.",
       "action": "Ver todos los recursos"
     },
-
     "states": {
       "loading": "Cargando biblioteca...",
       "loadError": "No se pudieron cargar los materiales disponibles en este momento."
     },
-
     "results": "documentos disponibles"
   },
-
   "appointments": {
     "title": "Panel de Citas",
     "subtitle": "Gestiona las solicitudes de tus pacientes",
     "loading": "Cargando citas...",
-
+    "policyInfo": "Las citas se pueden cancelar con un mínimo de 24 horas de anticipación.",
     "filters": {
       "pending": "Pendientes",
       "accepted": "Aceptadas",
       "rejected": "Rechazadas",
       "finished": "Finalizadas"
     },
-
     "status": {
       "pending": "Pendiente",
       "accepted": "Aceptada",
@@ -1089,35 +1570,36 @@
       "finished": "Finalizada",
       "cancelled": "Cancelada"
     },
-
     "actions": {
       "accept": "Aceptar",
-      "reject": "Rechazar"
+      "reject": "Rechazar",
+      "cancel": "Cancelar cita"
     },
-
     "confirm": {
       "acceptTitle": "¿Aceptar esta cita?",
       "rejectTitle": "¿Rechazar esta cita?",
+      "cancelTitle": "¿Cancelar esta cita?",
       "acceptMessage": "Confirmas que deseas aceptar la cita de",
       "rejectMessage": "Confirmas que deseas rechazar la cita de",
+      "cancelMessage": "Confirmas que deseas cancelar la cita agendada de",
       "cancel": "Cancelar",
       "confirmAccept": "Sí, aceptar",
       "confirmReject": "Sí, rechazar",
+      "confirmCancel": "Sí, cancelar",
       "descriptionLabel": "Indicación para el paciente",
       "descriptionPlaceholder": "Ej. Enlace de reunión virtual, indicaciones previas o detalles importantes para la cita."
     },
-
     "toast": {
       "accepted": "✅ Cita aceptada correctamente",
       "rejected": "❌ Cita rechazada",
+      "cancelled": "✅ Cita cancelada correctamente",
+      "cancelError": "No se pudo cancelar la cita.",
       "statusError": "No se pudo actualizar el estado de la cita."
     },
-
     "empty": {
       "title": "Sin citas en este estado",
       "description": "No tienes citas en esta categoría por el momento."
     },
-
     "rating": {
       "title": "Calificar al usuario",
       "subtitle": "Comparte tu experiencia profesional despues de la sesion con",
@@ -1141,7 +1623,6 @@
         "saved": "⭐ Calificación guardada correctamente"
       }
     },
-
     "report": {
       "title": "Reportar usuario",
       "subtitle": "Describe la conducta o actitud incorrecta observada durante la sesión con",
@@ -1186,7 +1667,6 @@
       "load": "No se pudieron cargar las citas."
     }
   },
-
   "patientFiles": {
     "title": "Mis Documentos",
     "subtitle": "Gestiona tus archivos clínicos de forma segura",
@@ -1196,7 +1676,6 @@
       "invalidType": "Tipo de archivo no válido.",
       "tooLarge": "El archivo supera el límite de {{limit}}MB. ({{size}}MB)"
     },
-
     "upload": {
       "title": "Subir nuevo documento",
       "description": "Selecciona o arrastra un archivo desde tu dispositivo",
@@ -1205,36 +1684,30 @@
       "cancel": "Cancelar",
       "confirm": "Subir documento"
     },
-
     "privacy": {
       "title": "Archivo protegido",
       "description": "Solo los especialistas con una cita agendada contigo podrán visualizar estos documentos.",
       "badge": "Solo especialistas con cita"
     },
-
     "actions": {
       "preview": "Previsualizar",
       "delete": "Eliminar"
     },
-
     "preview": {
       "wordUnsupported": "Los archivos Word no se pueden previsualizar directamente. Puedes descargarlo.",
       "download": "Descargar archivo"
     },
-
     "empty": {
       "title": "Aún no tienes documentos",
       "description": "Sube tus archivos clínicos para compartirlos con tus especialistas.",
       "action": "Subir mi primer documento"
     }
   },
-
   "resources": {
     "title": "Mis Recursos",
     "subtitle": "Gestiona tus materiales de apoyo clínico",
     "uploadBtn": "Subir recurso",
     "loading": "Cargando recursos...",
-
     "upload": {
       "title": "Subir nuevo recurso",
       "description": "Completa la información y selecciona el archivo a subir",
@@ -1254,14 +1727,12 @@
         "description": "Describe brevemente el contenido del documento..."
       }
     },
-
     "visibility": {
       "public": "Público",
       "private": "Privado",
       "publicDesc": "Todos tus pacientes podrán ver este recurso",
       "privateDesc": "Solo tú podrás ver este recurso"
     },
-    
     "errors": {
       "titleRequired": "El título es obligatorio",
       "descriptionRequired": "La descripción es obligatoria",
@@ -1271,39 +1742,44 @@
       "tooLarge": "El archivo supera el límite de 10MB",
       "load": "Error al cargar los recursos"
     },
-
     "toast": {
-      "success": "✅ Recurso subido correctamente",
-      "deleted": "🗑️ Recurso eliminado",
-      "error": "❌ Ocurrió un error, intenta de nuevo"
+      "success": "Recurso subido correctamente",
+      "deleted": "Recurso eliminado",
+      "error": "Ocurrió un error, intenta de nuevo"
     },
-
     "actions": {
       "delete": "Eliminar",
-      "preview": "Previsualizar"
+      "preview": "Previsualizar",
+      "close": "Cerrar",
+      "removeFile": "Quitar archivo"
     },
-
+    "confirmations": {
+      "delete": "¿Seguro que deseas eliminar este recurso? Esta acción no se puede deshacer desde la interfaz.",
+      "deleteTitle": "¿Eliminar este recurso?",
+      "deleteMessage": "Confirmas que deseas eliminar este recurso. Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "deleteConfirm": "Sí, eliminar"
+    },
     "empty": {
       "title": "Aún no tienes recursos",
       "description": "Sube materiales de apoyo para compartir con tus pacientes.",
       "action": "Subir mi primer recurso"
     },
-
     "preview": {
       "wordUnsupported": "Vista previa no disponible",
       "wordDescription": "Los archivos Word no se pueden previsualizar. Ábrelo en una nueva pestaña.",
+      "openPdf": "Abrir PDF",
       "openExternal": "Abrir archivo",
       "notAvailable": "Archivo no disponible aún",
       "notAvailableDesc": "El archivo estará disponible una vez que el backend procese la subida."
     }
   },
-
   "patientAppointments": {
     "tag": "Mis citas",
     "title": "Solicitudes de cita",
     "subtitle": "Revisa el estado de tus citas solicitadas y cancela aquellas que aún correspondan.",
     "loading": "Cargando tus citas...",
-
+    "policyInfo": "Las citas se pueden cancelar con un mínimo de 24 horas de anticipación.",
     "card": {
       "requestedBy": "Cita solicitada por",
       "registeredDate": "Solicitud registrada",
@@ -1314,7 +1790,6 @@
       "timeUnavailable": "Horario no disponible",
       "specialistComment": "Indicación del especialista"
     },
-
     "status": {
       "pending": "Pendiente",
       "accepted": "Aceptada",
@@ -1322,18 +1797,15 @@
       "finished": "Finalizada",
       "cancelled": "Cancelada"
     },
-
     "actions": {
       "cancel": "Cancelar cita",
       "cancelling": "Cancelando...",
       "cancelBtn": "Cancelar"
     },
-
     "empty": {
       "title": "Aún no tienes citas solicitadas",
       "description": "Cuando solicites una cita con un especialista, aparecerá en esta sección."
     },
-
     "cancel": {
       "title": "Cancelar cita",
       "message": "¿Estás seguro de que deseas cancelar esta cita?",
@@ -1342,7 +1814,6 @@
       "keep": "No, mantener cita",
       "confirm": "Sí, cancelar"
     },
-
     "rating": {
       "saved": "Calificación guardada",
       "create": "Calificar especialista",
@@ -1352,8 +1823,8 @@
       "score": "Puntuación",
       "placeholder": "Cuéntanos sobre tu experiencia...",
       "save": "Guardar calificación",
-      "saving": "Guardando..."
-      ,"errors": {
+      "saving": "Guardando...",
+      "errors": {
         "starsRequired": "Debes seleccionar al menos una estrella.",
         "commentRequired": "El comentario debe tener al menos 5 caracteres.",
         "saveFailed": "No se pudo guardar la calificación."
@@ -1362,7 +1833,6 @@
         "saved": "Calificación guardada correctamente"
       }
     },
-
     "report": {
       "saved": "Reporte enviado",
       "create": "Reportar especialista",

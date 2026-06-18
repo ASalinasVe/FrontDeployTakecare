@@ -4,6 +4,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RecoverPasswordComponent } from './pages/recover-password/recover-password.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 // REGISTRO
 import { RegisterRoleComponent } from './pages/register-role/register-role.component';
@@ -23,15 +24,18 @@ import { SpecialistScheduleManagementComponent } from './pages/specialist-schedu
 import { SpecialistAppointmentsComponent } from './pages/specialist-appointments/specialist-appointments.component';
 import { SpecialistResourcesComponent } from './pages/specialist-resources/specialist-resources.component';
 import { SpecialistPatientsComponent } from './pages/specialist-patients/specialist-patients.component';
+import { SpecialistCarePlansComponent } from './pages/specialist-care-plans/specialist-care-plans.component';
+import { SpecialistAlertsComponent } from './pages/specialist-alerts/specialist-alerts.component';
 
 // PACIENTE
 import { PatientDashboardComponent } from './pages/patient-dashboard/patient-dashboard.component';
-import { PatientProfileComponent } from './pages/patient-profile/patient-profile.component';
 import { patientGuard } from './guards/patient.guard';
 import { PatientSearchSpecialistsComponent } from './pages/patient-search-specialists/patient-search-specialists.component';
 import { PatientDocumentsComponent } from './pages/patient-documents/patient-documents.component';
 import { PatientSpecialistProfileComponent } from './pages/patient-specialist-profile/patient-specialist-profile.component';
 import { PatientFilesComponent } from './pages/patient-files/patient-files.component';
+import { PatientCarePlansComponent } from './pages/patient-care-plans/patient-care-plans.component';
+import { PatientEmotionalRecordsComponent } from './pages/patient-emotional-records/patient-emotional-records.component';
 
 
 // OTROS
@@ -60,6 +64,12 @@ export const routes: Routes = [
     canActivate: [guestGuard],
     data: { showNavbar: false }
   },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
+    canActivate: [guestGuard],
+    data: { showNavbar: false }
+  },
 
   // REGISTRO
   {
@@ -81,7 +91,6 @@ export const routes: Routes = [
     data: { showNavbar: true }
   },
 
-  
 
   // ADMIN (PROTEGIDO)
   {
@@ -102,10 +111,6 @@ export const routes: Routes = [
         component: PatientDashboardComponent
       },
       {
-        path: 'profile',
-        component: PatientProfileComponent
-      },
-      {
         path: 'search-specialists',
         component: PatientSearchSpecialistsComponent
       },
@@ -124,6 +129,14 @@ export const routes: Routes = [
       {
         path: 'appointments',
         component: PatientAppointmentsComponent
+      },
+      {
+        path: 'care-plans',
+        component: PatientCarePlansComponent
+      },
+      {
+        path: 'emotional-records',
+        component: PatientEmotionalRecordsComponent
       }
     ]
   },
@@ -157,6 +170,18 @@ export const routes: Routes = [
       {
         path: 'patients',
         component: SpecialistPatientsComponent
+      },
+      {
+        path: 'care-plans',
+        component: SpecialistCarePlansComponent
+      },
+      {
+        path: 'alerts',
+        component: SpecialistAlertsComponent
+      },
+      {
+        path: 'patients/:patientId/care-plans',
+        component: SpecialistCarePlansComponent
       }
     ]
   },

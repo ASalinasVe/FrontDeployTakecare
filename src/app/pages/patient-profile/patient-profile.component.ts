@@ -6,13 +6,12 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { PatientService, PatientProfile } from '../../services/patient.service';
 import { SidebarService } from '../../services/sidebar.service';
 import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
-import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Component({
   selector: 'app-patient-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslatePipe,SidebarComponent,NavbarComponent],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe, SidebarComponent],
   templateUrl: './patient-profile.component.html',
   styleUrl: './patient-profile.component.css'
 })
@@ -21,6 +20,19 @@ export class PatientProfileComponent implements OnInit {
   isEditing = false;
   isLoading = false;
   userDataBackup: PatientProfile | null = null;
+
+  showToast = false;
+  toastMessage = '';
+  toastType: 'success' | 'error' = 'success';
+  private toastTimer: any;
+
+  showToastMessage(messageKey: string, type: 'success' | 'error'): void {
+    if (this.toastTimer) clearTimeout(this.toastTimer);
+    this.toastMessage = messageKey;
+    this.toastType = type;
+    this.showToast = true;
+    this.toastTimer = setTimeout(() => { this.showToast = false; }, 3000);
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -65,17 +77,16 @@ export class PatientProfileComponent implements OnInit {
             clinicalHistory: profile.clinicalHistory || ''
           });
           this.userDataBackup = profile;
-          console.log('Datos cargados:', profile);
         } else {
           console.error('Error: perfil vacío');
-          alert(this.translate.instant('patientProfile.messages.loadError'));
+          this.showToastMessage('patientProfile.messages.loadError', 'error');
         }
         this.isLoading = false;
       },
       error: (error) => {
         console.error('Error de conexión:', error);
         this.isLoading = false;
-        alert(this.translate.instant('patientProfile.messages.connectionError'));
+        this.showToastMessage('patientProfile.messages.connectionError', 'error');
       }
     });
   }
@@ -103,28 +114,27 @@ export class PatientProfileComponent implements OnInit {
             this.userDataBackup = formData;
             this.isEditing = false;
             this.isLoading = false;
-            alert(this.translate.instant('patientProfile.messages.updateSuccess'));
+            this.showToastMessage('patientProfile.messages.updateSuccess', 'success');
           } else {
             console.error('Error: perfil actualizado inválido');
-            alert(this.translate.instant('patientProfile.messages.updateError'));
+            this.showToastMessage('patientProfile.messages.updateError', 'error');
             this.isLoading = false;
           }
         },
         error: (error: any) => {
           console.error('Error de conexión:', error);
           this.isLoading = false;
-          alert(this.translate.instant('patientProfile.messages.updateConnectionError'));
+          this.showToastMessage('patientProfile.messages.updateConnectionError', 'error');
         }
       });
     } else {
-      alert(this.translate.instant('patientProfile.messages.requiredFields'));
+      this.showToastMessage('patientProfile.messages.requiredFields', 'error');
     }
   }
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
-      console.log('Archivo seleccionado:', file.name);
     }
   }
 }
